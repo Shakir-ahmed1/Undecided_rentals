@@ -1,0 +1,20 @@
+{
+  "name": "undecided_rentals",
+  "version": "1.0.0",
+  "description": "ALX portofolio project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shakir-ahmed1/Undecided_rentals.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Shakir-ahmed1/Undecided_rentals/issues"
+  },
+  "homepage": "https://github.com/Shakir-ahmed1/Undecided_rentals#readme"
+}
