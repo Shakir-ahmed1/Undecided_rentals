@@ -21,7 +21,7 @@ All main files are located in the `src` folder.
 
 ### User Registration
 
-**POST /api/register**
+**POST /api/users/register**
 
 Registers a new user with the provided information. The request body should include the following fields:
 
