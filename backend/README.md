@@ -31,8 +31,9 @@ To start the application, follow these steps:
 
 After configuring the MongoDB URI, run the following command in the `backend` folder:
 
+
 ```bash
-npm init -y ('if you have to')
+npm install
 npm start 
  
  
