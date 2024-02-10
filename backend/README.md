@@ -34,6 +34,10 @@ After configuring the MongoDB URI, run the following command in the `backend` fo
 ```bash
 npm start
 
+you can access the Swagger API documentation for this project by visiting the following URL:
+
+[Swagger API Documentation](http://localhost:5000/api-doc)
+
 ### User Registration
 
 **POST /api/users/register**
