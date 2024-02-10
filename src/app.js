@@ -1,11 +1,9 @@
 const express = require('express');
 const morgan = require('morgan');
-const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 const cookieParser = require('cookie-parser');
-const { createToken } = require('./api/middelware/jwt');
 const { connectDb } = require('./api/config/database');
-const openapiSpecification = require('./swagger/swaggerConfig')
+const openapiSpecification = require('./swagger/swaggerConfig');
 const userRoutes = require('./api/routes/User');
 const erroHandler = require('./api/middelware/userErrorHandler');
 
