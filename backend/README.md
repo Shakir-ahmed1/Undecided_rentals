@@ -19,6 +19,21 @@ This project utilizes MongoDB as its database system. [check the config directoy
 
 All main files are located in the `src` folder.
 
+# Starting the Application
+
+To start the application, follow these steps:
+
+1. Navigate to the `backend` folder.
+2. Open the `.env` file.
+3. Locate the environmental variable `MONGODB_URI`.
+4. Change the value to your locally set MongoDB URI.
+5. Save the changes to the `.env` file.
+
+After configuring the MongoDB URI, run the following command in the `backend` folder:
+
+```bash
+npm start
+
 ### User Registration
 
 **POST /api/users/register**
