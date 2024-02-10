@@ -32,12 +32,10 @@ To start the application, follow these steps:
 After configuring the MongoDB URI, run the following command in the `backend` folder:
 
 
-```bash
-npm install
-npm start 
+1. npm install
+2. npm start 
  
  
-\
 you can access the Swagger API documentation for this project by visiting the following URL:
 
 [Swagger API Documentation](http://localhost:5000/api-doc)
