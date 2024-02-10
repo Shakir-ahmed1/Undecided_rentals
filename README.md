@@ -51,7 +51,7 @@ This documentation provides detailed information about the available endpoints, 
 
 ### User Login
 
-**POST /api/login**
+**POST /api/users/login**
 
 Logs in a user with the provided credentials. The request body should include the following fields:
 
