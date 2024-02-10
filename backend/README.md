@@ -32,7 +32,7 @@ To start the application, follow these steps:
 After configuring the MongoDB URI, run the following command in the `backend` folder:
 
 
-bash
+```bash
 npm install
 npm start 
  
