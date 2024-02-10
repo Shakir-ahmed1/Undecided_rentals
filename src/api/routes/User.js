@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { register } = require('../controllers/userController');
+const { register, login } = require('../controllers/userController');
 
 const router = Router();
 
@@ -37,5 +37,34 @@ const router = Router();
  */
 
 router.post('/register', register);
+
+/**
+ * @openapi
+ * /api/users/login:
+ *   post:
+ *     summary: Login with user credentials
+ *     description: Authenticate and log in a user using email and password.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 description: The email address of the user.
+ *               password:
+ *                 type: string
+ *                 format: password
+ *                 description: The password for the user account.
+ *     responses:
+ *       '200':
+ *         description: User logged in successfully
+ *       '400':
+ *         description: Bad request, either username or password is incorrect
+ */
+router.post('/login', login);
 
 module.exports = router;
