@@ -23,6 +23,7 @@ const register = (req, res, next) => {
     .catch(next); // Pass errors to the next middleware
 };
 
+//USer login controller
 const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;

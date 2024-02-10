@@ -7,7 +7,6 @@ const { createToken } = require('./api/middelware/jwt');
 const { connectDb } = require('./api/config/database');
 const openapiSpecification = require('./swagger/swaggerConfig')
 const userRoutes = require('./api/routes/User');
-require('./api/helpers/envPath');
 const erroHandler = require('./api/middelware/userErrorHandler');
 
 const app = express();
