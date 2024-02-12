@@ -89,7 +89,7 @@ If the provided email exists and the password matches the stored hash in the dat
 
 **GET /api/users**
 
-Gets all users in the data base as a List
+Gets all users in the database as a List
 
 ## Usage
 
