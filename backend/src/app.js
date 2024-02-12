@@ -15,7 +15,7 @@ app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(openapiSpecification));
 
 // routes
 app.use('/api/users', userRoutes);
-app.use(erroHandler);
+// app.use(erroHandler);
 
 connectDb().then(app.listen(process.env.PORT, () => {
   // eslint-disable-next-line no-console
