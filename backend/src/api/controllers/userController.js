@@ -18,7 +18,7 @@ const register = (req, res, next) => {
         phoneNumber,
         password: hash,
       }))
-      .then(() => res.json('User Registration was Successful'))
+      .then(() => res.status(201).json('User Registration was Successful'))
       .catch(next); // Pass errors to the next middleware
   }
 };
