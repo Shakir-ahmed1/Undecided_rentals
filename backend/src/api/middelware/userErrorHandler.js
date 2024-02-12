@@ -25,16 +25,18 @@ function registerErrorHandler(e, password, confirmPassword) {
      errors.email = 'That email is already taken';
      return errors;
  }
-
+ 
  // input validation
  if (e.message.includes('Validation failed')) {
      Object.values(e.errors).forEach(({properties}) => {
          errors[properties.path] = properties.message;
      });
  }
+
  // if no input errors on the password check confirmation
- if (errors.password !== '') {
+ if (errors.password === '') {
    // handling for empty confirm password
+
    if (confirmPassword === '') {
      errors.confirmPassword = 'Please confirm your password'
    } else if (password !== confirmPassword) {

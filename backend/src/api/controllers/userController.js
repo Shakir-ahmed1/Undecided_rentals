@@ -16,6 +16,11 @@ const register = async (req, res) => {
     res.status(201).json({ user });
   } catch (e) {
     const errors = registerErrorHandler(e, password, confirmPassword);
+    for (const key in errors) {
+      if (errors[key] === '') {
+        delete errors[key];
+      }
+    }
     res.status(400).json({ errors });
 }
 };
