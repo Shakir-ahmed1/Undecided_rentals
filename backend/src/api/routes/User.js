@@ -67,10 +67,6 @@ router.post('/register', register);
  */
 router.post('/login', login);
 
-<<<<<<< HEAD
-module.exports = router;
-=======
 router.get('/', allUsers);
 
 module.exports = router;
->>>>>>> shakir
