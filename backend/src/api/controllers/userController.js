@@ -1,25 +1,31 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/userModel');
 const { createToken } = require('../middelware/jwt');
+const { registerErrorHandler } = require('../middelware/userErrorHandler');
 
-const register = (req, res, next) => {
+const register = async (req, res) => {
   const {
     firstName, lastName, email, phoneNumber, password, confirmPassword,
   } = req.body;
-
-  if (password !== confirmPassword) {
-    res.status(400).json({ error: 'Passwords do not match' });
-  } else {
-    bcrypt.hash(password, 10)
-      .then((hash) => User.create({
-        firstName,
-        lastName,
-        email,
-        phoneNumber,
-        password: hash,
-      }))
-      .then(() => res.json('User Registration was Successful'))
-      .catch(next); // Pass errors to the next middleware
+  try {
+    await User.validate({
+      firstName, lastName, email, phoneNumber, password,
+    });
+    if (password && (confirmPassword === '' || confirmPassword !== password)) {
+      throw Error('confirm password has a problem');
+    }
+    const user = await User.create({
+      firstName, lastName, email, phoneNumber, password,
+    });
+    res.status(201).json({ user });
+  } catch (e) {
+    const errors = registerErrorHandler(e, password, confirmPassword);
+    Object.keys(errors).forEach((key) => {
+      if (errors[key] === '') {
+        delete errors[key];
+      }
+    });
+    res.status(400).json({ errors });
   }
 };
 
@@ -55,4 +61,9 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { register, login };
+const allUsers = async (req, res) => {
+  const users = await User.find();
+  res.json(users);
+};
+
+module.exports = { register, login, allUsers };

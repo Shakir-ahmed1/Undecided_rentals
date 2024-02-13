@@ -55,6 +55,10 @@ Registers a new user with the provided information. The request body should incl
 
 If the passwords match, the password is hashed using bcrypt and the user is saved to the database. Otherwise, an error response is returned.
 
+Responses
+ 201 : registration completed succesfully, responds with json body of {user : {firstName: ..., ...}}
+ 400 : registration failed, responds with errors about the user information a json body of {error: {firstName: 'Please enter your first name', ...}}
+
 ## Usage
 
 1. Send a POST request to `/api/users/register` with the required user information in the request body.
@@ -81,6 +85,12 @@ Logs in a user with the provided credentials. The request body should include th
 
 If the provided email exists and the password matches the stored hash in the database, the user is considered logged in. An access token is generated for the user session and stored in an HTTP-only cookie for security purposes. If the credentials are incorrect or the user does not exist, an error response is returned.
 
+### Show all users
+
+**GET /api/users**
+
+Gets all users in the database as a List
+
 ## Usage
 
 1. Send a POST request to `/api/users/login` with the user's email and password in the request body.
@@ -94,5 +104,3 @@ You can access the Swagger API documentation for this project by visiting the fo
 [Swagger API Documentation](http://localhost:5000/api-doc)
 
 This documentation provides detailed information about the available endpoints, request parameters, and responses.
-
-
