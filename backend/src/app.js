@@ -17,7 +17,7 @@ app.use(cors({ origin: 'http://localhost:3000' }));
 
 // routes
 app.use('/api/users', userRoutes);
-app.use(erroHandler);
+// app.use(erroHandler);
 
 connectDb().then(app.listen(process.env.PORT, () => {
   // eslint-disable-next-line no-console

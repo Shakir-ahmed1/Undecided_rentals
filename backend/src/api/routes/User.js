@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { register, login } = require('../controllers/userController');
+const { register, login, allUsers } = require('../controllers/userController');
 
 const router = Router();
 
@@ -67,4 +67,10 @@ router.post('/register', register);
  */
 router.post('/login', login);
 
+<<<<<<< HEAD
 module.exports = router;
+=======
+router.get('/', allUsers);
+
+module.exports = router;
+>>>>>>> shakir
