@@ -29,13 +29,11 @@ const router = Router();
  *               confirmPassword:
  *                 type: string
  *     responses:
- *       201:
+ *       '201':
  *         description: User registration successful
- *       400:
- *         description: Bad request, either password mismatch or missing
- *                     required filed, or user with the same email exists
+ *       '400':
+ *         description: Bad request, either password mismatch, missing fieild, user not found
  */
-
 router.post('/register', register);
 
 /**
@@ -67,6 +65,23 @@ router.post('/register', register);
  */
 router.post('/login', login);
 
+/**
+ * @openapi
+ * /api/users:
+ *   get:
+ *     summary: Get all users
+ *     description: Retrieve a list of all users.
+ *     responses:
+ *       '200':
+ *         description: A list of users
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *
+ *       '500':
+ *         description: Internal server error
+ */
 router.get('/', allUsers);
 
 module.exports = router;

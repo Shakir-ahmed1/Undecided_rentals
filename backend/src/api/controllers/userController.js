@@ -1,7 +1,8 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/userModel');
+const Profile = require('../models/profileModel');
 const { createToken } = require('../middelware/jwt');
-const { registerErrorHandler } = require('../middelware/userErrorHandler');
+const { registerErrorHandler, loginErrorHandler } = require('../middelware/userErrorHandler');
 
 const register = async (req, res) => {
   const {
@@ -17,7 +18,10 @@ const register = async (req, res) => {
     const user = await User.create({
       firstName, lastName, email, phoneNumber, password,
     });
-    res.status(201).json({ user });
+
+    const profile = await Profile.create({ user: user.id });
+
+    res.status(201).json({ user, profile });
   } catch (e) {
     const errors = registerErrorHandler(e, password, confirmPassword);
     Object.keys(errors).forEach((key) => {
@@ -34,13 +38,11 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    if (!email || !password) {
-      return res.status(400).json({ error: 'Email and password are required' });
-    }
+    loginErrorHandler(email, password);
 
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ error: 'Username and/or password do not exist' });
+      return res.status(400).json({ error: 'Username and/or password incorrect' });
     }
 
     const dbPassword = user.password;
@@ -56,14 +58,18 @@ const login = async (req, res) => {
       return res.json('login Sucess');
     }
     return res.status(400).json({ error: 'Username and/or password incorrect' });
-  } catch (error) {
-    return res.status(500).json({ error });
+  } catch (errors) {
+    return res.status(400).json({ errors });
   }
 };
 
 const allUsers = async (req, res) => {
-  const users = await User.find();
-  res.json(users);
+  try {
+    const users = await User.find().select('-password');
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
 };
 
 module.exports = { register, login, allUsers };

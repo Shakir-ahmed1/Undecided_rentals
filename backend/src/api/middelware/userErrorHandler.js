@@ -1,3 +1,5 @@
+const { isEmail } = require('validator');
+
 function registerErrorHandler(e, password, confirmPassword) {
   const errors = {
     firstName: '', lastName: '', email: '', phoneNumber: '', password: '', confirmPassword: '',
@@ -29,4 +31,22 @@ function registerErrorHandler(e, password, confirmPassword) {
   return errors;
 }
 
-module.exports = { registerErrorHandler };
+const loginErrorHandler = (email, password) => {
+  const errors = {};
+
+  if (!email) {
+    errors.email = 'email required';
+  }
+  if (email && !isEmail(email)) {
+    errors.email = 'please enter a valid email';
+  }
+  if (!password) {
+    errors.password = 'please enter your password';
+  }
+
+  if (Object.keys(errors).length > 0) {
+    throw errors; // Throw errors object
+  }
+};
+
+module.exports = { registerErrorHandler, loginErrorHandler };
