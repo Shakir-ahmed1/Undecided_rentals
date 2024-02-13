@@ -1,22 +1,25 @@
-import { AUTH, LOGOUT, REGISTER, LOGIN } from '../constants/actionTypes';
-
-export default (state = {authData : null}, action) => {
+import { AUTH, LOGOUT, REGISTER, LOGIN, ERROR } from '../constants/actionTypes';
+const initialState = {
+  authData : null,
+  error: null,
+  success: false
+}
+export default (state = initialState, action) => {
   switch (action.type) {
         case AUTH:
-            console.log('here is the data from reducers', action?.payload)
             localStorage.setItem('profile', JSON.stringify({...action?.payload}))
-            return { ...state, authData: action?.payload };
-          case LOGOUT:
-            localStorage.clear()
-            return {...state, authData: null}
-          case REGISTER:
-            console.log('here is the data from register', action?.payload)
-            localStorage.setItem('profile', JSON.stringify(action?.payload))
-            return { ...state, authData: action?.payload };
-          case LOGIN:
-            console.log('here is the data from login', action?.payload)
-            localStorage.setItem('profile', JSON.stringify(action?.payload))
-            return { ...state, authData: action?.payload };
+            return { ...state, authData: action?.payload, error:null, success: false };
+        case LOGOUT:
+          localStorage.clear()
+          return {...state, authData: null, error:null, success:false}
+        case REGISTER:
+          localStorage.setItem('profile', JSON.stringify(JSON.parse(action?.payload)))
+          return { ...state, authData: action?.payload, error:null, success:true };
+        case LOGIN:
+          localStorage.setItem('profile', JSON.parse(JSON.stringify(action?.payload)))
+          return { ...state, authData: action?.payload, error:null, success: true };
+        case ERROR:
+          return { ...state, authData: null, error: action?.payload, success: false };
     default:
       return state;
   }

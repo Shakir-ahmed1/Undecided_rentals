@@ -12,10 +12,11 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { signIn } from "../../actions/users";
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 
 const initialState = {
   firstName: "",
@@ -27,9 +28,15 @@ const initialState = {
 };
 const Login = ({ setUser }) => {
   const [formData, setFormData] = useState(initialState);
-  const [success, setSuccess] = useState(false);
+  const [focusEmail, setFocusEmail] = useState(false)
+  const [errMsg, setErrMsg] = useState('');
+  let TEST_EMAIL = /\S+@\S+\.\S+/;
+  const ValidEmail = TEST_EMAIL.test(formData.email);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const err = useSelector((state) => state.users.error)
+  const success = useSelector((state) => state.users.success)
+
   const [showPassword, setShowPassword] = useState(false);
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("profile")));
@@ -51,22 +58,34 @@ const Login = ({ setUser }) => {
       console.log(error);
     }
   };
-
+  const dispatchSignIn = () => {
+    dispatch(signIn(formData))
+    
+  }
+  const handleError = () => {
+    if (err) {
+      if (!err.response) {
+        setErrMsg('No server response')
+      } else if (err?.response?.status === 400) {
+        setErrMsg('Check your email or password')
+      } else if (err?.message) {
+          setErrMsg(err.message)
+      } else {
+        setErrMsg('Sign In Failed')
+      }
+    } 
+  }
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
-    dispatch(signIn(formData));
-    setSuccess(true);
-    setTimeout(() => {
-      navigate("/");
-    }, 2000);
+    dispatchSignIn()
+    handleError()
   };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const canSave = [formData.email, formData.password].every(Boolean);
+  const canSave = [formData.email, formData.password].every(Boolean) && ValidEmail;
   return (
     <>
       {success ? (
@@ -82,14 +101,9 @@ const Login = ({ setUser }) => {
                 flexDirection: "column",
               }}
             >
-              <Avatar>
-                <LockOutlinedIcon />
-              </Avatar>
-              <Typography variant="h5" style={{ margin: "10px" }}>
-                <CheckBoxIcon />
-                You are Signed in successfully! &nbsp;&nbsp;
-              </Typography>
+              <Alert severity="success">You are signed in successfully</Alert>
             </div>
+            <Link to='/'><div>Go to the main page</div></Link>
           </Paper>
         </Container>
       ) : (
@@ -112,6 +126,9 @@ const Login = ({ setUser }) => {
                 Sign In
               </Typography>
             </div>
+            <Stack sx={{ width: '100%' }} spacing={2}>
+                  {errMsg && <Alert severity="error" variant="filled">{errMsg}</Alert>}            
+            </Stack>
             <form action="" onSubmit={handleSubmit}>
               <Grid container spacing={2}>
                 <Input
@@ -119,7 +136,12 @@ const Login = ({ setUser }) => {
                   label="Email Address"
                   handleChange={handleChange}
                   type="email"
+                  onFocus={() => setFocusEmail(true)}
+                  onBlur={() => setFocusEmail(false)}
                 />
+                <Stack sx={{ width: '100%' }} spacing={2}>
+                  {!ValidEmail && focusEmail ? <Alert severity="error">Enter Valid Email</Alert> : null}            
+                 </Stack>
                 <Input
                   name="password"
                   label="Password"

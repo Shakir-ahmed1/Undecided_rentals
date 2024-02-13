@@ -185,8 +185,8 @@ export default function NavBar({user, setUser}) {
       onClose={handleMobileMenuClose}
     >
       <MenuItem onClick={handleProfileMenuOpen}>
-        <Avatar alt={user?.name?.charAt(0) || user?.email?.charAt(0)} src={user?.imageUrl} />
-        <p style={{marginLeft:'10px'}}>{user.name}</p>
+        <Avatar src={user?.imageUrl} alt={user?.name?.charAt(0) || user?.email?.charAt(0)} />
+        <p style={{marginLeft:'10px'}}>{user?.name}</p>
       </MenuItem>
       <MenuItem>
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">

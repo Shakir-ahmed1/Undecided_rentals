@@ -2,4 +2,4 @@ import { combineReducers } from 'redux';
 
 import users from './users';
 
-export const reducers = combineReducers({ users });
+export const rootReducer  = combineReducers({ users });
