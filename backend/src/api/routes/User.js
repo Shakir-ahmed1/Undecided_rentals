@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { register, login } = require('../controllers/userController');
+const { register, login, allUsers } = require('../controllers/userController');
 
 const router = Router();
 
@@ -66,5 +66,7 @@ router.post('/register', register);
  *         description: Bad request, either username or password is incorrect
  */
 router.post('/login', login);
+
+router.get('/', allUsers);
 
 module.exports = router;
