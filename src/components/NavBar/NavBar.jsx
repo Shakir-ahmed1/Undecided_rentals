@@ -25,6 +25,7 @@ import { jwtDecode } from "jwt-decode";
 import { useDispatch } from 'react-redux';
 import {useNavigate, useLocation } from 'react-router-dom';
 import LogoutIcon from '@mui/icons-material/Logout';
+import RentEase from '../../assets/rent.png'
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -164,6 +165,9 @@ export default function NavBar({user, setUser}) {
       <GoogleLogin
         onSuccess={GoogleSuccess}
         onError={() => console.log("Error")}
+        text='signin_with'
+        locale="en"
+        theme='filled_blue'
       />
     </Menu>
   );
@@ -263,7 +267,7 @@ export default function NavBar({user, setUser}) {
               <MenuItem>Home</MenuItem>
             </MenuIcon>
           </IconButton>
-
+          <img src={RentEase} alt="" width='30px' style={{marginRight:'20px'}}/>
           <Typography
             variant="h5"
             noWrap

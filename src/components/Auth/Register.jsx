@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { signUp } from "../../actions/users";
 import Alert from '@mui/material/Alert';
@@ -30,8 +30,9 @@ const Register = ({ setUser }) => {
   const [focusEmail, setFocusEmail] = useState(false)
   const [focuspwd, setFocusPwd] = useState(false)
   const [focusConfirmPassword, setFocusConfirmPassword] = useState(false)
-  const [error, setError] = useState(false);
-  const [success, setSuccess] = useState(false);
+  const [errMsg, setErrMsg] = useState(false);
+  const err = useSelector((state) => state.users.error);
+  const success = useSelector((state) => state.users.success);
 
   let TEST_EMAIL = /\S+@\S+\.\S+/;
   let TEST_PASSWORD = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
@@ -82,10 +83,19 @@ const Register = ({ setUser }) => {
     ) {
       try {
         dispatch(signUp(formData));
-        setSuccess(true);
-        setTimeout(() => {
-          navigate("/");
-        }, 2000);
+        if (err) {
+          if (!err.response) {
+            setErrMsg('No server response')
+          } else if (err?.response?.status === 400) {
+            setErrMsg('Check the fields you entered')
+          } else if (err?.response?.status === 409) {
+            setErrMsg('user name taken')
+          } else if (err?.message) {
+              setErrMsg(err.message)
+          } else {
+            setErrMsg('Registeration Failed')
+          }
+        } 
       } catch (error) {
         console.log("check the inputs");
       }
@@ -116,6 +126,7 @@ const Register = ({ setUser }) => {
               </Avatar>
               <Alert severity="success">You are registered successfully</Alert>
             </div>
+            <Link to='/'><div>Go to the main page</div></Link>
           </Paper>
         </Container>
       ) : (
@@ -138,6 +149,9 @@ const Register = ({ setUser }) => {
                 Sign Up
               </Typography>
             </div>
+            <Stack sx={{ width: '100%' }} spacing={2}>
+                  {errMsg && <Alert severity="error" variant="filled">{errMsg}</Alert>}            
+            </Stack>
             <form action="" onSubmit={handleSubmit}>
               <Grid container spacing={2}>
                 <Input
@@ -203,18 +217,19 @@ const Register = ({ setUser }) => {
               >
                 Sign Up
               </Button>
-              <Button
+                <Button 
                 type="submit"
                 fullWidth
-                variant="contained"
-                color="primary"
-                style={{ marginBottom: "20px" }}
-              >
-                <GoogleLogin
-                  onSuccess={GoogleSuccess}
-                  onError={() => console.log("Error")}
-                />
-              </Button>
+                style={{ marginBottom: "20px" }}>
+                  <GoogleLogin
+                    onSuccess={GoogleSuccess}
+                    onError={() => console.log("Error")}
+                    text='signup_with'
+                    locale="en"
+                    theme="filled_blue"
+                  />
+                </Button>
+          
               <Grid container justifyContent="flex-start">
                 <Grid item>
                   <Button onClick="" component={Link} to="/login">

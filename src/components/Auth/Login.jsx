@@ -160,18 +160,18 @@ const Login = ({ setUser }) => {
               >
                 Sign In
               </Button>
-              <Button
+              <Button 
                 type="submit"
                 fullWidth
-                variant="contained"
-                color="primary"
-                style={{ marginBottom: "20px" }}
-              >
-                <GoogleLogin
-                  onSuccess={GoogleSuccess}
-                  onError={() => console.log("Error")}
-                />
-              </Button>
+                style={{ marginBottom: "20px" }}>
+                  <GoogleLogin
+                    onSuccess={GoogleSuccess}
+                    onError={() => console.log("Error")}
+                    text='signup_with'
+                    locale="en"
+                    theme="filled_blue"
+                  />
+                </Button>
               <Grid container justifyContent="flex-start">
                 <Grid item>
                   <Link to={"/register"}>
