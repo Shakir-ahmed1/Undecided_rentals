@@ -42,7 +42,7 @@ const login = async (req, res) => {
 
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ error: 'Username and/or password incorrect' });
+      return res.status(400).json({ error: { IncorrectDetails: 'Username and/or password incorrect' } });
     }
 
     const dbPassword = user.password;
@@ -57,7 +57,7 @@ const login = async (req, res) => {
       });
       return res.json(user);
     }
-    return res.status(400).json({ error: 'Username and/or password incorrect' });
+    return res.status(400).json({ error: { IncoreectDetails: 'Username and/or password incorrect' } });
   } catch (errors) {
     return res.status(400).json({ errors });
   }
