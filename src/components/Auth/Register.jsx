@@ -27,6 +27,8 @@ const initialState = {
   confirmPassword: "",
 };
 const Register = ({ setUser }) => {
+  const [focusFirst, setFocusFirst] = useState(false)
+  const [focusLast, setFocusLast] = useState(false)
   const [focusEmail, setFocusEmail] = useState(false)
   const [focuspwd, setFocusPwd] = useState(false)
   const [focusConfirmPassword, setFocusConfirmPassword] = useState(false)
@@ -40,6 +42,8 @@ const Register = ({ setUser }) => {
   const [formData, setFormData] = useState(initialState);
   const ValidEmail = TEST_EMAIL.test(formData.email);
   const ValidPassword = TEST_PASSWORD.test(formData.password);
+  const ValidFirst = formData.firstName.length < 80 ? true : false
+  const ValidLast = formData.lastName.length < 80 ? true : false
   const matchpwd = (formData.password === formData.confirmPassword)
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -51,7 +55,7 @@ const Register = ({ setUser }) => {
     formData.phoneNumber,
     formData.password,
     formData.confirmPassword,
-  ].every(Boolean) && matchpwd && ValidEmail && ValidPassword;
+  ].every(Boolean) && matchpwd && ValidEmail && ValidPassword && ValidFirst && ValidLast;
 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("profile")));
@@ -158,6 +162,7 @@ const Register = ({ setUser }) => {
                   name="firstName"
                   label="First Name"
                   handleChange={handleChange}
+                  onFocus={() => setFocusFirst(true)}
                   autoFocus
                   half
                 />
@@ -166,7 +171,16 @@ const Register = ({ setUser }) => {
                   label="Last Name"
                   handleChange={handleChange}
                   half
+                  onFocus={() => setFocusLast(true)}
                 />
+                <Grid container spacing={2}>
+                  <Grid item sm={6}>
+                    {!ValidFirst && focusFirst ? <Alert severity="error">The number of characters should be less than 80</Alert> : null}
+                  </Grid>
+                  <Grid item sm={6}>
+                    {!ValidLast && focusLast ? <Alert severity="error">The number of characters should be less than 80</Alert> : null}
+                  </Grid>       
+                </Grid>
                 <Input
                   name="email"
                   label="Email Address"
@@ -232,7 +246,7 @@ const Register = ({ setUser }) => {
           
               <Grid container justifyContent="flex-start">
                 <Grid item>
-                  <Button onClick="" component={Link} to="/login">
+                  <Button onClick="" component={Link} to="/login" style={{fontWeight:'bold', textTransform:'none'}}>
                     Already have an account ? Sign In
                   </Button>
                 </Grid>

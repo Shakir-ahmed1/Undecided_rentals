@@ -33,6 +33,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import React from "react";
+import LoginIcon from '@mui/icons-material/Login';
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -81,6 +82,11 @@ export default function NavBar({ user, setUser }) {
   const [state, setState] = useState({
     left: false,
   });
+  const logout = () => {
+    dispatch({ type: "LOGOUT" });
+    Navigate("/");
+    setUser(null);
+  };
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -120,10 +126,11 @@ export default function NavBar({ user, setUser }) {
             </ListItem>
           ))}
         </List>
+        
       </>) : (
         <ListItem  disablePadding>
         <ListItemButton component={Link} to='/login'>
-          <Button style={{fontWeight:'bold', color:'black'}}>Sign In</Button>
+          <Button style={{fontWeight:'bold', color:'black', textTransform:'none', fontSize:'20px'}}>Sign In &nbsp;<LoginIcon /></Button>
         </ListItemButton>
       </ListItem>
       )}
@@ -138,6 +145,17 @@ export default function NavBar({ user, setUser }) {
           </ListItem>
         ))}
       </List>
+      {user ? (
+        <>
+      <Divider />
+      <ListItem  disablePadding onClick={logout}>
+        <ListItemButton component={Link} to='/login'>
+          <Button style={{fontWeight:'bold', color:'black', textTransform:'none', fontSize:'20px'}}>Logout</Button>
+          <LogoutIcon />
+        </ListItemButton>
+      </ListItem>
+        </> 
+      ) : null}
     </Box>
   );
   const [anchorEl, setAnchorEl] = useState(null);
@@ -177,12 +195,6 @@ export default function NavBar({ user, setUser }) {
       console.log(error);
     }
   };
-  const logout = () => {
-    dispatch({ type: "LOGOUT" });
-    Navigate("/");
-    setUser(null);
-  };
-
   const menuId = "primary-search-account-menu";
 
   const renderMenu = user ? (

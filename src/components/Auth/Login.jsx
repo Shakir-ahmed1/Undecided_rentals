@@ -175,7 +175,7 @@ const Login = ({ setUser }) => {
               <Grid container justifyContent="flex-start">
                 <Grid item>
                   <Link to={"/register"}>
-                    <Button onClick="">Dont have an account ? Sign Up</Button>
+                    <Button onClick="" style={{fontWeight:'bold', textTransform:'none'}}>Dont have an account ? Sign Up</Button>
                   </Link>
                 </Grid>
               </Grid>
