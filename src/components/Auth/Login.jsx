@@ -29,12 +29,12 @@ const initialState = {
 const Login = ({ setUser }) => {
   const [formData, setFormData] = useState(initialState);
   const [focusEmail, setFocusEmail] = useState(false)
-  const [errMsg, setErrMsg] = useState('');
   let TEST_EMAIL = /\S+@\S+\.\S+/;
   const ValidEmail = TEST_EMAIL.test(formData.email);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const err = useSelector((state) => state.users.error)
+  const errMsg = useSelector((state) => state.users.error)
+  console.log(errMsg)
   const success = useSelector((state) => state.users.success)
 
   const [showPassword, setShowPassword] = useState(false);
@@ -60,25 +60,11 @@ const Login = ({ setUser }) => {
   };
   const dispatchSignIn = () => {
     dispatch(signIn(formData))
-    
   }
-  const handleError = () => {
-    if (err) {
-      if (!err.response) {
-        setErrMsg('No server response')
-      } else if (err?.response?.status === 400) {
-        setErrMsg('Check your email or password')
-      } else if (err?.message) {
-          setErrMsg(err.message)
-      } else {
-        setErrMsg('Sign In Failed')
-      }
-    } 
-  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatchSignIn()
-    handleError()
   };
 
   const handleChange = (e) => {
@@ -126,8 +112,8 @@ const Login = ({ setUser }) => {
                 Sign In
               </Typography>
             </div>
-            <Stack sx={{ width: '100%' }} spacing={2}>
-                  {errMsg && <Alert severity="error" variant="filled">{errMsg}</Alert>}            
+            <Stack sx={{ width: '100%' }} spacing={2} style={{marginBottom:'20px'}}>
+                  {errMsg && <Alert severity="error" variant="filled">{errMsg.IncoreectDetails}</Alert>} 
             </Stack>
             <form action="" onSubmit={handleSubmit}>
               <Grid container spacing={2}>

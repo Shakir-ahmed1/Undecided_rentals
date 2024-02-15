@@ -32,7 +32,6 @@ const Register = ({ setUser }) => {
   const [focusEmail, setFocusEmail] = useState(false)
   const [focuspwd, setFocusPwd] = useState(false)
   const [focusConfirmPassword, setFocusConfirmPassword] = useState(false)
-  const [errMsg, setErrMsg] = useState(false);
   const err = useSelector((state) => state.users.error);
   const success = useSelector((state) => state.users.success);
 
@@ -85,25 +84,9 @@ const Register = ({ setUser }) => {
       TEST_PASSWORD.test(formData.password) &&
       (formData.password === formData.confirmPassword) === true
     ) {
-      try {
         dispatch(signUp(formData));
-        if (err) {
-          if (!err.response) {
-            setErrMsg('No server response')
-          } else if (err?.response?.status === 400) {
-            setErrMsg('Check the fields you entered')
-          } else if (err?.response?.status === 409) {
-            setErrMsg('user name taken')
-          } else if (err?.message) {
-              setErrMsg(err.message)
-          } else {
-            setErrMsg('Registeration Failed')
-          }
-        } 
-      } catch (error) {
-        console.log("check the inputs");
-      }
     }
+       
   };
 
   const handleChange = (e) => {
@@ -153,8 +136,8 @@ const Register = ({ setUser }) => {
                 Sign Up
               </Typography>
             </div>
-            <Stack sx={{ width: '100%' }} spacing={2}>
-                  {errMsg && <Alert severity="error" variant="filled">{errMsg}</Alert>}            
+            <Stack sx={{ width: '100%' }} spacing={2} style={{marginBottom:'20px'}}>
+                  {err && <Alert severity="error" variant="filled">{err.response.data.errors.email}</Alert>}            
             </Stack>
             <form action="" onSubmit={handleSubmit}>
               <Grid container spacing={2}>

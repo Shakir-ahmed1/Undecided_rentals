@@ -30,7 +30,6 @@ import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import React from "react";
 import LoginIcon from '@mui/icons-material/Login';
@@ -149,7 +148,7 @@ export default function NavBar({ user, setUser }) {
         <>
       <Divider />
       <ListItem  disablePadding onClick={logout}>
-        <ListItemButton component={Link} to='/login'>
+        <ListItemButton>
           <Button style={{fontWeight:'bold', color:'black', textTransform:'none', fontSize:'20px'}}>Logout</Button>
           <LogoutIcon />
         </ListItemButton>
@@ -282,7 +281,7 @@ export default function NavBar({ user, setUser }) {
       <MenuItem onClick={handleProfileMenuOpen}>
         <Avatar
           src={user?.imageUrl}
-          alt={user?.name?.charAt(0) || user?.email?.charAt(0)}
+          alt={user?.name?.charAt(0) || user?.firstName?.charAt(0)}
         />
         <p style={{ marginLeft: "10px" }}>{user?.name}</p>
       </MenuItem>
@@ -424,7 +423,7 @@ export default function NavBar({ user, setUser }) {
               color="inherit"
             >
               {user ? (
-                <Avatar alt={user?.name?.charAt(0)} src={user?.imageUrl} />
+                <Avatar alt={user?.firstName?.charAt(0)} src={user?.imageUrl} />
               ) : (
                 <AccountCircle />
               )}
