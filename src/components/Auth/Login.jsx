@@ -29,12 +29,12 @@ const initialState = {
 const Login = ({ setUser }) => {
   const [formData, setFormData] = useState(initialState);
   const [focusEmail, setFocusEmail] = useState(false)
+  const [errMsg, setErrMsg] = useState('')
   let TEST_EMAIL = /\S+@\S+\.\S+/;
   const ValidEmail = TEST_EMAIL.test(formData.email);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const errMsg = useSelector((state) => state.users.error)
-  console.log(errMsg)
+  const err = useSelector((state) => state.users.error)
   const success = useSelector((state) => state.users.success)
 
   const [showPassword, setShowPassword] = useState(false);
@@ -65,6 +65,11 @@ const Login = ({ setUser }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatchSignIn()
+    if(err) {
+      setErrMsg(err.IncoreectDetails)
+    } else {
+      setErrMsg('No Server Response')
+    }
   };
 
   const handleChange = (e) => {
@@ -113,7 +118,7 @@ const Login = ({ setUser }) => {
               </Typography>
             </div>
             <Stack sx={{ width: '100%' }} spacing={2} style={{marginBottom:'20px'}}>
-                  {errMsg && <Alert severity="error" variant="filled">{errMsg.IncoreectDetails}</Alert>} 
+                  {errMsg && <Alert severity="error" variant="filled">{errMsg}</Alert>}
             </Stack>
             <form action="" onSubmit={handleSubmit}>
               <Grid container spacing={2}>

@@ -7,7 +7,6 @@ export const signIn = (formData) => async (dispatch) => {
         console.log(response)
         dispatch({type: LOGIN, payload:response.data})
     } catch (error) {
-        console.error(error)
         dispatch({type:ERROR, payload:error.response.data.error})
 }
 }

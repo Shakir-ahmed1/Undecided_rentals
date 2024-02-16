@@ -13,7 +13,7 @@ export default (state = initialState, action) => {
           localStorage.clear()
           return {...state, authData: null, error:null, success:false}
         case REGISTER:
-          localStorage.setItem('profile', JSON.stringify((action?.payload)))
+          localStorage.setItem('profile', JSON.stringify(action?.payload))
           return { ...state, authData: action?.payload, error:null, success:true };
         case LOGIN:
           localStorage.setItem('profile', JSON.stringify(action?.payload))
