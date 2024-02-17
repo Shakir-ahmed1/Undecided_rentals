@@ -185,7 +185,7 @@ export default function NavBar({ user, setUser }) {
   const GoogleSuccess = (res) => {
     const decoded = jwtDecode(res.credential);
     const { sub, name, picture, email } = decoded;
-    const userData = { id: sub, name, imageUrl: picture, email };
+    const userData = { _id: sub, name, imageUrl: picture, email };
     try {
       dispatch({ type: "AUTH", payload: userData });
       Navigate("/");
@@ -212,7 +212,7 @@ export default function NavBar({ user, setUser }) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile - {user.name}</MenuItem>
+      <MenuItem onClick={handleMenuClose} component={Link} to={`/profile/${user._id}`}>Profile - {user.name || (user.firstName +' '+ user.lastName)} </MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
       <Button
         onClick={logout}

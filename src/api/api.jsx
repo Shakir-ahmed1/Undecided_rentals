@@ -12,3 +12,4 @@ API.interceptors.request.use((req) => {
 
 export const signIn = (formData) => API.post('/api/users/login', formData)
 export const signUp = (formData) => API.post('/api/users/register', formData)
+export const updateUser = (userId, updatedUser) => API.put(`/api/users/update/${userId}/profile`, updatedUser)

@@ -1,5 +1,5 @@
 import * as api from '../api/api'
-import { REGISTER, LOGIN, ERROR } from '../constants/actionTypes'
+import { REGISTER, LOGIN, ERROR, UPDATEUSER } from '../constants/actionTypes'
 
 export const signIn = (formData) => async (dispatch) => {
     try {
@@ -21,3 +21,12 @@ export const signUp = (formData) => async (dispatch) => {
     }
 }
 
+export const updatedUser = (userId, userData) => async (dispatch) => {
+    try {
+        const response = await api.updateUser(userId, userData);
+        console.log(response)
+        dispatch({type: UPDATEUSER, payload:response.data})
+    } catch (error) {
+        console.log(error)
+    }
+}

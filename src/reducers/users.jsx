@@ -1,4 +1,5 @@
-import { AUTH, LOGOUT, REGISTER, LOGIN, ERROR } from '../constants/actionTypes';
+/* eslint-disable react-refresh/only-export-components */
+import { AUTH, LOGOUT, REGISTER, LOGIN, ERROR, UPDATEUSER } from '../constants/actionTypes';
 const initialState = {
   authData : null,
   error: null,
@@ -18,6 +19,9 @@ export default (state = initialState, action) => {
         case LOGIN:
           localStorage.setItem('profile', JSON.stringify(action?.payload))
           return { ...state, authData: action?.payload, error:null, success: true };
+        case UPDATEUSER:
+          localStorage.setItem('profile', JSON.stringify(action?.payload))
+          return {...state, authData:action?.payload, error:null, success: false}
         case ERROR:
           return {  authData: null, error: action?.payload, success: false };
     default:
