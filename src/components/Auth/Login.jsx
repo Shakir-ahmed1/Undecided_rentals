@@ -53,7 +53,7 @@ const Login = ({ setUser }) => {
     try {
       dispatch({ type: "AUTH", payload: userData });
       navigate("/");
-      console.log(userData);
+      console.log(decoded)
     } catch (error) {
       console.log(error);
     }

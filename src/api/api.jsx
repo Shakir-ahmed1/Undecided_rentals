@@ -1,5 +1,8 @@
 import axios from 'axios';
+import Cookies from "universal-cookie";
 
+const cookies = new Cookies();
+console.log(cookies)
 const url = 'http://localhost:5000'
 const API = axios.create({ baseURL: url });
 
@@ -12,4 +15,4 @@ API.interceptors.request.use((req) => {
 
 export const signIn = (formData) => API.post('/api/users/login', formData)
 export const signUp = (formData) => API.post('/api/users/register', formData)
-export const updateUser = (userId, updatedUser) => API.put(`/api/users/update/${userId}/profile`, updatedUser)
+export const updateUser = (userId, updatedUser) => API.put(`/api/users/${userId}/profiles`, updatedUser)
