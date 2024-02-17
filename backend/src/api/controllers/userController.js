@@ -55,7 +55,7 @@ const login = async (req, res) => {
         httpOnly: true,
         secure: true,
       });
-      return res.json(user);
+      return res.json({ user, accessToken });
     }
     return res.status(400).json({ error: { IncoreectDetails: 'Username and/or password incorrect' } });
   } catch (errors) {

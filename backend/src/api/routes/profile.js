@@ -84,7 +84,7 @@ router.get('/:userId/profiles', getProfile);
 
 /**
  * @openapi
- * /api/users/update/{userId}/profile:
+ * /api/users/{userId}/profiles:
  *   put:
  *     summary: Update user profile
  *     description: Updates the profile information for a specific user.
