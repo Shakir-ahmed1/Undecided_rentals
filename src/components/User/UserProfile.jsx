@@ -12,9 +12,9 @@ import { updatedUser } from "../../actions/users";
 const UserProfile = ({ user }) => {
   const dispatch = useDispatch();
   const { userId } = useParams();
-  const [firstName, setFirstName] = useState(user?.firstName || null);
-  const [lastName, setLastName] = useState(user?.lastName || null);
-  const [phoneNumber, setPhoneNumber] = useState(user?.phoneNumber || null)
+  const [firstName, setFirstName] = useState(user?.user?.firstName || user?.firstName || null);
+  const [lastName, setLastName] = useState(user?.user?.lastName || user?.lastName || null);
+  const [phoneNumber, setPhoneNumber] = useState(user?.user?.phoneNumber || user?.phoneNumber || null)
   const [bio, setBio] = useState('')
   const [country, setCountry] = useState('')
   const [state, setState] = useState('')

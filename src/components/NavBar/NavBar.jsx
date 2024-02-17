@@ -32,7 +32,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import React from "react";
-import LoginIcon from '@mui/icons-material/Login';
+import LoginIcon from "@mui/icons-material/Login";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -104,37 +104,47 @@ export default function NavBar({ user, setUser }) {
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      {user ? 
-      (<>
-        <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        
-      </>) : (
-        <ListItem  disablePadding>
-        <ListItemButton component={Link} to='/login'>
-          <Button style={{fontWeight:'bold', color:'black', textTransform:'none', fontSize:'20px'}}>Sign In &nbsp;<LoginIcon /></Button>
-        </ListItemButton>
-      </ListItem>
+      {user ? (
+        <>
+          <List>
+            {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
+              <ListItem key={text} disablePadding>
+                <ListItemButton>
+                  <ListItemText primary={text} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+          <Divider />
+          <List>
+            {["All mail", "Trash", "Spam"].map((text, index) => (
+              <ListItem key={text} disablePadding>
+                <ListItemButton>
+                  <ListItemText primary={text} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+        </>
+      ) : (
+        <ListItem disablePadding>
+          <ListItemButton component={Link} to="/login">
+            <Button
+              style={{
+                fontWeight: "bold",
+                color: "black",
+                textTransform: "none",
+                fontSize: "20px",
+              }}
+            >
+              Sign In &nbsp;
+              <LoginIcon />
+            </Button>
+          </ListItemButton>
+        </ListItem>
       )}
       <Divider />
-      <div style={{fontWeight:'bold', margin:'10px'}}>Categories</div>
+      <div style={{ fontWeight: "bold", margin: "10px" }}>Categories</div>
       <List>
         {["National Parks", "Farms", "Rooms"].map((text, index) => (
           <ListItem key={text} disablePadding>
@@ -146,14 +156,23 @@ export default function NavBar({ user, setUser }) {
       </List>
       {user ? (
         <>
-      <Divider />
-      <ListItem  disablePadding onClick={logout}>
-        <ListItemButton>
-          <Button style={{fontWeight:'bold', color:'black', textTransform:'none', fontSize:'20px'}}>Logout</Button>
-          <LogoutIcon />
-        </ListItemButton>
-      </ListItem>
-        </> 
+          <Divider />
+          <ListItem disablePadding onClick={logout}>
+            <ListItemButton>
+              <Button
+                style={{
+                  fontWeight: "bold",
+                  color: "black",
+                  textTransform: "none",
+                  fontSize: "20px",
+                }}
+              >
+                Logout
+              </Button>
+              <LogoutIcon />
+            </ListItemButton>
+          </ListItem>
+        </>
       ) : null}
     </Box>
   );
@@ -212,7 +231,19 @@ export default function NavBar({ user, setUser }) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose} component={Link} to={`/profile/${user._id}`}>Profile - {user.name || (user.firstName +' '+ user.lastName)} </MenuItem>
+      <MenuItem
+        onClick={handleMenuClose}
+        component={Link}
+        to={`/profile/${user._id}`}
+      >
+        Profile -{" "}
+        {user?.name ||
+          (user?.firstName && user?.lastName
+            ? user?.firstName + " " + user?.lastName
+            : user?.user?.firstName && user?.user?.lastName
+            ? user?.user?.firstName + " " + user?.user?.lastName
+            : "Unknown")}{" "}
+      </MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
       <Button
         onClick={logout}
@@ -281,9 +312,20 @@ export default function NavBar({ user, setUser }) {
       <MenuItem onClick={handleProfileMenuOpen}>
         <Avatar
           src={user?.imageUrl}
-          alt={user?.name?.charAt(0) || user?.firstName?.charAt(0)}
+          alt={
+            user?.name?.charAt(0) ||
+            user?.user?.firstName?.charAt(0) ||
+            user?.firstName?.charAt(0)
+          }
         />
-        <p style={{ marginLeft: "10px" }}>{user?.name}</p>
+        <p style={{ marginLeft: "10px" }}>
+          {user?.name ||
+            (user?.firstName && user?.lastName
+              ? user?.firstName + " " + user?.lastName
+              : user?.user?.firstName && user?.user?.lastName
+              ? user?.user?.firstName + " " + user?.user?.lastName
+              : "Unknown")}
+        </p>
       </MenuItem>
       <MenuItem>
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
@@ -346,27 +388,27 @@ export default function NavBar({ user, setUser }) {
       <AppBar position="static" style={{ marginBottom: "20px" }}>
         <Toolbar>
           <div>
-              <React.Fragment key={'left'}>
-                <IconButton
-                  size="large"
-                  edge="start"
-                  color="inherit"
-                  aria-label="open drawer"
-                  sx={{ mr: 2 }}
-                  onClick={toggleDrawer('left', true)}
-                >
-                  <MenuIcon />
-                </IconButton>
-                <Drawer
-                  anchor={'left'}
-                  open={state['left']}
-                  onClose={toggleDrawer('left', false)}
-                >
-                  {list('left')}
-                </Drawer>
-              </React.Fragment>
+            <React.Fragment key={"left"}>
+              <IconButton
+                size="large"
+                edge="start"
+                color="inherit"
+                aria-label="open drawer"
+                sx={{ mr: 2 }}
+                onClick={toggleDrawer("left", true)}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Drawer
+                anchor={"left"}
+                open={state["left"]}
+                onClose={toggleDrawer("left", false)}
+              >
+                {list("left")}
+              </Drawer>
+            </React.Fragment>
           </div>
-          <Link to='/'>
+          <Link to="/">
             <img
               src={RentEase}
               alt=""
@@ -423,7 +465,13 @@ export default function NavBar({ user, setUser }) {
               color="inherit"
             >
               {user ? (
-                <Avatar alt={user?.firstName?.charAt(0)} src={user?.imageUrl} />
+                <Avatar
+                  alt={
+                    user?.user?.firstName?.charAt(0) ||
+                    user?.firstName?.charAt(0)
+                  }
+                  src={user?.imageUrl}
+                />
               ) : (
                 <AccountCircle />
               )}
