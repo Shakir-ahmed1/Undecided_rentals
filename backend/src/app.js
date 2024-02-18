@@ -13,7 +13,7 @@ app.use(morgan('tiny'));
 app.use([express.json(), express.urlencoded({ extended: true })]);
 app.use(cookieParser());
 app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(openapiSpecification));
-app.use(cors({ origin: 'http://localhost:3000' }));
+app.use(cors({ origin: 'http://localhost:3001' }));
 
 // routes
 app.use('/api/users', [userRoutes, userProfileRoutes]);
