@@ -57,7 +57,7 @@ const login = async (req, res) => {
       });
       return res.json({ user, accessToken });
     }
-    return res.status(400).json({ error: { IncoreectDetails: 'Username and/or password incorrect' } });
+    return res.status(400).json({ error: 'Username and/or password incorrect' });
   } catch (errors) {
     return res.status(400).json({ errors });
   }
