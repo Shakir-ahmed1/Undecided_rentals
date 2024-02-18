@@ -35,7 +35,7 @@ const Login = ({ setUser }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const err = useSelector((state) => state.users.error)
-  const success = useSelector((state) => state.users.success)
+  console.log(err)
 
   const [showPassword, setShowPassword] = useState(false);
   useEffect(() => {
@@ -59,16 +59,18 @@ const Login = ({ setUser }) => {
     }
   };
   const dispatchSignIn = () => {
-    dispatch(signIn(formData))
+    dispatch(signIn(formData, navigate))
   }
 
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatchSignIn()
-    if(err) {
+    if(err.IncoreectDetails) {
       setErrMsg(err.IncoreectDetails)
+    } else if (err.IncorrectDetails) {
+      setErrMsg(err.IncorrectDetails)
     } else {
-      setErrMsg('No Server Response')
+      setErrMsg('')
     }
   };
 
@@ -76,28 +78,9 @@ const Login = ({ setUser }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const canSave = [formData.email, formData.password].every(Boolean) && ValidEmail;
+  const canSave = [formData.email, formData.password].every(Boolean) && ValidEmail && formData.email.length > 5;
   return (
     <>
-      {success ? (
-        <Container maxWidth="xs" component="main">
-          <Paper
-            elevation={3}
-            style={{ padding: "20px", position: "relative" }}
-          >
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                flexDirection: "column",
-              }}
-            >
-              <Alert severity="success">You are signed in successfully</Alert>
-            </div>
-            <Link to='/'><div>Go to the main page</div></Link>
-          </Paper>
-        </Container>
-      ) : (
         <Container maxWidth="xs" component="main">
           <Paper
             elevation={3}
@@ -118,21 +101,29 @@ const Login = ({ setUser }) => {
               </Typography>
             </div>
             <Stack sx={{ width: '100%' }} spacing={2} style={{marginBottom:'20px'}}>
-                  {errMsg && <Alert severity="error" variant="filled">{errMsg}</Alert>}
+                  {errMsg && <Alert severity="error" variant="filled" style={{color:'red'}}>{errMsg}</Alert>}
             </Stack>
             <form action="" onSubmit={handleSubmit}>
               <Grid container spacing={2}>
-                <Input
+                {!ValidEmail && focusEmail && formData.email.length > 5 ? (
+                  <Input
+                  name="email"
+                  label="Email Address"
+                  handleChange={handleChange}
+                  error
+                  type="email"
+                  onFocus={() => setFocusEmail(true)}
+                  onBlur={() => setFocusEmail(false)}
+                  helperText="Enter Valid Email Address"
+                />
+                ) : (<Input
                   name="email"
                   label="Email Address"
                   handleChange={handleChange}
                   type="email"
                   onFocus={() => setFocusEmail(true)}
                   onBlur={() => setFocusEmail(false)}
-                />
-                <Stack sx={{ width: '100%' }} spacing={2}>
-                  {!ValidEmail && focusEmail ? <Alert severity="error">Enter Valid Email</Alert> : null}            
-                 </Stack>
+                />)}
                 <Input
                   name="password"
                   label="Password"
@@ -173,7 +164,6 @@ const Login = ({ setUser }) => {
             </form>
           </Paper>
         </Container>
-      )}
     </>
   );
 };
