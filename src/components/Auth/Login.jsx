@@ -35,7 +35,6 @@ const Login = ({ setUser }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const err = useSelector((state) => state.users.error)
-  console.log(err)
 
   const [showPassword, setShowPassword] = useState(false);
   useEffect(() => {
@@ -101,7 +100,7 @@ const Login = ({ setUser }) => {
               </Typography>
             </div>
             <Stack sx={{ width: '100%' }} spacing={2} style={{marginBottom:'20px'}}>
-                  {errMsg && <Alert severity="error" variant="filled" style={{color:'red'}}>{errMsg}</Alert>}
+                  {errMsg && <Alert severity="error" variant="filled">{errMsg}</Alert>}
             </Stack>
             <form action="" onSubmit={handleSubmit}>
               <Grid container spacing={2}>
@@ -149,7 +148,7 @@ const Login = ({ setUser }) => {
                   <GoogleLogin
                     onSuccess={GoogleSuccess}
                     onError={() => console.log("Error")}
-                    text='signup_with'
+                    text='signin_with'
                     locale="en"
                     theme="filled_blue"
                   />

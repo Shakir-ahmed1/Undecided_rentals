@@ -272,17 +272,14 @@ export default function NavBar({ user, setUser }) {
       onClose={handleMenuClose}
       style={{ padding: "10px" }}
     >
-      <Link
-        to={"/login"}
-        style={{ textDecoration: "none", color: "black", position: "relative" }}
+      <MenuItem
+        onClick={handleMenuClose}
+        style={{ fontWeight: "bold", marginBottom: "15px" }}
+        component={Link}
+        to='/login'
       >
-        <MenuItem
-          onClick={handleMenuClose}
-          style={{ fontWeight: "bold", marginBottom: "15px" }}
-        >
-          Sign In
-        </MenuItem>
-      </Link>
+        Sign In
+      </MenuItem>
       <GoogleLogin
         onSuccess={GoogleSuccess}
         onError={() => console.log("Error")}
