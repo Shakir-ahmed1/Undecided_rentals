@@ -9,7 +9,7 @@ const profileSchema = new mongoose.Schema({
   },
   profileImage: {
     type: Buffer,
-    contentType: String,
+    contentType: 'image/png',
     default: '',
   },
 

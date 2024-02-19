@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const { getAllProfile, getProfile, updateProfile } = require('../controllers/userProfileController');
 const { requireAuth } = require('../middelware/jwt');
+const { upload, uploadErrorHandler } = require('../middelware/fileUpload');
 
 const router = Router();
 
@@ -144,6 +145,6 @@ router.get('/:userId/profiles', getProfile);
  *         description: Internal server error
  */
 
-router.put('/:userId/profiles', requireAuth, updateProfile);
+router.put('/:userId/profiles', upload.single('profileImage'), uploadErrorHandler, requireAuth, updateProfile);
 
 module.exports = router;
