@@ -2,6 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const swaggerUi = require('swagger-ui-express');
+const multer = require('multer');
 const cookieParser = require('cookie-parser');
 const { connectDb } = require('./api/config/database');
 const openapiSpecification = require('./swagger/swaggerConfig');
@@ -9,11 +10,14 @@ const userRoutes = require('./api/routes/User');
 const userProfileRoutes = require('./api/routes/profile');
 
 const app = express();
+const upload = multer(); // for form data will be remove later
+
 app.use(morgan('tiny'));
 app.use([express.json(), express.urlencoded({ extended: true })]);
 app.use(cookieParser());
 app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(openapiSpecification));
 app.use(cors({ origin: 'http://localhost:3000' }));
+app.use(upload.single()); // for form data will be removed later
 
 // routes
 app.use('/api/users', [userRoutes, userProfileRoutes]);
