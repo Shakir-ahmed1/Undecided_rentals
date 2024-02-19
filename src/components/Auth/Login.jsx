@@ -80,7 +80,7 @@ const Login = ({ setUser }) => {
   const canSave = [formData.email, formData.password].every(Boolean) && ValidEmail && formData.email.length > 5;
   return (
     <>
-        <Container maxWidth="xs" component="main">
+        <Container maxWidth="xs" component="main" style={{minHeight:'80vh'}}>
           <Paper
             elevation={3}
             style={{ padding: "20px", position: "relative" }}

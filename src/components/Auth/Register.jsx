@@ -94,7 +94,7 @@ const Register = ({ setUser }) => {
 
   return (
     <>
-      <Container maxWidth="xs" component="main">
+      <Container maxWidth="xs" component="main" style={{minHeight:'100vh'}}>
         <Paper
           elevation={3}
           style={{ padding: "20px", position: "relative" }}

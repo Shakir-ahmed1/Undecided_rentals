@@ -70,7 +70,7 @@ const UserProfile = ({ user }) => {
   };
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="sm" style={{minHeight:'100vh'}}>
       <Paper elevation={5} style={{ padding: "10px" }}>
         <Typography
           variant="h4"
