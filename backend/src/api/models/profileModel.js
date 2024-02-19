@@ -7,6 +7,12 @@ const profileSchema = new mongoose.Schema({
     unique: true,
     required: true,
   },
+  profileImage: {
+    type: Buffer,
+    contentType: String,
+    default: '',
+  },
+
   bio: {
     type: String,
     default: '',

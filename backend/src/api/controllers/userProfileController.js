@@ -36,20 +36,12 @@ const updateProfile = async (req, res) => {
 
     // Update user fields
     const userUpdate = {
-      firstName,
-      lastName,
-      phoneNumber,
+      firstName, lastName, phoneNumber,
     };
-
-    // Update user document
     await User.updateOne({ _id: userId }, userUpdate);
 
-    // Update profile fields
     const profileUpdate = {
-      bio,
-      country,
-      state,
-      houseAddress,
+      bio, country, state, houseAddress,
     };
     await Profile.updateOne({ user: userId }, profileUpdate);
 
