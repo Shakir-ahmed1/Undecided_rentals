@@ -39,9 +39,9 @@ async function getLocation(req, res) {
         res.status(400).json({ error: 'Something went wrong' });
       }
 }
-const allLocations = async (req, res) => {
+async function allLocations(req, res) {
     try {
-      const locations = await locationModel.find().select('country city');
+      const locations = await locationModel.find();
       res.json(locations);
     } catch (error) {
       res.status(500).json({ error: 'Internal server error' });
@@ -49,4 +49,20 @@ const allLocations = async (req, res) => {
     }
   };
 
-module.exports = { postLocation, getLocation, allLocations };
+async function deleteLocation(req, res) {
+    try {
+        const {locationId} = req.params;
+        const location = await locationModel.findOneAndDelete({ _id: locationId });
+    
+        if (!location) {
+          res.status(404).json({ error: 'Unknown location, no location was deleted' });
+        } else {
+            res.json(location);
+        }
+      } catch (error) {
+        res.status(400).json({ error: 'Something went wrong' });
+      }
+}
+
+
+module.exports = { postLocation, getLocation, allLocations, deleteLocation };

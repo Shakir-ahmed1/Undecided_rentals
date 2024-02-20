@@ -8,12 +8,6 @@ const locationSchema = new mongoose.Schema({
     maxlength: [80, 'city must be under 80 characters'],
   },
 
-  state: {
-    type: String,
-    required: [true, 'please enter name of state'],
-    maxlength: [80, 'State must be under 80 characters'],
-  },
-
   city: {
     type: String,
     required: [true, 'please enter name of city'],
@@ -25,7 +19,7 @@ const locationSchema = new mongoose.Schema({
     default: '',
   },
 
-  longtitude: {
+  longitude: {
     type: Number,
     default: '',
   },
