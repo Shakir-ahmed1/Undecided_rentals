@@ -7,6 +7,7 @@ const { connectDb } = require('./api/config/database');
 const openapiSpecification = require('./swagger/swaggerConfig');
 const userRoutes = require('./api/routes/User');
 const userProfileRoutes = require('./api/routes/profile');
+const locationRoutes = require('./api/routes/location');
 
 const app = express();
 app.use(morgan('tiny'));
@@ -16,7 +17,7 @@ app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(openapiSpecification));
 app.use(cors({ origin: 'http://localhost:3000' }));
 
 // routes
-app.use('/api/users', [userRoutes, userProfileRoutes]);
+app.use('/api/users', [userRoutes, userProfileRoutes, locationRoutes]);
 // app.use(erroHandler);
 
 connectDb().then(app.listen(process.env.PORT, () => {
