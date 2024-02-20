@@ -1,3 +1,4 @@
+const path = require('path');
 const Profile = require('../models/profileModel');
 const User = require('../models/userModel');
 
@@ -37,7 +38,7 @@ const updateProfile = async (req, res) => {
     let profileImage;
 
     if (req.file) {
-      profileImage = req.file.filename;
+      profileImage = path.normalize(req.file.path);
     }
     // Update user fields
     const userUpdate = {

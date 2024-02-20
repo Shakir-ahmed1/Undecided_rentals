@@ -8,8 +8,8 @@ const profileSchema = new mongoose.Schema({
     required: true,
   },
   profileImage: {
-    type: Buffer,
-    contentType: 'image/png',
+    type: String,
+    contentType: String,
     default: '',
   },
 
