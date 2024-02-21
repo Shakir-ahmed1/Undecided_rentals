@@ -109,7 +109,7 @@ export default function NavBar({ user, setUser }) {
       {user ? (
         <>
           <List>
-              <ListItem  disablePadding component={Link} to={`messages/${JSON.parse(localStorage.getItem('profile'))?.user._id}`}>
+              <ListItem  disablePadding component={Link} to={`messages/${(JSON.parse(localStorage.getItem('profile'))?.user?._id) || (JSON.parse(localStorage.getItem('profile'))?._id)}`}>
                 <ListItemButton>
                   <ListItemText primary="Inbox" />
                 </ListItemButton>
@@ -132,7 +132,7 @@ export default function NavBar({ user, setUser }) {
           </List>
           <Divider />
           <List>
-              <ListItem  disablePadding component={Link} to={`messages/${JSON.parse(localStorage.getItem('profile'))?.user._id}`}>
+              <ListItem  disablePadding component={Link} to={`messages/${JSON.parse(localStorage.getItem('profile'))?.user?._id || JSON.parse(localStorage.getItem('profile'))?._id}`}>
                 <ListItemButton>
                   <ListItemText primary="All mail" />
                 </ListItemButton>
@@ -347,7 +347,7 @@ export default function NavBar({ user, setUser }) {
               : "Unknown")}
         </p>
       </MenuItem>
-      <MenuItem component={user ? Link : null} to={`messages/${JSON.parse(localStorage.getItem('profile'))?.user._id}`}>
+      <MenuItem component={user ? Link : null} to={`messages/${JSON.parse(localStorage.getItem('profile'))?.user?._id || JSON.parse(localStorage.getItem('profile'))?._id}`}>
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
           <MailIcon />
         </IconButton>
@@ -464,7 +464,7 @@ export default function NavBar({ user, setUser }) {
                   aria-label="show 4 new mails"
                   color="inherit"
                   component={Link}
-                  to={`messages/${JSON.parse(localStorage.getItem('profile'))?.user._id}`}
+                  to={`messages/${JSON.parse(localStorage.getItem('profile'))?.user?._id || JSON.parse(localStorage.getItem('profile'))?._id}`}
                 >
                   <MailIcon />
                 </IconButton>

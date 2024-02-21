@@ -7,7 +7,7 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 
 const Footer = () => {
   return (
-    <footer>
+    <footer id="footer">
       <Grid
         container
         spacing={3}

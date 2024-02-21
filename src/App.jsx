@@ -4,14 +4,16 @@ import {Routes, Route} from 'react-router-dom';
 import Register from './components/Auth/Register';
 import Login from './components/Auth/Login';
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Home from './components/Home/Home';
 import UserProfile from './components/User/UserProfile';
 import Footer from './components/Footer/Footer';
 import Message from './components/Message/Message';
+import './components/Map/Map.css'
 
 const App = () => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
+
   return (
     <>
       <main>

@@ -1,0 +1,15 @@
+.button-container {
+  transition: opacity 0.5s ease; /* Smooth transition for opacity */
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.visible {
+  opacity: 1; /* Visible when opacity is 1 */
+}
+
+.hidden {
+  opacity: 0; /* Hidden when opacity is 0 */
+}
