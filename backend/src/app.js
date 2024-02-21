@@ -17,7 +17,8 @@ app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(openapiSpecification));
 app.use(cors({ origin: 'http://localhost:3000' }));
 
 // routes
-app.use('/api/users', [userRoutes, userProfileRoutes, locationRoutes]);
+app.use('/api/users', [userRoutes, userProfileRoutes]);
+app.use('/api/', locationRoutes);
 // app.use(erroHandler);
 
 connectDb().then(app.listen(process.env.PORT, () => {

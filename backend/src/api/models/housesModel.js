@@ -14,7 +14,7 @@ const locationSchema = new mongoose.Schema({
     maxlength: [80, 'city must be under 80 characters'],
   },
 
-  lattitude: {
+  latitude: {
     type: Number,
     default: '',
   },

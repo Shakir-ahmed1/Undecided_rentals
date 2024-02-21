@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Please enter you email'],
     unique: true,
     maxlength: [320, 'Email must be under 320 characters'],
-    validate: [isEmail, 'Please enter a valid email']
+    validate: [isEmail, 'Please enter a valid email'],
   },
 
   phoneNumber: {
@@ -33,13 +33,13 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [true, 'Please enter your password'],
-    minlength: [8, 'Your password must be more than 8 characters']
+    minlength: [8, 'Your password must be more than 8 characters'],
   },
 
 });
 
 // hash the password before saving it to database
-userSchema.pre('save', async function (next) {
+userSchema.pre('save', async (next) => {
   const salt = await bcrypt.genSalt();
   this.password = await bcrypt.hash(this.password, salt);
   next();

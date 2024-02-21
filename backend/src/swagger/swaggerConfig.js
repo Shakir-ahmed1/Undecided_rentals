@@ -8,7 +8,7 @@ const options = {
       version: '1.0.0',
     },
   },
-  apis: ['src/api/routes/User.js', 'src/api/routes/profile.js'], // files containing annotations as above
+  apis: ['src/api/routes/User.js', 'src/api/routes/profile.js', 'src/api/routes/location.js'], // files containing annotations as above
 };
 
 const openapiSpecification = swaggerJsdoc(options);
