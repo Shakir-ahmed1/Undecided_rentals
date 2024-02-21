@@ -230,6 +230,7 @@ export default function NavBar({ user, setUser }) {
     const userData = { _id: sub, name, imageUrl: picture, email };
     try {
       dispatch({ type: "AUTH", payload: userData });
+      window.location.reload()
       Navigate("/");
       console.log(userData);
     } catch (error) {

@@ -51,6 +51,7 @@ const Login = ({ setUser }) => {
     const userData = { id: sub, name, imageUrl: picture, email };
     try {
       dispatch({ type: "AUTH", payload: userData });
+      window.location.reload()
       navigate("/");
       console.log(decoded)
     } catch (error) {

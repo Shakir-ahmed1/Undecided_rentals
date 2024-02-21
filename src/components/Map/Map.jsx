@@ -112,7 +112,7 @@ const Map = () => {
           <GoogleMapReact
             style={{ position: "relative", height: "700px", top: "-20px" }}
             bootstrapURLKeys={{
-              key: "",
+              key: "AIzaSyD54RV6ns0ZpWMz-2YAW5Ar9qYv8ysI-oU",
             }}
             defaultCenter={coordinates}
             center={coordinates}
