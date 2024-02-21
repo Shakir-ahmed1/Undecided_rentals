@@ -4,6 +4,7 @@ import Divider from "@mui/material/Divider";
 import FacebookIcon from '@mui/icons-material/Facebook';
 import XIcon from '@mui/icons-material/X';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import GitHubIcon from '@mui/icons-material/GitHub';
 
 const Footer = () => {
   return (
@@ -57,6 +58,9 @@ const Footer = () => {
             <FacebookIcon/>
             <XIcon />
             <LinkedInIcon />
+            <a href="https://github.com/Shakir-ahmed1/Undecided_rentals" target="blank" style={{color:'black'}}>
+              <GitHubIcon />
+            </a>
           </div>
         </Grid>
       </Grid>
