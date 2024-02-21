@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import { styled, alpha } from "@mui/material/styles";
@@ -85,6 +86,7 @@ export default function NavBar({ user, setUser }) {
     dispatch({ type: "LOGOUT" });
     Navigate("/");
     setUser(null);
+    window.location.reload()
   };
 
   const toggleDrawer = (anchor, open) => (event) => {
@@ -107,23 +109,44 @@ export default function NavBar({ user, setUser }) {
       {user ? (
         <>
           <List>
-            {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-              <ListItem key={text} disablePadding>
+              <ListItem  disablePadding component={Link} to={`messages/${JSON.parse(localStorage.getItem('profile'))?.user._id}`}>
                 <ListItemButton>
-                  <ListItemText primary={text} />
+                  <ListItemText primary="Inbox" />
                 </ListItemButton>
               </ListItem>
-            ))}
+              <ListItem  disablePadding>
+                <ListItemButton>
+                  <ListItemText primary="Starred" />
+                </ListItemButton>
+              </ListItem>
+              <ListItem  disablePadding>
+                <ListItemButton>
+                  <ListItemText primary="Send email" />
+                </ListItemButton>
+              </ListItem>
+              <ListItem  disablePadding>
+                <ListItemButton>
+                  <ListItemText primary="Drafts" />
+                </ListItemButton>
+              </ListItem>
           </List>
           <Divider />
           <List>
-            {["All mail", "Trash", "Spam"].map((text, index) => (
-              <ListItem key={text} disablePadding>
+              <ListItem  disablePadding component={Link} to={`messages/${JSON.parse(localStorage.getItem('profile'))?.user._id}`}>
                 <ListItemButton>
-                  <ListItemText primary={text} />
+                  <ListItemText primary="All mail" />
                 </ListItemButton>
               </ListItem>
-            ))}
+              <ListItem  disablePadding>
+                <ListItemButton>
+                  <ListItemText primary="Trash" />
+                </ListItemButton>
+              </ListItem>
+              <ListItem  disablePadding>
+                <ListItemButton>
+                  <ListItemText primary="Spam" />
+                </ListItemButton>
+              </ListItem>
           </List>
         </>
       ) : (
@@ -147,7 +170,7 @@ export default function NavBar({ user, setUser }) {
       <div style={{ fontWeight: "bold", margin: "10px" }}>Categories</div>
       <List>
         {["National Parks", "Farms", "Rooms"].map((text, index) => (
-          <ListItem key={text} disablePadding>
+          <ListItem key={index} disablePadding>
             <ListItemButton>
               <ListItemText primary={text} />
             </ListItemButton>
@@ -324,7 +347,7 @@ export default function NavBar({ user, setUser }) {
               : "Unknown")}
         </p>
       </MenuItem>
-      <MenuItem>
+      <MenuItem component={user ? Link : null} to={`messages/${JSON.parse(localStorage.getItem('profile'))?.user._id}`}>
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
           <MailIcon />
         </IconButton>
@@ -440,6 +463,8 @@ export default function NavBar({ user, setUser }) {
                   size="large"
                   aria-label="show 4 new mails"
                   color="inherit"
+                  component={Link}
+                  to={`messages/${JSON.parse(localStorage.getItem('profile'))?.user._id}`}
                 >
                   <MailIcon />
                 </IconButton>

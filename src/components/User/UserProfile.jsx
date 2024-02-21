@@ -4,14 +4,21 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { updatedUser } from "../../actions/users";
+import { useEffect, useState } from "react";
+import { Link, useParams, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { updatedUser, getUserProfile } from "../../actions/users";
 
 const UserProfile = ({ user }) => {
   const dispatch = useDispatch();
-  const { userId } = useParams();
+  const navigate = useNavigate();
+  const userData = useSelector((state) => state.users.authData);
+  const { userId } = useParams() || {userId: userData.user._id};
+  
+  useEffect(() => {
+    dispatch(getUserProfile(userId))
+    console.log('here is the userData',userData)
+  },[userId])
   const [firstName, setFirstName] = useState(
     user.user?.firstName
       ? user.user?.firstName
@@ -53,24 +60,27 @@ const UserProfile = ({ user }) => {
       ? user?.houseAddress
       : null
   );
-
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(
-      updatedUser(userId, {
-        firstName,
-        lastName,
-        phoneNumber,
-        bio,
-        country,
-        state,
-        houseAddress,
-      })
+      updatedUser(
+        userId,
+          {
+            firstName,
+            lastName,
+            phoneNumber,
+            bio,
+            country,
+            state,
+            houseAddress,
+          },
+        navigate
+      )
     );
   };
 
   return (
-    <Container maxWidth="sm" style={{minHeight:'100vh'}}>
+    <Container maxWidth="sm" style={{ minHeight: "100vh" }}>
       <Paper elevation={5} style={{ padding: "10px" }}>
         <Typography
           variant="h4"
