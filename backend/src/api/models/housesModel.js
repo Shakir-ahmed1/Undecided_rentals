@@ -35,8 +35,9 @@ const housePhotoSchema = new mongoose.Schema({
 
 const amenitySchema = new mongoose.Schema({
   name: {
-    type: [String], // an array of strings
-    required: [true, 'please list all amenities'],
+    type: String, // an array of strings
+    required: [true, 'please enter an amenity'],
+    unique: true,
   },
 });
 
@@ -77,8 +78,7 @@ const houseSchema = new mongoose.Schema({
   },
 
   amenities: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Amenity',
+    amenities: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Amenity' }],
   },
 
   privateOrShared: {

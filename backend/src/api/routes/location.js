@@ -98,7 +98,7 @@ router.get('/location/:locationId', getLocation);
  *     description: Retrieve a list of all locations in the database.
  *     responses:
  *       200:
- *         description: A list of user profiles.
+ *         description: A list of amenities.
  *         content:
  *           application/json:
  *             schema:
