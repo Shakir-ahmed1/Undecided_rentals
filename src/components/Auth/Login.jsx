@@ -8,15 +8,16 @@ import {
   Button,
 } from "@material-ui/core";
 import Input from "./Input";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { signIn } from "../../actions/users";
-import Alert from '@mui/material/Alert';
-import Stack from '@mui/material/Stack';
+import Alert from "@mui/material/Alert";
+import Stack from "@mui/material/Stack";
+import DataContext from "../../context/DataContext";
 
 const initialState = {
   firstName: "",
@@ -26,15 +27,16 @@ const initialState = {
   password: "",
   confirmPassword: "",
 };
-const Login = ({ setUser }) => {
+const Login = () => {
+  const { setUser } = useContext(DataContext);
   const [formData, setFormData] = useState(initialState);
-  const [focusEmail, setFocusEmail] = useState(false)
-  const [errMsg, setErrMsg] = useState('')
+  const [focusEmail, setFocusEmail] = useState(false);
+  const [errMsg, setErrMsg] = useState("");
   let TEST_EMAIL = /\S+@\S+\.\S+/;
   const ValidEmail = TEST_EMAIL.test(formData.email);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const err = useSelector((state) => state.users.error)
+  const err = useSelector((state) => state.users.error);
 
   const [showPassword, setShowPassword] = useState(false);
   useEffect(() => {
@@ -51,26 +53,26 @@ const Login = ({ setUser }) => {
     const userData = { id: sub, name, imageUrl: picture, email };
     try {
       dispatch({ type: "AUTH", payload: userData });
-      window.location.reload()
+      window.location.reload();
       navigate("/");
-      console.log(decoded)
+      console.log(decoded);
     } catch (error) {
       console.log(error);
     }
   };
   const dispatchSignIn = () => {
-    dispatch(signIn(formData, navigate))
-  }
+    dispatch(signIn(formData, navigate));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatchSignIn()
-    if(err.IncoreectDetails) {
-      setErrMsg(err.IncoreectDetails)
+    dispatchSignIn();
+    if (err.IncoreectDetails) {
+      setErrMsg(err.IncoreectDetails);
     } else if (err.IncorrectDetails) {
-      setErrMsg(err.IncorrectDetails)
+      setErrMsg(err.IncorrectDetails);
     } else {
-      setErrMsg('')
+      setErrMsg("");
     }
   };
 
@@ -78,35 +80,43 @@ const Login = ({ setUser }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const canSave = [formData.email, formData.password].every(Boolean) && ValidEmail && formData.email.length > 5;
+  const canSave =
+    [formData.email, formData.password].every(Boolean) &&
+    ValidEmail &&
+    formData.email.length > 5;
   return (
     <>
-        <Container maxWidth="xs" component="main" style={{minHeight:'80vh'}}>
-          <Paper
-            elevation={3}
-            style={{ padding: "20px", position: "relative" }}
+      <Container maxWidth="xs" component="main" style={{ minHeight: "80vh" }}>
+        <Paper elevation={3} style={{ padding: "20px", position: "relative" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              flexDirection: "column",
+            }}
           >
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                flexDirection: "column",
-              }}
-            >
-              <Avatar>
-                <LockOutlinedIcon />
-              </Avatar>
-              <Typography variant="h5" style={{ margin: "10px" }}>
-                Sign In
-              </Typography>
-            </div>
-            <Stack sx={{ width: '100%' }} spacing={2} style={{marginBottom:'20px'}}>
-                  {errMsg && <Alert severity="error" variant="filled">{errMsg}</Alert>}
-            </Stack>
-            <form action="" onSubmit={handleSubmit}>
-              <Grid container spacing={2}>
-                {!ValidEmail && focusEmail && formData.email.length > 5 ? (
-                  <Input
+            <Avatar>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography variant="h5" style={{ margin: "10px" }}>
+              Sign In
+            </Typography>
+          </div>
+          <Stack
+            sx={{ width: "100%" }}
+            spacing={2}
+            style={{ marginBottom: "20px" }}
+          >
+            {errMsg && (
+              <Alert severity="error" variant="filled">
+                {errMsg}
+              </Alert>
+            )}
+          </Stack>
+          <form action="" onSubmit={handleSubmit}>
+            <Grid container spacing={2}>
+              {!ValidEmail && focusEmail && formData.email.length > 5 ? (
+                <Input
                   name="email"
                   label="Email Address"
                   handleChange={handleChange}
@@ -116,54 +126,58 @@ const Login = ({ setUser }) => {
                   onBlur={() => setFocusEmail(false)}
                   helperText="Enter Valid Email Address"
                 />
-                ) : (<Input
+              ) : (
+                <Input
                   name="email"
                   label="Email Address"
                   handleChange={handleChange}
                   type="email"
                   onFocus={() => setFocusEmail(true)}
                   onBlur={() => setFocusEmail(false)}
-                />)}
-                <Input
-                  name="password"
-                  label="Password"
-                  handleChange={handleChange}
-                  type={showPassword ? "text" : "password"}
-                  handleShowPassword={handleShowPassword}
                 />
+              )}
+              <Input
+                name="password"
+                label="Password"
+                handleChange={handleChange}
+                type={showPassword ? "text" : "password"}
+                handleShowPassword={handleShowPassword}
+              />
+            </Grid>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              style={{ margin: "20px 0" }}
+              disabled={!canSave}
+            >
+              Sign In
+            </Button>
+            <Button type="submit" fullWidth style={{ marginBottom: "20px" }}>
+              <GoogleLogin
+                onSuccess={GoogleSuccess}
+                onError={() => console.log("Error")}
+                text="signin_with"
+                locale="en"
+                theme="filled_blue"
+              />
+            </Button>
+            <Grid container justifyContent="flex-start">
+              <Grid item>
+                <Link to={"/register"}>
+                  <Button
+                    onClick=""
+                    style={{ fontWeight: "bold", textTransform: "none" }}
+                  >
+                    Dont have an account ? Sign Up
+                  </Button>
+                </Link>
               </Grid>
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                style={{ margin: "20px 0" }}
-                disabled={!canSave}
-              >
-                Sign In
-              </Button>
-              <Button 
-                type="submit"
-                fullWidth
-                style={{ marginBottom: "20px" }}>
-                  <GoogleLogin
-                    onSuccess={GoogleSuccess}
-                    onError={() => console.log("Error")}
-                    text='signin_with'
-                    locale="en"
-                    theme="filled_blue"
-                  />
-                </Button>
-              <Grid container justifyContent="flex-start">
-                <Grid item>
-                  <Link to={"/register"}>
-                    <Button onClick="" style={{fontWeight:'bold', textTransform:'none'}}>Dont have an account ? Sign Up</Button>
-                  </Link>
-                </Grid>
-              </Grid>
-            </form>
-          </Paper>
-        </Container>
+            </Grid>
+          </form>
+        </Paper>
+      </Container>
     </>
   );
 };

@@ -4,12 +4,14 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { updatedUser, getUserProfile } from "../../actions/users";
+import DataContext from "../../context/DataContext";
 
-const UserProfile = ({ user }) => {
+const UserProfile = () => {
+  const { user } = useContext(DataContext)
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userData = useSelector((state) => state.users.authData);

@@ -18,7 +18,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
@@ -34,6 +34,8 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import React from "react";
 import LoginIcon from "@mui/icons-material/Login";
+import DataContext from "../../context/DataContext";
+import './NavBar.css'
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -75,7 +77,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function NavBar({ user, setUser }) {
+export default function NavBar() {
+  const [placeholder, setPlaceholder] = useState('Search…');
+  const { user, setUser} = useContext(DataContext);
   const location = useLocation();
   const Navigate = useNavigate();
   const dispatch = useDispatch();
@@ -99,6 +103,20 @@ export default function NavBar({ user, setUser }) {
 
     setState({ ...state, [anchor]: open });
   };
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 575) {
+        setPlaceholder('Explore New Places…');
+      } else {
+        setPlaceholder('Search…');
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
   const list = (anchor) => (
     <Box
       sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
@@ -446,16 +464,27 @@ export default function NavBar({ user, setUser }) {
           >
             RentEase
           </Typography>
-
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-            />
-          </Search>
+          <div className="appbar">
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ display: { xs: "none", sm: "block" } }}
+              style={{ cursor: "pointer", fontFamily: "Georgia" }}
+            >
+              Explore New Places
+            </Typography>
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                className="searchPlaceHolder"
+                placeholder={placeholder}
+                inputProps={{ "aria-label": "search" }}
+              />
+            </Search>
+          </div>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             {user ? (

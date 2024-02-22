@@ -1,0 +1,23 @@
+.appbar {
+   position: relative;
+   left: 100px;
+   display: flex; 
+}
+
+@media (width < 977px) {
+    .appbar {
+        left: 50px;
+    }
+}
+
+@media (width < 789px) {
+    .appbar {
+        left: 20px;
+    }
+}
+
+@media (width < 444px) {
+    .appbar {
+        left: 0px;
+    }
+}

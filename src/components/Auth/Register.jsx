@@ -8,7 +8,7 @@ import {
   Button,
 } from "@material-ui/core";
 import Input from "./Input";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { signUp } from "../../actions/users";
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
+import DataContext from "../../context/DataContext";
 
 const initialState = {
   firstName: "",
@@ -26,7 +27,8 @@ const initialState = {
   password: "",
   confirmPassword: "",
 };
-const Register = ({ setUser }) => {
+const Register = () => {
+  const { setUser } = useContext(DataContext)
   const [focusFirst, setFocusFirst] = useState(false)
   const [focusLast, setFocusLast] = useState(false)
   const [focusEmail, setFocusEmail] = useState(false)
