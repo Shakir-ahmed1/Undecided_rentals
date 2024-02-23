@@ -424,7 +424,7 @@ export default function NavBar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" style={{ marginBottom: "20px" }}>
+      <AppBar style={{ marginBottom: "20px" , borderRadius:'20px', border:'2px solid gray', position:'sticky'}}>
         <Toolbar>
           <div>
             <React.Fragment key={"left"}>
