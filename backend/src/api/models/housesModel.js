@@ -16,12 +16,12 @@ const locationSchema = new mongoose.Schema({
 
   latitude: {
     type: Number,
-    default: '',
+    required: [true, 'latitude is required'],
   },
 
   longitude: {
     type: Number,
-    default: '',
+    required: [true, 'longitude is required'],
   },
 
 });
@@ -35,9 +35,10 @@ const housePhotoSchema = new mongoose.Schema({
 
 const amenitySchema = new mongoose.Schema({
   name: {
-    type: String, // an array of strings
+    type: String,
     required: [true, 'please enter an amenity'],
     unique: true,
+    maxlength: [80, 'amenity name can not be more than 80 characters'],
   },
 });
 
@@ -45,45 +46,55 @@ const houseSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
+    required: [true, 'a house must have an Owner'],
   },
 
-  type: {
+  name: {
     type: String,
-    required: [true, 'please enter the type of house'],
+    required: [true, 'please enter a name for the house'],
+    maxlength: [80, 'house must be under 80 characters'],
+
   },
 
   description: {
     type: String,
     required: [true, 'please enter description'],
+    maxlength: [1024, 'city must be under 80 characters'],
   },
 
   numberOfRooms: {
     type: Number,
     required: [true, 'enter number of rooms'],
+    min: [1, ' the house must have atleast 1 room'],
   },
 
   maxGuest: {
     type: Number,
-    required: [true, 'enter Max Guest'],
+    required: [true, 'please enter Maximum Guest'],
+    min: [1, 'the house must accomodate atleast 1 guest'],
   },
 
-  price_per_night: {
+  pricePerNight: {
     type: Decimal128,
     required: [true, 'please enter price per night'],
+    min: mongoose.Types.Decimal128.fromString('0.00'),
   },
 
   location: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Location',
+    required: [true, 'please specify location for the house'],
   },
 
   amenities: {
-    amenities: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Amenity' }],
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Amenity' }],
+    default: [],
   },
 
-  privateOrShared: {
-    type: String,
-    required: [true, 'please specify if private or shared'],
+  sharedBetween: {
+    type: Number,
+    default: 1,
+    min: [1, 'house must accomodate at least 1 individual'],
   },
 
   housePhotos: {
@@ -91,9 +102,10 @@ const houseSchema = new mongoose.Schema({
     ref: 'HousePhoto',
   },
 
-  freeOrReserved: {
-    type: String,
-    required: [true, 'please specify if free or reserved'],
+  reservedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    default: null,
   },
 });
 
