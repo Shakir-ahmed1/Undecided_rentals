@@ -2,6 +2,7 @@ const { Router } = require('express');
 const {
   postHouse, allHouses, getHouse, myHouses, deleteHouse, putHouse,
 } = require('../controllers/houseController');
+const { requireAuth } = require('../middelware/jwt');
 
 const routes = Router();
 // swagger documentation
@@ -80,9 +81,6 @@ const routes = Router();
  *           schema:
  *             type: object
  *             properties:
- *               user:
- *                 type: string
- *                 description: owner ID.
  *               name:
  *                 type: string
  *                 description: house name.
@@ -123,7 +121,7 @@ const routes = Router();
  *       400:
  *         description: Bad request, creation of a house failed.
  */
-routes.post('/houses', postHouse);
+routes.post('/houses', requireAuth, postHouse);
 
 /**
  * @openapi
@@ -168,8 +166,118 @@ routes.get('/houses', allHouses);
  *         description: house with the given houseId could not be found.
  */
 routes.get('/houses/:houseId', getHouse);
-routes.get('/houses', myHouses);
-routes.put('/houses/:houseId', putHouse);
-routes.delete('/houses/:houseId', deleteHouse);
+
+/**
+ * @openapi
+ * /api/my_houses:
+ *   get:
+ *     summary: Get logged user houses.
+ *     description: It lists all houses owned by the logged in user.
+ *     responses:
+ *       200:
+ *         description: A list of houses owned by the user.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/House'
+ *       401:
+ *         description: Unauthorized. please logIn to continue.
+ *       500:
+ *         description: Internal server error.
+ */
+routes.get('/my_houses', requireAuth, myHouses);
+
+/**
+ * @openapi
+ * /api/houses/{houseId}:
+ *   put:
+ *     summary: Update a house
+ *     description: Update a new house.
+ *     parameters:
+ *     - in: path
+ *       name: houseId
+ *       required: true
+ *       description: The house ID.
+ *     schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: house name.
+ *               description:
+ *                 type: string
+ *                 description: description of the house.
+ *               numberOfRooms:
+ *                 type: number
+ *                 description: Rooms count.
+ *               maxGuest:
+ *                 type: number
+ *                 description: maximum guest capacity.
+ *               pricePerNight:
+ *                 type: number
+ *                 description: price per night.
+ *               location:
+ *                 type: string
+ *                 description: location ID.
+ *               amenities:
+ *                 type: array
+ *                 description: array of amenity IDs.
+ *                 items:
+ *                   type: string
+ *               sharedBetween:
+ *                 type: number
+ *                 description: how many people are renting in the same house.
+ *               housePhotos:
+ *                 type: array
+ *                 description: the list of paths to the house images.
+ *                 items:
+ *                   type: string
+ *               reservedBy:
+ *                 type: string
+ *                 description: null if not rented, userId of the renter if rented.
+ *     responses:
+ *       201:
+ *         description: house updating was successful.
+ *       403:
+ *         description: Forbidden, You are not the owner of the house'.
+ *       404:
+ *         description: page Not found.
+ *       500:
+ *         description: Internal server error.
+ */
+routes.put('/houses/:houseId', requireAuth, putHouse);
+
+/**
+ * @openapi
+ * /api/houses/{houseId}:
+ *   delete:
+ *     summary: Delete a house by ID
+ *     description: Delete a house by the house ID.
+ *     parameters:
+ *       - in: path
+ *         name: houseId
+ *         required: true
+ *         description: The house ID.
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: A house has been deleted successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/House'
+ *       404:
+ *         description: House with the houseId could not be found.
+ */
+routes.delete('/houses/:houseId', requireAuth, deleteHouse);
 
 module.exports = routes;
