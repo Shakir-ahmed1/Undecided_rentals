@@ -168,8 +168,8 @@ routes.get('/houses', allHouses);
  *         description: house with the given houseId could not be found.
  */
 routes.get('/houses/:houseId', getHouse);
-routes.get('/houses', myHouses);
-routes.put('/houses/:houseId', putHouse);
+// routes.get('/houses', myHouses);
+// routes.put('/houses/:houseId', putHouse);
 routes.delete('/houses/:houseId', deleteHouse);
 
 module.exports = routes;

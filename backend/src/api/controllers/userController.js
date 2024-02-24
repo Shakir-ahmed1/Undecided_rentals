@@ -18,10 +18,11 @@ const register = async (req, res) => {
     const user = await User.create({
       firstName, lastName, email, phoneNumber, password,
     });
+    const profile = await Profile.create({});
+    user.profile = profile.id;
+    user.save();
 
-    const profile = await Profile.create({ user: user.id });
-
-    res.status(201).json({ user, profile });
+    res.status(201).json({ user });
   } catch (e) {
     const errors = registerErrorHandler(e, password, confirmPassword);
     Object.keys(errors).forEach((key) => {
@@ -65,7 +66,7 @@ const login = async (req, res) => {
 
 const allUsers = async (req, res) => {
   try {
-    const users = await User.find().select('-password');
+    const users = await User.find().select('-password').populate('profiles');
     res.json(users);
   } catch (error) {
     res.status(500).json({ error: 'Internal server error' });

@@ -30,6 +30,12 @@ const userSchema = new mongoose.Schema({
     // validator: [isMobilePhone, 'Please enter a valid phone number'] // ### needs improvment
   },
 
+  profile: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Profile',
+    unique: true,
+  },
+
   password: {
     type: String,
     required: [true, 'Please enter your password'],
