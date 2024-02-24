@@ -49,7 +49,7 @@ const login = async (req, res) => {
     const dbPassword = user.password;
     const match = await bcrypt.compare(password, dbPassword);
 
-    if (match || !match) {
+    if (match) {
       const accessToken = createToken(user);
       res.cookie('accessToken', accessToken, {
         maxAge: 60 * 60 * 24 * 30 * 1000,
