@@ -162,8 +162,12 @@ routes.get('/houses', allHouses);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/House'
+ *       400:
+ *         description: invalid house id.
  *       404:
  *         description: house with the given houseId could not be found.
+ *       500:
+ *         description: House could not be found.
  */
 routes.get('/houses/:houseId', getHouse);
 
@@ -182,8 +186,6 @@ routes.get('/houses/:houseId', getHouse);
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/House'
- *       200:
- *         description: returns a list of houses.
  *       401:
  *         description: Unauthorized. please logIn to continue.
  *       500:
