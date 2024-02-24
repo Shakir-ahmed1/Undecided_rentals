@@ -145,6 +145,6 @@ router.get('/:userId/profiles', getProfile);
  *         description: Internal server error
  */
 
-router.put('/:userId/profiles', upload.single('profileImage'), uploadErrorHandler, requireAuth, updateProfile);
+router.put('/:userId/profiles', upload.single('Image'), uploadErrorHandler(1), requireAuth, updateProfile);
 
 module.exports = router;

@@ -15,12 +15,10 @@ const register = async (req, res) => {
     if (password && (confirmPassword === '' || confirmPassword !== password)) {
       throw Error('confirm password has a problem');
     }
-    const user = await User.create({
-      firstName, lastName, email, phoneNumber, password,
-    });
     const profile = await Profile.create({});
-    user.profile = profile.id;
-    user.save();
+    const user = await User.create({
+      firstName, lastName, email, phoneNumber, password, profile,
+    });
 
     res.status(201).json({ user });
   } catch (e) {
@@ -71,10 +69,6 @@ const allUsers = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
   }
-};
-
-const logOut = async (req, res) => {
-  res.json('logged out')
 };
 
 module.exports = { register, login, allUsers };

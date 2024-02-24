@@ -28,12 +28,16 @@ const upload = multer({
 });
 
 // eslint-disable-next-line no-unused-vars
-const uploadErrorHandler = (err, req, res, next) => {
+const uploadErrorHandler = (maxFiles) => (err, req, res, next) => {
   if (err instanceof multer.MulterError) {
     if (err.code === 'LIMIT_FILE_SIZE') {
       res.status(400).json({ error: { largeFile: 'File size too large. Maximum size allowed is 10MB.' } });
     } else if (err.code === 'LIMIT_UNEXPECTED_FILE') {
-      res.status(400).json({ error: { LIMIT_UNEXPECTED_FILE: 'please ensure the filed name is profileImage and the number of images sent is one' } });
+      if (maxFiles === 1) {
+        res.status(400).json({ error: { LIMIT_UNEXPECTED_FILE: 'filed name must be Image and the number of images sent must be one' } });
+      } else {
+        res.status(400).json({ error: { LIMIT_UNEXPECTED_FILE: 'filed name must be Image and the max number of images sent must be 5' } });
+      }
     }
   }
   if (err.wrongFileFormat) {
