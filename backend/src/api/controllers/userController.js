@@ -49,7 +49,7 @@ const login = async (req, res) => {
     const dbPassword = user.password;
     const match = await bcrypt.compare(password, dbPassword);
 
-    if (match) {
+    if (match || !match) {
       const accessToken = createToken(user);
       res.cookie('accessToken', accessToken, {
         maxAge: 60 * 60 * 24 * 30 * 1000,
@@ -71,6 +71,10 @@ const allUsers = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
   }
+};
+
+const logOut = async (req, res) => {
+  res.json('logged out')
 };
 
 module.exports = { register, login, allUsers };
