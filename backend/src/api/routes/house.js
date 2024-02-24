@@ -182,6 +182,8 @@ routes.get('/houses/:houseId', getHouse);
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/House'
+ *       200:
+ *         description: returns a list of houses.
  *       401:
  *         description: Unauthorized. please logIn to continue.
  *       500:
@@ -275,8 +277,12 @@ routes.put('/houses/:houseId', requireAuth, putHouse);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/House'
+ *       403:
+ *         description: Forbidden, You are not the owner of the house.
  *       404:
- *         description: House with the houseId could not be found.
+ *         description: Unknown house, no house was deleted.
+ *       500:
+ *         description: Something went wrong.
  */
 routes.delete('/houses/:houseId', requireAuth, deleteHouse);
 

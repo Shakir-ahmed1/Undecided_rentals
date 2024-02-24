@@ -134,7 +134,7 @@ async function deleteHouse(req, res) {
       res.status(404).json({ error: 'Unknown house, no house was deleted' });
     }
   } catch (e) {
-    res.status(400).json({ error: 'Something went wrong' });
+    res.status(500).json({ error: 'Something went wrong' });
   }
 }
 async function putHouse(req, res) {
