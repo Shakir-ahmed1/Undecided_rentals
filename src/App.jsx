@@ -9,14 +9,27 @@ import UserProfile from './components/User/UserProfile';
 import Footer from './components/Footer/Footer';
 import Message from './components/Message/Message';
 import './components/Map/Map.css'
-import { DataProvider } from './context/DataContext';
+import DataContext from './context/DataContext';
+import {  useSelector, useDispatch } from 'react-redux'
+import { useEffect, useContext } from 'react';
+import { getRentalData } from './actions/rentals';
 
 const App = () => {
+  const dispatch = useDispatch();
+  const {  bounds, setRentals } = useContext(DataContext)
+  const rentDetails = useSelector((state) => state.rentals.rentalDetails)
+
+  useEffect(() => {
+    dispatch(getRentalData(bounds?.sw, bounds?.ne))
+  },[bounds])
+  
+  useEffect(() => {
+    setRentals(rentDetails)
+  }, [rentDetails])
 
   return (
     <>
       <main>
-        <DataProvider>
           <GoogleOAuthProvider clientId='83934067217-5vccs2a7gbb49vl6dh77p0c9npobhvjk.apps.googleusercontent.com'>
             <NavBar />
             <Routes>
@@ -28,7 +41,6 @@ const App = () => {
             </Routes>
             <Footer />
           </GoogleOAuthProvider>
-        </DataProvider>
       </main>
     </>
   )

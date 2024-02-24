@@ -5,3 +5,5 @@ export const LOGIN = 'LOGIN';
 export const ERROR = 'ERROR';
 export const UPDATEUSER = 'UPDATEUSER';
 export const GETPROFILE = 'GETPROFILE';
+export const GETRENTAL = 'GETRENTAL';
+export const POSTRENTAL = 'POSTRENTAL';

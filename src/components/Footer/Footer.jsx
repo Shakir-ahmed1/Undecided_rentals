@@ -8,7 +8,7 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 
 const Footer = () => {
   return (
-    <footer id="footer">
+    <footer id="footer" style={{marginTop:'50px'}}>
       <Grid
         container
         spacing={3}

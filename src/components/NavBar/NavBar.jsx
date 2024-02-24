@@ -276,7 +276,7 @@ export default function NavBar() {
       <MenuItem
         onClick={handleMenuClose}
         component={Link}
-        to={`/profile/${user._id ? user._id : user.user._id ? user.user._id : null}`}
+        to={`/profile/${user._id ? user._id : user.user?._id ? user.user?._id : null}`}
       >
         Profile -{" "}
         {user?.name ||

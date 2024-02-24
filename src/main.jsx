@@ -5,14 +5,17 @@ import "./index.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./app/store.jsx";
+import { DataProvider } from "./context/DataContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("RentEase")).render(
   <React.Fragment>
     <Router>
       <Provider store={store}>
-        <Routes>
-          <Route path="*" element={<App />} />
-        </Routes>
+        <DataProvider>
+          <Routes>
+            <Route path="*" element={<App />} />
+          </Routes>
+        </DataProvider>
       </Provider>
     </Router>
   </React.Fragment>

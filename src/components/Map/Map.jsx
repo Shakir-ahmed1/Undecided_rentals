@@ -13,23 +13,26 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
-import { forwardRef, useState, useEffect } from "react";
+import { forwardRef, useState, useEffect, useContext } from "react";
 import NavBar from "../NavBar/NavBar";
 import "./Map.css";
 import MapIcon from "@mui/icons-material/Map";
 import ListIcon from "@mui/icons-material/List";
+import DataContext from "../../context/DataContext";
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import {APIProvider, Map as GoogleMap, Marker} from '@vis.gl/react-google-maps';
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 const Map = () => {
+  const { coordinates, setCoordinates, setBounds, rentals } = useContext(DataContext);
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
   const [open, setOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
-  const isMobile = useMediaQuery("(min-width:600px)");
-  const coordinates = { lat: 0, lng: 0 };
-
+  const isDesktop = useMediaQuery("(min-width:600px)");
+  console.log("here is the rental from the map pagem", rentals)
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -109,36 +112,61 @@ const Map = () => {
           </Toolbar>
         </AppBar>
         <div>
-          <GoogleMapReact
-            style={{ position: "relative", height: "700px", top: "-20px" }}
-            bootstrapURLKeys={{
-              key: import.meta.env.VITE_GOOGLE_MAP_API
-            }}
-            defaultCenter={coordinates}
-            center={coordinates}
-            defaultZoom={14}
-            margin={[50, 50, 50, 50]}
-            options={""}
-          >
-            <Button
-              id="bottom-button"
-              variant="contained"
-              onClick={handleClose}
-              style={{
-                backgroundColor: "black",
-                borderRadius: "20px",
-                textTransform: "none",
-                fontFamily: "Georgia",
-                fontWeight: "bold",
-                padding: "15px",
-                position:'relative',
-                bottom:'-200px',
-                right:'50px',
-              }}
-            >
-              Show Lists &nbsp; <ListIcon />
-            </Button>
-          </GoogleMapReact>
+              <GoogleMapReact
+                bootstrapURLKeys={{ key:import.meta.env.VITE_GOOGLE_MAP_API}}
+                style={{ position: "relative", height: "700px", top: "-20px" }}
+                center={coordinates}
+                defaultZoom={12}
+                margin={[50, 50, 50, 50]}
+                options={""}
+                onChange={(e) => {
+                  console.log(e);
+                  setCoordinates({ lat: e.center.lat, lng: e.center.lng });
+                  setBounds({ne:e.marginBounds.ne, sw: e.marginBounds.sw})
+                }}
+              >
+                <>
+                  {rentals?.map((rental, i) => (
+                  <div
+                    key={i}
+                    lat={Number(rental?.latitude)}
+                    lng={Number(rental?.longitude)}
+                    >
+                      {!isDesktop ? (
+                        <LocationOnIcon color="primary"/> 
+                        ): (
+                        // <Paper elevation={3} style={{width:'50px'}}>
+                        //   <Typography variant="subtitle2" gutterBottom>
+                        //     {rental.name}
+                        //   </Typography>
+                        //   <img src={rental.photo ? rental.photo.images.large.url : "https://media.istockphoto.com/id/149060607/photo/for-rent-sign-in-front-of-new-house.jpg?s=612x612&w=0&k=20&c=By627yICPZugFR1j2_a_7MCEn1f5ltYlivg6Tv50JaQ="} alt={rental.name} />
+                        // </Paper>
+                        <LocationOnIcon color="primary"/> 
+                      )
+                      }
+                      
+                  </div>
+                  ))}
+                  <Button
+                    id="bottom-button"
+                    variant="contained"
+                    onClick={handleClose}
+                    style={{
+                      backgroundColor: "black",
+                      borderRadius: "20px",
+                      textTransform: "none",
+                      fontFamily: "Georgia",
+                      fontWeight: "bold",
+                      padding: "15px",
+                      position: "relative",
+                      bottom: "-550px",
+                      left:'700px'
+                    }}
+                  >
+                    Show Lists &nbsp; <ListIcon />
+                  </Button>
+                </>  
+              </GoogleMapReact>
         </div>
       </Dialog>
     </div>

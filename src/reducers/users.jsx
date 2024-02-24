@@ -30,7 +30,7 @@ export default (state = initialState, action) => {
           return {  authData: null, error: action?.payload };
         case GETPROFILE:
           return {...state, authData:{...state.authData, ...action.payload}, error:null}
-    default:
-      return state;
+        default:
+          return state;
   }
 };

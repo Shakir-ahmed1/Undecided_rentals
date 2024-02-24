@@ -53,8 +53,8 @@ const Login = () => {
     const userData = { id: sub, name, imageUrl: picture, email };
     try {
       dispatch({ type: "AUTH", payload: userData });
-      window.location.reload();
       navigate("/");
+      window.location.reload();
       console.log(decoded);
     } catch (error) {
       console.log(error);
@@ -69,8 +69,8 @@ const Login = () => {
     dispatchSignIn();
     if (err.IncoreectDetails) {
       setErrMsg(err.IncoreectDetails);
-    } else if (err.IncorrectDetails) {
-      setErrMsg(err.IncorrectDetails);
+    } else if (err.IncoreectDetails) {
+      setErrMsg(err.IncoreectDetails);
     } else {
       setErrMsg("");
     }
