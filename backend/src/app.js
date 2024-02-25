@@ -12,6 +12,7 @@ const houseRoutes = require('./api/routes/house');
 const amenityRoutes = require('./api/routes/amenity');
 const postHousePhotos = require('./api/routes/housePhotos');
 const searchRoutes = require('./api/routes/search');
+const reviewRoutes = require('./api/routes/review');
 
 const app = express();
 app.use(morgan('tiny'));
@@ -22,7 +23,7 @@ app.use(cors({ origin: 'http://localhost:3000' }));
 
 // routes
 app.use('/api/users', [userRoutes, userProfileRoutes]);
-app.use('/api/', [locationRoutes, amenityRoutes, houseRoutes, searchRoutes, postHousePhotos]);
+app.use('/api/', [locationRoutes, amenityRoutes, houseRoutes, searchRoutes, postHousePhotos, reviewRoutes]);
 // app.use(erroHandler);
 
 connectDb().then(app.listen(process.env.PORT, () => {

@@ -9,7 +9,7 @@ const options = {
     },
   },
   apis: ['src/api/routes/User.js', 'src/api/routes/profile.js', 'src/api/routes/location.js',
-    'src/api/routes/amenity.js', 'src/api/routes/house.js', 'src/api/routes/housePhotos', 'src/api/routes/search.js'], // files containing annotations as above
+    'src/api/routes/amenity.js', 'src/api/routes/house.js', 'src/api/routes/housePhotos', 'src/api/routes/search.js', 'src/api/routes/review.js'], // files containing annotations as above
 };
 
 const openapiSpecification = swaggerJsdoc(options);

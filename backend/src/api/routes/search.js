@@ -26,7 +26,7 @@ const routes = Router();
  *                 type: string
  *                 description: the country.
  *               city:
- *                 type: number
+ *                 type: string
  *                 description: the city.
  *               maxPrice:
  *                 type: number
@@ -37,6 +37,24 @@ const routes = Router();
  *               radiusInMeters:
  *                 type: number
  *                 description: the search readius for houses.
+ *               minNumberOfRooms:
+ *                 type: number
+ *                 description: minimum nnumber of rooms.
+ *               maxNumberOfRooms:
+ *                 type: number
+ *                 description: maximum number of rooms.
+ *               minGuests:
+ *                 type: number
+ *                 description: minimum number of guests
+ *               maxGuests:
+ *                 type: number
+ *                 description: maximum number of guests.
+ *               minSharedBetween:
+ *                 type: number
+ *                 description: the maximum amount of people sharing the house.
+ *               maxSharedBetween:
+ *                 type: number
+ *                 description: the minimum amount of people sharing the house.
  *     responses:
  *       200:
  *         description: searching was successful.

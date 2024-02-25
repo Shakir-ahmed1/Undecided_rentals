@@ -47,7 +47,7 @@ async function postHouse(req, res) {
     sharedBetween, housePhotos, reservedBy,
   } = req.body;
   try {
-    const user = req.userId;
+    const { user } = req;
     const theUser = await User.findOne({ _id: user });
     const existingLocation = await locationModel.findOne({ _id: location });
     const amenityList = await amenityModel.find({ _id: { $in: amenities } });
@@ -105,7 +105,7 @@ async function getHouse(req, res) {
 
 async function myHouses(req, res) {
   try {
-    const user = req.userId;
+    const { user } = req;
     if (req.authenticated) {
       const houses = await houseModel.find({ user });
       res.json(houses);
@@ -120,7 +120,7 @@ async function myHouses(req, res) {
 async function deleteHouse(req, res) {
   try {
     const { houseId } = req.params;
-    const user = req.userId;
+    const { user } = req;
 
     const house = await houseModel.findOne({ _id: houseId });
     if (house) {
@@ -145,7 +145,7 @@ async function putHouse(req, res) {
     sharedBetween, housePhotos, reservedBy,
   } = req.body;
   try {
-    const user = req.userId;
+    const { user } = req;
     const theHouse = await houseModel.findOne({ _id: houseId });
     if (theHouse) {
       if (theHouse.user.toString() === user) {
