@@ -1,7 +1,8 @@
-import { GETRENTAL, POSTRENTAL } from "../constants/actionTypes";
+import { GETRENTAL, POSTRENTAL, ERROR } from "../constants/actionTypes";
 
 const initialState = {
-    rentalDetails : null
+    rentalDetails : null,
+    error: null
 }
 
 export default (state = initialState, action) => {
@@ -10,6 +11,8 @@ export default (state = initialState, action) => {
             return { ...state, rentalDetails:action.payload}
         case POSTRENTAL:
             return {...state, rentalDetails:action.payload}
+        case ERROR:
+            return {  rentalDetails: null, error: action?.payload };
         default:
             return state
     }

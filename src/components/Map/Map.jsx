@@ -32,7 +32,7 @@ const Map = () => {
   const [open, setOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const isDesktop = useMediaQuery("(min-width:600px)");
-  console.log("here is the rental from the map pagem", rentals)
+  // console.log("here is the rental from the map pagem", rentals)
   const handleClickOpen = () => {
     setOpen(true);
   };

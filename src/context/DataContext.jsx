@@ -9,6 +9,7 @@ export const DataProvider = ({ children }) => {
       setBounds({ne:{lat:latitude+0.05,lng:longitude+0.03},sw:{lat:latitude-0.05, lng:longitude-0.03}})
     })
   },[])
+  const [errMsg, setErrMsg] = useState('');
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
   const [coordinates, setCoordinates] = useState({lat: 0, lng: 0})
   const [bounds, setBounds] = useState({})
@@ -18,7 +19,7 @@ export const DataProvider = ({ children }) => {
     <DataContext.Provider value={{ 
       user, setUser, coordinates, 
     setCoordinates, bounds, setBounds,
-    rentals, setRentals }}>
+    rentals, setRentals, errMsg, setErrMsg }}>
       {children}
     </DataContext.Provider>
   );

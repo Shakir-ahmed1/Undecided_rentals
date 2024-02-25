@@ -8,13 +8,15 @@ import Dialog from '@mui/material/Dialog';
 import { useNavigate } from "react-router-dom";
 import FileBase from 'react-file-base64';
 import CloseIcon from '@mui/icons-material/Close';
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { postRentalDetails } from "../../actions/rentals";
+import Alert from '@mui/material/Alert';
 
 const Home = () => {
   const dispatch = useDispatch();
+  const err = useSelector((state) => state.rentals?.error) || '';
   const navigate = useNavigate();
-  const { user } = useContext(DataContext)
+  const { user, errMsg, setErrMsg } = useContext(DataContext)
   const [open, setOpen] = useState(false);
   useEffect(() => {
     // Scroll to the top when the component mounts
@@ -24,21 +26,35 @@ const Home = () => {
     name: '', description: '', numberOfRooms: '', maxGuest: '', pricePerNight: '', location:'', amenities:[''],
     sharedBetween:'',housePhotos:[''], reservedBy:['']
   });
-  console.log('here is the rentalData that is posted', rentalData)
+  useEffect(() => {
+    if (err) {
+      setErrMsg(err.errors[Object.keys(err?.errors)[0]])
+      setOpen(true)
+    } else {
+      setOpen(false)
+      setErrMsg('')
+    }
+  },[err])
   const clear = () => {
     setRentalData({
       name: '', description: '', numberOfRooms: '', maxGuest: '', pricePerNight: '', location:'', amenities:[''],
       sharedBetween:'',housePhotos:[''], reservedBy:['']
     });
+    setErrMsg('')
 }
 const handleClickOpen = () => {
   setOpen(true);
-  clear();
 };
 
 const handleSubmit = (e) => {
   e.preventDefault();
-  dispatch(postRentalDetails, rentalData)
+  dispatch(postRentalDetails(rentalData))
+  if (errMsg){
+    setOpen(true)
+  } else{
+    handleClose();
+  }
+  clear()
 }
 
 const handleClose = () => {
@@ -54,11 +70,6 @@ const handleClose = () => {
         <Dialog 
           open={open}
           onClose={handleClose}
-          PaperProps={{
-            onSubmit: () => {
-              handleClose();
-            },
-          }}
       >
         <Paper style={{
           padding:'10px'
@@ -69,13 +80,14 @@ const handleClose = () => {
                 >
                   <CloseIcon onClick={handleClose} style={{cursor:'pointer'}}/>
                   <Typography variant="h5" style={{fontWeight:'bold',height:'50px', textAlign:'center'}}>Renting your house</Typography>
+                  {errMsg && <Alert severity="error">{errMsg}</Alert>}
                   <TextField
                       name="name"
                       variant="outlined"
                       label="Name"
                       fullWidth
                       value={rentalData.name}
-                      required
+                      required={true}
                       onChange={(e) => setRentalData({ ...rentalData, name:e.target.value })}
                       style={{
                         margin:'10px 0 10px 0'

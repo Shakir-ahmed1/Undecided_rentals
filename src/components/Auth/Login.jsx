@@ -37,7 +37,16 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const err = useSelector((state) => state.users.error);
-
+  // console.log('here is your error', err)
+  useEffect(() => {
+    if (err?.IncoreectDetails) {
+      setErrMsg(err.IncoreectDetails);
+    } else if (err?.IncorrectDetails) {
+      setErrMsg(err.IncorrectDetails);
+    } else {
+      setErrMsg("");
+    }
+  }, [err])
   const [showPassword, setShowPassword] = useState(false);
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("profile")));
@@ -67,13 +76,6 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatchSignIn();
-    if (err.IncoreectDetails) {
-      setErrMsg(err.IncoreectDetails);
-    } else if (err.IncoreectDetails) {
-      setErrMsg(err.IncoreectDetails);
-    } else {
-      setErrMsg("");
-    }
   };
 
   const handleChange = (e) => {
