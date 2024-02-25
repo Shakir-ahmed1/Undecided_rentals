@@ -17,7 +17,7 @@ function houseErrorHandler(e) {
     housePhotos: '',
     reservedBy: '',
   };
-  if (e.message.includes('Validation failed')) {
+  if (e.message.includes('Validation failed') || e.message.includes('House validation failed')) {
     Object.values(e.errors).forEach(({ properties }) => {
       errors[properties.path] = properties.message;
     });
@@ -33,15 +33,21 @@ function houseErrorHandler(e) {
       errors.amenities = 'In correct amenity ID(s)';
     }
   }
+  Object.keys(errors).forEach((key) => {
+    if (errors[key] === '') {
+      delete errors[key];
+    }
+  });
   return errors;
 }
 async function postHouse(req, res) {
   const {
-    user, name, description, numberOfRooms, maxGuest,
+    name, description, numberOfRooms, maxGuest,
     pricePerNight, location, amenities,
     sharedBetween, housePhotos, reservedBy,
   } = req.body;
   try {
+    const user = req.userId;
     const theUser = await User.findOne({ _id: user });
     const existingLocation = await locationModel.findOne({ _id: location });
     const amenityList = await amenityModel.find({ _id: { $in: amenities } });
@@ -97,28 +103,80 @@ async function getHouse(req, res) {
   }
 }
 
-// async function myHouses(req, res) {
-
-// }
+async function myHouses(req, res) {
+  try {
+    const user = req.userId;
+    if (req.authenticated) {
+      const houses = await houseModel.find({ user });
+      res.json(houses);
+    } else {
+      res.status(401).json({ error: 'Unauthorized. please logIn to continue' });
+    }
+  } catch (e) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
 
 async function deleteHouse(req, res) {
   try {
     const { houseId } = req.params;
-    // const house = await houseModel.findOneAndDelete({ _id: houseId});
+    const user = req.userId;
+
     const house = await houseModel.findOne({ _id: houseId });
-    if (!house) {
-      res.status(404).json({ error: 'Unknown house, no house was deleted' });
+    if (house) {
+      if (house.user.toString() === user) {
+        await house.deleteOne();
+        res.json({ success: 'house was deleted succefully' });
+      } else {
+        res.status(403).json({ error: 'Forbidden, You are not the owner of the house' });
+      }
     } else {
-      res.json(house);
+      res.status(404).json({ error: 'Unknown house, no house was deleted' });
     }
   } catch (e) {
-    res.status(400).json({ error: 'Something went wrong' });
+    res.status(500).json({ error: 'Something went wrong' });
   }
 }
-// async function putHouse(req, res) {
-
-// }
+async function putHouse(req, res) {
+  const { houseId } = req.params;
+  const {
+    name, description, numberOfRooms, maxGuest,
+    pricePerNight, amenities,
+    sharedBetween, housePhotos, reservedBy,
+  } = req.body;
+  try {
+    const user = req.userId;
+    const theHouse = await houseModel.findOne({ _id: houseId });
+    if (theHouse) {
+      if (theHouse.user.toString() === user) {
+        const amenityList = await amenityModel.find({ _id: { $in: amenities } });
+        const housePh = await housePhotoModel.create({ fileName: ['abcd', 'efgh'] || housePhotos });
+        theHouse.name = name || theHouse.name;
+        theHouse.description = description || theHouse.description;
+        theHouse.numberOfRooms = numberOfRooms || theHouse.numberOfRooms;
+        theHouse.maxGuest = maxGuest || theHouse.maxGuest;
+        theHouse.pricePerNight = pricePerNight || theHouse.pricePerNight;
+        theHouse.amenities = amenityList || theHouse.amenities;
+        theHouse.sharedBetween = sharedBetween || theHouse.sharedBetween;
+        theHouse.housePhotos = housePh || theHouse.housePhotos;
+        theHouse.reservedBy = reservedBy || theHouse.reservedBy;
+        await theHouse.validate();
+        const house = await theHouse.save();
+        // logged in and owner
+        res.status(201).json({ house });
+      } else {
+        // logged in but not owner
+        res.status(403).json({ error: 'Forbidden, You are not the owner of the house' });
+      }
+    } else {
+      res.status(404).json({ error: 'page Not found' });
+    }
+  } catch (e) {
+    const errors = houseErrorHandler(e);
+    res.status(500).json({ errors });
+  }
+}
 
 module.exports = {
-  postHouse, allHouses, getHouse, /* myHouses, */ deleteHouse, /* putHouse, */
+  postHouse, allHouses, getHouse, myHouses, deleteHouse, putHouse,
 };
