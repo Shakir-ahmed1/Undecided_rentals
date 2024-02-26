@@ -1,7 +1,9 @@
+const { default: isEmail } = require('validator/lib/isEmail');
 const {
   houseModel, amenityModel, locationModel, housePhotoModel,
 } = require('../models/housesModel');
 const User = require('../models/userModel');
+const mongoose = require('mongoose');
 
 function houseErrorHandler(e) {
   const errors = {
@@ -25,6 +27,9 @@ function houseErrorHandler(e) {
         errors.message = "something went wrong"
       }
     });
+  }
+  if (e.message.includes('reservedBy: Cast to ObjectId failed')) {
+    errors.reservedBy = "Please insert a valid user(reserver) id or pass null"
   }
   if (e.message.includes('Cast to ObjectId failed')) {
     if (e.message.includes('for model "User"')) {
@@ -62,7 +67,7 @@ async function postHouse(req, res) {
       description,
       numberOfRooms,
       maxGuest,
-      pricePerNight,
+      pricePerNight: mongoose.Types.Decimal128.fromString(pricePerNight),
       location: existingLocation,
       amenities: amenityList,
       sharedBetween,
