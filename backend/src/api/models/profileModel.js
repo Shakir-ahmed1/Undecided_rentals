@@ -1,32 +1,32 @@
 const mongoose = require('mongoose');
 
 const profileSchema = new mongoose.Schema({
-  profileImage: {
-    type: String,
-    contentType: String,
-    default: '',
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    unique: true,
+    required: true,
   },
-
   bio: {
     type: String,
     default: '',
-    maxlength: [200, 'biomust be under 80 characters'],
+    maxlength: [200, 'Last name must be under 80 characters'],
   },
 
   country: {
     type: String,
     default: '',
-    maxlength: [30, 'Country must be under 30 characters'],
+    maxlength: [80, 'Last name must be under 80 characters'],
   },
   state: {
     type: String,
     default: '',
-    maxlength: [30, 'Last name must be under 30 characters'],
+    maxlength: [80, 'Last name must be under 80 characters'],
   },
   houseAddress: {
     type: String,
     default: '',
-    maxlength: [40, 'Last name must be under 40 characters'],
+    maxlength: [80, 'Last name must be under 80 characters'],
   },
 });
 

@@ -17,7 +17,7 @@ const requireAuth = (req, res, next) => {
         res.status(401).json({ error: 'Unauthorized please login to continue' });
       } else {
         const { userId } = decodedToken;
-        req.user = userId;
+        req.userId = userId;
         req.authenticated = true;
         next();
       }

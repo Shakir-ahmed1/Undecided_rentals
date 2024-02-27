@@ -15,12 +15,13 @@ const register = async (req, res) => {
     if (password && (confirmPassword === '' || confirmPassword !== password)) {
       throw Error('confirm password has a problem');
     }
-    const profile = await Profile.create({});
     const user = await User.create({
-      firstName, lastName, email, phoneNumber, password, profile,
+      firstName, lastName, email, phoneNumber, password,
     });
 
-    res.status(201).json({ user });
+    const profile = await Profile.create({ user: user.id });
+
+    res.status(201).json({ user, profile });
   } catch (e) {
     const errors = registerErrorHandler(e, password, confirmPassword);
     Object.keys(errors).forEach((key) => {
@@ -56,7 +57,7 @@ const login = async (req, res) => {
       });
       return res.json({ user, accessToken });
     }
-    return res.status(400).json({ error: { IncorrectDetails: 'Username and/or password incorrect' } });
+    return res.status(400).json({ error: { IncoreectDetails: 'Username and/or password incorrect' } });
   } catch (errors) {
     return res.status(400).json({ errors });
   }
@@ -64,7 +65,7 @@ const login = async (req, res) => {
 
 const allUsers = async (req, res) => {
   try {
-    const users = await User.find().select('-password').populate('profiles');
+    const users = await User.find().select('-password');
     res.json(users);
   } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
