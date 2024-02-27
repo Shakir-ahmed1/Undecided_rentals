@@ -155,6 +155,6 @@ router.get('/house/photos/:photoId', getHousePhotos);
  *                       type: string
  *                       description: Error message indicating failure to save photos to the db
  */
-router.post('/house/photos', upload.array('Image', 5), requireAuth, uploadErrorHandler(5), postHousePhotos);
+router.post('/house/photos', upload.single('Image'), requireAuth, uploadErrorHandler(1), postHousePhotos);
 
 module.exports = router;

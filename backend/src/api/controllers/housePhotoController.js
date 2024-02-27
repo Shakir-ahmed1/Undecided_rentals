@@ -2,11 +2,8 @@ const path = require('path');
 const { housePhotoModel } = require('../models/housesModel');
 
 const postHousePhotos = async (req, res) => {
-  const fileName = [];
-  if (req.files.length > 0) {
-    req.files.forEach((file) => {
-      fileName.push(path.normalize(file.path));
-    });
+  if (req.file) {
+    const fileName = path.normalize(req.file.path);
     try {
       const housePhotos = await housePhotoModel.create({ fileName });
       res.status(201).json({ housePhotos });
@@ -14,7 +11,7 @@ const postHousePhotos = async (req, res) => {
       res.status(500).json({ error: { database: 'Failed to save photos to the database.' } });
     }
   } else {
-    res.json({ error: { empty: 'please upload at least one photo' } });
+    res.json({ error: { empty: 'please upload house photo' } });
   }
 };
 

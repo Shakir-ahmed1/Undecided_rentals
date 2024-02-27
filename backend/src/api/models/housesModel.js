@@ -28,7 +28,7 @@ const locationSchema = new mongoose.Schema({
 
 const housePhotoSchema = new mongoose.Schema({
   fileName: {
-    type: [String], // array of string
+    type: String,
     required: [true, 'please enter at least one image'],
   },
 });
