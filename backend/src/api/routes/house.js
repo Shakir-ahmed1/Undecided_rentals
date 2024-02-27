@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const {
-  postHouse, allHouses, getHouse, myHouses, deleteHouse, putHouse,
+  postHouse, allHouses, getHouse, myHouses, deleteHouse, putHouse, userHouses,
 } = require('../controllers/houseController');
 const { requireAuth } = require('../middelware/jwt');
 
@@ -72,6 +72,8 @@ const routes = Router();
  * @openapi
  * /api/houses:
  *   post:
+ *     tags:
+ *       - Houses
  *     summary: Create a house
  *     description: Create a new house.
  *     requestBody:
@@ -127,6 +129,8 @@ routes.post('/houses', requireAuth, postHouse);
  * @openapi
  * /api/houses:
  *   get:
+ *     tags:
+ *       - Houses
  *     summary: Get all houses
  *     description: Retrieve a list of all houses in the database.
  *     responses:
@@ -146,6 +150,8 @@ routes.get('/houses', allHouses);
  * @openapi
  * /api/houses/{houseId}:
  *   get:
+ *     tags:
+ *       - Houses
  *     summary: Get a house by ID.
  *     description: Retrieve a house by the house ID.
  *     parameters:
@@ -175,6 +181,8 @@ routes.get('/houses/:houseId', getHouse);
  * @openapi
  * /api/my_houses:
  *   get:
+ *     tags:
+ *       - Houses
  *     summary: Get logged user houses.
  *     description: It lists all houses owned by the logged in user.
  *     responses:
@@ -197,6 +205,8 @@ routes.get('/my_houses', requireAuth, myHouses);
  * @openapi
  * /api/houses/{houseId}:
  *   put:
+ *     tags:
+ *       - Houses
  *     summary: Update a house
  *     description: Update a new house.
  *     parameters:
@@ -263,6 +273,8 @@ routes.put('/houses/:houseId', requireAuth, putHouse);
  * @openapi
  * /api/houses/{houseId}:
  *   delete:
+ *     tags:
+ *       - Houses
  *     summary: Delete a house by ID
  *     description: Delete a house by the house ID.
  *     parameters:
@@ -287,5 +299,28 @@ routes.put('/houses/:houseId', requireAuth, putHouse);
  *         description: Something went wrong.
  */
 routes.delete('/houses/:houseId', requireAuth, deleteHouse);
+
+/**
+ * @openapi
+ * /api/houses/users/{userId}:
+ *   get:
+ *     tags:
+ *       - Houses
+ *     summary: get houses owned by a user
+ *     description: Gets all houses owned by the user specified in userId.
+ *     parameters:
+ *     - in: path
+ *       name: userId
+ *       required: true
+ *       description: The user ID.
+ *     responses:
+ *       200:
+ *         description: list of houses owned by the user.
+ *       404:
+ *         description: page Not found.
+ *       500:
+ *         description: Internal server error.
+ */
+routes.get('/houses/users/:userId', userHouses);
 
 module.exports = routes;

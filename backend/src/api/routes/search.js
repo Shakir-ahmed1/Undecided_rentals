@@ -7,6 +7,8 @@ const routes = Router();
  * @openapi
  * /api/search:
  *   post:
+ *     tags:
+ *       - Search
  *     summary: Search houses
  *     description: Search houses by location and price range.
  *     requestBody:
