@@ -10,23 +10,23 @@ const profileSchema = new mongoose.Schema({
   bio: {
     type: String,
     default: '',
-    maxlength: [200, 'Last name must be under 80 characters'],
+    maxlength: [200, 'biomust be under 80 characters'],
   },
 
   country: {
     type: String,
     default: '',
-    maxlength: [80, 'Last name must be under 80 characters'],
+    maxlength: [30, 'Country must be under 30 characters'],
   },
   state: {
     type: String,
     default: '',
-    maxlength: [80, 'Last name must be under 80 characters'],
+    maxlength: [30, 'Last name must be under 30 characters'],
   },
   houseAddress: {
     type: String,
     default: '',
-    maxlength: [80, 'Last name must be under 80 characters'],
+    maxlength: [40, 'Last name must be under 40 characters'],
   },
 });
 

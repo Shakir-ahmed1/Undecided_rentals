@@ -27,7 +27,7 @@ const getHousePhotos = async (req, res) => {
     if (error.name === 'CastError') {
       return res.status(400).json({ error: { invalidId: 'The id is invalid' } });
     }
-    res.status(500).json({ error: { error: error.message } });
+    return res.status(500).json({ error: { error: error.message } });
   }
 };
 

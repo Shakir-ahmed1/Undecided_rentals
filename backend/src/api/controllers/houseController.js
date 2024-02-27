@@ -19,9 +19,14 @@ function houseErrorHandler(e) {
   };
   if (e.message.includes('Validation failed') || e.message.includes('House validation failed')) {
     Object.values(e.errors).forEach(({ properties }) => {
-      errors[properties.path] = properties.message;
+      if (properties) {
+        errors[properties.path] = properties.message;
+      } else {
+        errors.message = properties;
+      }
     });
   }
+
   if (e.message.includes('Cast to ObjectId failed')) {
     if (e.message.includes('for model "User"')) {
       errors.user = 'In correct user ID';
@@ -44,7 +49,7 @@ async function postHouse(req, res) {
   const {
     name, description, numberOfRooms, maxGuest,
     pricePerNight, location, amenities,
-    sharedBetween, housePhotos, reservedBy,
+    sharedBetween, housePhotos,
   } = req.body;
   try {
     const { user } = req;
@@ -63,7 +68,6 @@ async function postHouse(req, res) {
       amenities: amenityList,
       sharedBetween,
       housePhotos: housePh,
-      reservedBy,
     };
     await houseModel.validate(houseAttributes);
     const house = await houseModel.create(houseAttributes);
@@ -150,7 +154,7 @@ async function putHouse(req, res) {
     if (theHouse) {
       if (theHouse.user.toString() === user) {
         const amenityList = await amenityModel.find({ _id: { $in: amenities } });
-        const housePh = await housePhotoModel.create({ fileName: ['abcd', 'efgh'] || housePhotos });
+        const housePhotoList = await housePhotoModel.find({ _id: { $in: housePhotos } });
         theHouse.name = name || theHouse.name;
         theHouse.description = description || theHouse.description;
         theHouse.numberOfRooms = numberOfRooms || theHouse.numberOfRooms;
@@ -158,14 +162,12 @@ async function putHouse(req, res) {
         theHouse.pricePerNight = pricePerNight || theHouse.pricePerNight;
         theHouse.amenities = amenityList || theHouse.amenities;
         theHouse.sharedBetween = sharedBetween || theHouse.sharedBetween;
-        theHouse.housePhotos = housePh || theHouse.housePhotos;
+        theHouse.housePhotos = housePhotoList || theHouse.housePhotos;
         theHouse.reservedBy = reservedBy || theHouse.reservedBy;
         await theHouse.validate();
         const house = await theHouse.save();
-        // logged in and owner
         res.status(201).json({ house });
       } else {
-        // logged in but not owner
         res.status(403).json({ error: 'Forbidden, You are not the owner of the house' });
       }
     } else {
