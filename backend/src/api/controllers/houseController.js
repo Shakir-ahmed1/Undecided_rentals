@@ -56,7 +56,7 @@ async function postHouse(req, res) {
     const theUser = await User.findOne({ _id: user });
     const existingLocation = await locationModel.findOne({ _id: location });
     const amenityList = await amenityModel.find({ _id: { $in: amenities } });
-    const housePh = await housePhotoModel.create({ fileName: ['abcd', 'efgh'] || housePhotos });
+    const housePh = await housePhotoModel.findOne({ _id: housePhotos });
     const houseAttributes = {
       user: theUser,
       name,
