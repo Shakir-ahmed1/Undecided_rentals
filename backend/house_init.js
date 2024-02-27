@@ -5,7 +5,6 @@ const Review = require('./src/api/models/reviewModel');
 
 const { connect } = require('mongoose');
 require('dotenv').config();
-
 const connectDb = async () => {
   try {
     await connect(process.env.MONGODB_URI);
@@ -16,40 +15,52 @@ const connectDb = async () => {
 };
 
 async function main() {
+
+  if (process.argv[2] === "delete") {
+    await User.deleteMany({});
+    await Profile.deleteMany({});
+    await amenityModel.deleteMany({});
+    await houseModel.deleteMany({});
+    await housePhotoModel.deleteMany({});
+    await Review.deleteMany({});
+    await locationModel.deleteMany({});
+  }
+ 
+
   const profile1 = await Profile.create({
     "bio": "This is my bio. i am profile1 for user 1",
     "country": "Ethiopia",
     "state": "Addis Abeba",
     "houseAddress": "house-address-1",
-    "profileImage": ""
+    "profileImage": "uploads/p1.jpg"
   });
   const profile2 = await Profile.create({
     "bio": "This is my bio. i am profile2 for user 2",
     "country": "Ethiopia",
     "state": "Addis Abeba",
     "houseAddress": "house-address-2",
-    "profileImage": ""
+    "profileImage": "uploads/p2.jpg"
   });
   const profile3 = await Profile.create({
     "bio": "This is my bio. i am profile3 for user 3",
     "country": "Ethiopia",
     "state": "Addis Abeba",
     "houseAddress": "house-address-3",
-    "profileImage": ""
+    "profileImage": "uploads/p3.jpg"
   });
   const profile4 = await Profile.create({
     "bio": "This is my bio. i am profile4 for user 4",
     "country": "Ethiopia",
     "state": "Addis Abeba",
     "houseAddress": "house-address-4",
-    "profileImage": ""
+    "profileImage": "uploads/p4.jpg"
   });
   const profile5 = await Profile.create({
     "bio": "This is my bio. i am profile5 for user 5",
     "country": "Ethiopia",
     "state": "Addis Abeba",
     "houseAddress": "house-address-5",
-    "profileImage": ""
+    "profileImage": "uploads/p5.jpg"
   });
   const profile6 = await Profile.create({
     "bio": "This is my bio. i am profile6 for user 6",
@@ -172,94 +183,94 @@ async function main() {
 
 // house Photos
 const hp1 = await housePhotoModel.create({
-  fileName: '1.jpg'
+  fileName: 'uploads/1.jpg'
 });
 const hp2 = await housePhotoModel.create({
-  fileName: '2.jpg'
+  fileName: 'uploads/2.jpg'
 });
 const hp3 = await housePhotoModel.create({
-  fileName: '3.jpg'
+  fileName: 'uploads/3.jpg'
 });
 const hp4 = await housePhotoModel.create({
-  fileName: '4.jpg'
+  fileName: 'uploads/4.jpg'
 });
 const hp5 = await housePhotoModel.create({
-  fileName: '5.jpg'
+  fileName: 'uploads/5.jpg'
 });
 const hp6 = await housePhotoModel.create({
-  fileName: '6.jpg'
+  fileName: 'uploads/6.jpg'
 });
 const hp7 = await housePhotoModel.create({
-  fileName: '7.jpg'
+  fileName: 'uploads/7.jpg'
 });
 const hp8 = await housePhotoModel.create({
-  fileName: '8.jpg'
+  fileName: 'uploads/8.jpg'
 });
 const hp9 = await housePhotoModel.create({
-  fileName: '9.jpg'
+  fileName: 'uploads/9.jpg'
 });
 const hp10 = await housePhotoModel.create({
-  fileName: '10.jpg'
+  fileName: 'uploads/10.jpg'
 });
 const hp11 = await housePhotoModel.create({
-  fileName: '11.jpg'
+  fileName: 'uploads/11.jpg'
 });
 const hp12 = await housePhotoModel.create({
-  fileName: '12.jpg'
+  fileName: 'uploads/12.jpg'
 });
 const hp13 = await housePhotoModel.create({
-  fileName: '13.jpg'
+  fileName: 'uploads/13.jpg'
 });
 const hp14 = await housePhotoModel.create({
-  fileName: '14.jpg'
+  fileName: 'uploads/14.jpg'
 });
 const hp15 = await housePhotoModel.create({
-  fileName: '15.jpg'
+  fileName: 'uploads/15.jpg'
 });
 const hp16 = await housePhotoModel.create({
-  fileName: '16.jpg'
+  fileName: 'uploads/16.jpg'
 });
 const hp17 = await housePhotoModel.create({
-  fileName: '17.jpg'
+  fileName: 'uploads/17.jpg'
 });
 const hp18 = await housePhotoModel.create({
-  fileName: '18.jpg'
+  fileName: 'uploads/18.jpg'
 });
 const hp19 = await housePhotoModel.create({
-  fileName: '19.jpg'
+  fileName: 'uploads/19.jpg'
 });
 const hp20 = await housePhotoModel.create({
-  fileName: '20.jpg'
+  fileName: 'uploads/20.jpg'
 });
 const hp21 = await housePhotoModel.create({
-  fileName: '21.jpg'
+  fileName: 'uploads/21.jpg'
 });
 const hp22 = await housePhotoModel.create({
-  fileName: '22.jpg'
+  fileName: 'uploads/22.jpg'
 });
 const hp23 = await housePhotoModel.create({
-  fileName: '23.jpg'
+  fileName: 'uploads/23.jpg'
 });
 const hp24 = await housePhotoModel.create({
-  fileName: '24.jpg'
+  fileName: 'uploads/24.jpg'
 });
 const hp25 = await housePhotoModel.create({
-  fileName: '25.jpg'
+  fileName: 'uploads/25.jpg'
 });
 const hp26 = await housePhotoModel.create({
-  fileName: '26.jpg'
+  fileName: 'uploads/26.jpg'
 });
 const hp27 = await housePhotoModel.create({
-  fileName: '27.jpg'
+  fileName: 'uploads/27.jpg'
 });
 const hp28 = await housePhotoModel.create({
-  fileName: '28.jpg'
+  fileName: 'uploads/28.jpg'
 });
 const hp29 = await housePhotoModel.create({
-  fileName: '29.jpg'
+  fileName: 'uploads/29.jpg'
 });
 const hp30 = await housePhotoModel.create({
-  fileName: '30.jpg'
+  fileName: 'uploads/30.jpg'
 });
 
   // owners of the houses - 1,2,2,2,5,2,3,2,3,5
@@ -273,7 +284,7 @@ const hp30 = await housePhotoModel.create({
     "location": location1,
     "amenities": [amenity3, amenity4, amenity5],
     "sharedBetween": 1,
-    "housePhotoModels": [hp30._id,hp30._id,hp30._id,hp30._id,hp30._id]
+    "housePhotos": hp1
   });
 
   const house2 = await houseModel.create({
@@ -286,7 +297,7 @@ const hp30 = await housePhotoModel.create({
     "location": location2,
     "amenities": [amenity1, amenity4, amenity5],
     "sharedBetween": 1,
-    "housePhotoModels": [await housePhotoModel.create({ fileName: "random" })],
+    "housePhotos": hp2,
     "reservedBy": user4
   });
 
@@ -300,7 +311,7 @@ const hp30 = await housePhotoModel.create({
     "location": location3,
     "amenities": [amenity5],
     "sharedBetween": 1,
-    "housePhotoModels": [await housePhotoModel.create({ fileName: "random" })],
+    // "housePhotos": hp3,
     "reservedBy": user6
   });
 
@@ -314,7 +325,7 @@ const hp30 = await housePhotoModel.create({
     "location": location4,
     "amenities": [amenity1, amenity2, amenity3],
     "sharedBetween": 1,
-    "housePhotoModels": [await housePhotoModel.create({ fileName: "random" })]
+    "housePhotos": hp4
   });
 
   const house5 = await houseModel.create({
@@ -327,7 +338,7 @@ const hp30 = await housePhotoModel.create({
     "location": location5,
     "amenities": [],
     "sharedBetween": 1,
-    "housePhotoModels": [await housePhotoModel.create({ fileName: "random" })]
+    // "housePhotos": hp5
   });
 
   const house6 = await houseModel.create({
@@ -340,7 +351,7 @@ const hp30 = await housePhotoModel.create({
     "location": location6,
     "amenities": [amenity1, amenity2, amenity4, amenity5],
     "sharedBetween": 1,
-    "housePhotoModels": [await housePhotoModel.create({ fileName: "random" })]
+    "housePhotos": hp6
   });
 
   const house7 = await houseModel.create({
@@ -353,7 +364,7 @@ const hp30 = await housePhotoModel.create({
     "location": location7,
     "amenities": [amenity3],
     "sharedBetween": 1,
-    "housePhotoModels": [await housePhotoModel.create({ fileName: "random" })],
+    "housePhotos": hp7,
     "reservedBy": user6
   });
 
@@ -367,7 +378,7 @@ const hp30 = await housePhotoModel.create({
     "location": location8,
     "amenities": [],
     "sharedBetween": 1,
-    "housePhotoModels": [await housePhotoModel.create({ fileName: "random" })]
+    // "housePhotos": hp8
   });
 
   const house9 = await houseModel.create({
@@ -380,7 +391,7 @@ const hp30 = await housePhotoModel.create({
     "location": location9,
     "amenities": [amenity1, amenity2, amenity5],
     "sharedBetween": 1,
-    "housePhotoModels": [await housePhotoModel.create({ fileName: "random" })]
+    "housePhotos": hp9
   });
 
   const house10 = await houseModel.create({
@@ -393,7 +404,7 @@ const hp30 = await housePhotoModel.create({
     "location": location10,
     "amenities": [amenity1, amenity2, amenity3, amenity4, amenity5, amenity6],
     "sharedBetween": 1,
-    "housePhotoModels": [await housePhotoModel.create({ fileName: "random" })]
+    "housePhotos": hp10
   });
 
   // review-type, house-number, (number-of-reviews), reviewers (1(6),3(3),4(4),5(7),6(1))
