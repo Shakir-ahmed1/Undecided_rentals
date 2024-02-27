@@ -80,7 +80,10 @@ const houseSchema = new mongoose.Schema({
     min: mongoose.Types.Decimal128.fromString('0.00'),
   },
 
-  location: locationSchema,
+  location: {
+    type: locationSchema,
+    required: [true, 'a house needs location'],
+  },
 
   amenities: {
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Amenity' }],
