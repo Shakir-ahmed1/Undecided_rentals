@@ -28,20 +28,64 @@ export const updateUser = (userId, updatedUser) =>
   API.put(`/api/users/${userId}/profiles`, updatedUser);
 export const getProfile = (userId) => 
   API.get(`/api/users/${userId}/profiles`);
-export const getRentalDetails = () => {
+// export const getRentalDetails = () => {
+//   try {
+//     const response = API.get('/api/houses')
+//     return response
+//   } catch (error) {
+//     console.log(error)
+//   }
+// }
+export const postRentalDetails = (rentalData) => {
   try {
-    const response = API.get('api/houses')
+    const response = API.post('/api/houses', rentalData);
+  return response
+  } catch (error) {
+    console.error(error)
+  }
+}
+export const postRentalLocation = (locationData) => {
+  try {
+    const response = API.post('/api/location', locationData)
     return response
   } catch (error) {
     console.log(error)
   }
 }
-export const postRentalDetails = (rentalData) => {
+
+export const postRentalAmenity = (amenityData) => {
   try {
-    const response = API.post('api/houses', rentalData);
-  return response
+    const response = API.post('/api/amenities', amenityData)
+    return response
   } catch (error) {
-    console.error(error)
+    console.log(error)
+  }
+}
+
+export const getAllAmenities = () => {
+  try {
+    const response = API.get('/api/amenities');
+    return response
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const deleteAmenityById = (AmenityId) => {
+  try {
+    const response =API.delete(`/api/amenities/${AmenityId}`)
+    return response
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const uploadPostPhoto = (image) => {
+  try {
+    const response = API.post('/api/house/photos', image)
+    return response
+  } catch (error) {
+    console.log(error)
   }
 }
 // export const getRentalDetails = async (sw, ne) => {

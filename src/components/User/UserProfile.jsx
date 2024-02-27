@@ -6,7 +6,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useEffect, useState, useContext } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { updatedUser, getUserProfile } from "../../actions/users";
 import DataContext from "../../context/DataContext";
 
@@ -14,12 +14,10 @@ const UserProfile = () => {
   const { user } = useContext(DataContext)
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const userData = useSelector((state) => state.users.authData);
-  const { userId } = useParams() || {userId: userData.user._id};
+  const { userId } = useParams() || {userId: user?.user?._id};
   
   useEffect(() => {
     dispatch(getUserProfile(userId))
-    console.log('here is the userData',userData)
   },[userId])
   const [firstName, setFirstName] = useState(
     user.user?.firstName

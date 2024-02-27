@@ -127,44 +127,58 @@ export default function NavBar() {
       {user ? (
         <>
           <List>
-              <ListItem  disablePadding component={Link} to={`messages/${(JSON.parse(localStorage.getItem('profile'))?.user?._id) || (JSON.parse(localStorage.getItem('profile'))?._id)}`}>
-                <ListItemButton>
-                  <ListItemText primary="Inbox" />
-                </ListItemButton>
-              </ListItem>
-              <ListItem  disablePadding>
-                <ListItemButton>
-                  <ListItemText primary="Starred" />
-                </ListItemButton>
-              </ListItem>
-              <ListItem  disablePadding>
-                <ListItemButton>
-                  <ListItemText primary="Send email" />
-                </ListItemButton>
-              </ListItem>
-              <ListItem  disablePadding>
-                <ListItemButton>
-                  <ListItemText primary="Drafts" />
-                </ListItemButton>
-              </ListItem>
+            <ListItem
+              disablePadding
+              component={Link}
+              to={`messages/${
+                JSON.parse(localStorage.getItem("profile"))?.user?._id ||
+                JSON.parse(localStorage.getItem("profile"))?._id
+              }`}
+            >
+              <ListItemButton>
+                <ListItemText primary="Inbox" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemText primary="Starred" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemText primary="Send email" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemText primary="Drafts" />
+              </ListItemButton>
+            </ListItem>
           </List>
           <Divider />
           <List>
-              <ListItem  disablePadding component={Link} to={`messages/${JSON.parse(localStorage.getItem('profile'))?.user?._id || JSON.parse(localStorage.getItem('profile'))?._id}`}>
-                <ListItemButton>
-                  <ListItemText primary="All mail" />
-                </ListItemButton>
-              </ListItem>
-              <ListItem  disablePadding>
-                <ListItemButton>
-                  <ListItemText primary="Trash" />
-                </ListItemButton>
-              </ListItem>
-              <ListItem  disablePadding>
-                <ListItemButton>
-                  <ListItemText primary="Spam" />
-                </ListItemButton>
-              </ListItem>
+            <ListItem
+              disablePadding
+              component={Link}
+              to={`messages/${
+                JSON.parse(localStorage.getItem("profile"))?.user?._id ||
+                JSON.parse(localStorage.getItem("profile"))?._id
+              }`}
+            >
+              <ListItemButton>
+                <ListItemText primary="All mail" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemText primary="Trash" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemText primary="Spam" />
+              </ListItemButton>
+            </ListItem>
           </List>
         </>
       ) : (
@@ -187,13 +201,39 @@ export default function NavBar() {
       <Divider />
       <div style={{ fontWeight: "bold", margin: "10px" }}>Categories</div>
       <List>
-        {["National Parks", "Farms", "Rooms"].map((text, index) => (
-          <ListItem key={index} disablePadding>
-            <ListItemButton>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemText primary={"National"} />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemText primary={"Farms"} />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemText primary={"bold"} />
+          </ListItemButton>
+        </ListItem>
+        <Divider />
+        <ListItem disablePadding>
+          <ListItemButton>
+            <Typography
+              style={{
+                fontWeight: "700",
+                textDecoration: "none",
+                color: "black",
+                fontFamily:'Georgia'
+              }}
+              variant="h6"
+              component={Link}
+              to={"/contact_us"}
+            >
+              Contact Us
+            </Typography>
+          </ListItemButton>
+        </ListItem>
       </List>
       {user ? (
         <>

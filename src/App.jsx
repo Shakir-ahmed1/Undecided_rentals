@@ -9,23 +9,24 @@ import UserProfile from './components/User/UserProfile';
 import Footer from './components/Footer/Footer';
 import Message from './components/Message/Message';
 import './components/Map/Map.css'
-import DataContext from './context/DataContext';
-import {  useSelector, useDispatch } from 'react-redux'
-import { useEffect, useContext } from 'react';
-import { getRentalData } from './actions/rentals';
+import Contact from './components/Contact/Contact';
+// import DataContext from './context/DataContext';
+// import {  useSelector, useDispatch } from 'react-redux'
+// import { useEffect, useContext } from 'react';
+// import { getRentalData } from './actions/rentals';
 
 const App = () => {
-  const dispatch = useDispatch();
-  const {  bounds, setRentals } = useContext(DataContext)
-  const rentDetails = useSelector((state) => state.rentals.rentalDetails)
+  // const dispatch = useDispatch();
+  // const {  bounds, setRentals } = useContext(DataContext)
+  // const rentDetails = useSelector((state) => state.rentals.rentalDetails)
 
-  useEffect(() => {
-    dispatch(getRentalData(bounds?.sw, bounds?.ne))
-  },[bounds])
+  // useEffect(() => {
+  //   dispatch(getRentalData(bounds?.sw, bounds?.ne))
+  // },[bounds])
   
-  useEffect(() => {
-    setRentals(rentDetails)
-  }, [rentDetails])
+  // useEffect(() => {
+  //   setRentals(rentDetails)
+  // }, [rentDetails])
 
   return (
     <>
@@ -38,6 +39,7 @@ const App = () => {
               <Route path='/register' exact element={<Register />}/>
               <Route path='/login' exact element={<Login />}/>
               <Route path='/messages/:userId' element={<Message />} />
+              <Route path='contact_us' element={<Contact />} />
             </Routes>
             <Footer />
           </GoogleOAuthProvider>

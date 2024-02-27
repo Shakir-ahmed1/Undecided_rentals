@@ -20,7 +20,6 @@ import MapIcon from "@mui/icons-material/Map";
 import ListIcon from "@mui/icons-material/List";
 import DataContext from "../../context/DataContext";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import {APIProvider, Map as GoogleMap, Marker} from '@vis.gl/react-google-maps';
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
