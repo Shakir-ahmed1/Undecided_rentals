@@ -154,7 +154,7 @@ async function putHouse(req, res) {
     if (theHouse) {
       if (theHouse.user.toString() === user) {
         const amenityList = await amenityModel.find({ _id: { $in: amenities } });
-        const housePhotoList = await housePhotoModel.find({ _id: { $in: housePhotos } });
+        const housePh = await housePhotoModel.findOne({ _id: housePhotos });
         theHouse.name = name || theHouse.name;
         theHouse.description = description || theHouse.description;
         theHouse.numberOfRooms = numberOfRooms || theHouse.numberOfRooms;
@@ -162,7 +162,7 @@ async function putHouse(req, res) {
         theHouse.pricePerNight = pricePerNight || theHouse.pricePerNight;
         theHouse.amenities = amenityList || theHouse.amenities;
         theHouse.sharedBetween = sharedBetween || theHouse.sharedBetween;
-        theHouse.housePhotos = housePhotoList || theHouse.housePhotos;
+        theHouse.housePhotos = housePh || theHouse.housePhotos;
         theHouse.reservedBy = reservedBy || theHouse.reservedBy;
         await theHouse.validate();
         const house = await theHouse.save();
