@@ -45,6 +45,7 @@ function houseErrorHandler(e) {
   });
   return errors;
 }
+
 async function postHouse(req, res) {
   const {
     name, description, numberOfRooms, maxGuest,
@@ -239,6 +240,53 @@ async function putHouse(req, res) {
   }
 }
 
+
+
+async function requestRentHouse(req, res) {
+  const { houseId } = req.params;
+  try {  
+    const theHouse = await houseModel.findOne({ _id: houseId });
+    const theRenter = await User.findOne({ _id: req.user });
+  if (theHouse) {
+    if (theHouse.requestedBy.includes(req.user)) {
+      return res.status(400).json({error: 'Bad request, you have already requested for rent'});
+    }
+    if (theHouse.reservedBy === req.user) {
+      return res.status(400).json({error: 'Bad request, you have already rented the house'});
+    }
+    theHouse.requestedBy.push(req.user);
+    const house = await theHouse.save();
+    return res.json({success : 'You have requested rent successfully'});
+   } else {
+    res.status(404).json({ error: 'Page Not found, house does not exist' });
+  } } catch (e) {
+    console.log(e);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
+async function acceptRentHouse(req, res) {
+  const { houseId, userId } = req.params;
+    try { 
+      const theHouse = await houseModel.findOne({ _id: houseId });
+      if (theHouse) {
+        const theUser = await User.findOne({_id : userId});
+        if (theUser) {
+          theHouse.reservedBy = theUser;
+          theHouse.requestedBy = [];
+          const house = await theHouse.save();    
+          return res.json({success : 'You have rented your house successfully'});
+        } else {
+          return res.status(404).json({ error: 'Page not found, user does not exist'})
+        }
+      } else {
+        return res.status(404).json({ error: 'Page not found, house does not exist'})
+      }
+     } catch (e) {
+        return res.status(500).json({ error: 'Internal server error' });
+     }
+
+}
 module.exports = {
-  postHouse, allHouses, getHouse, myHouses, deleteHouse, putHouse, userHouses
+  postHouse, allHouses, getHouse, myHouses, deleteHouse, putHouse, userHouses, requestRentHouse, acceptRentHouse
 };

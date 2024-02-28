@@ -57,10 +57,12 @@ router.post('/register', register);
  *                 type: string
  *                 format: email
  *                 description: The email address of the user.
+ *                 default: ab@email1.com
  *               password:
  *                 type: string
  *                 format: password
  *                 description: The password for the user account.
+ *                 default: test1234
  *     responses:
  *       '200':
  *         description: User logged in successfully
