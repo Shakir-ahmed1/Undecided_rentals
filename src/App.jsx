@@ -11,18 +11,24 @@ import Message from './components/Message/Message';
 import './components/Map/Map.css'
 import Contact from './components/Contact/Contact';
 // import DataContext from './context/DataContext';
-// import {  useSelector, useDispatch } from 'react-redux'
-// import { useEffect, useContext } from 'react';
+import {  useSelector, useDispatch } from 'react-redux'
+import { useEffect, useContext } from 'react';
+import { getRentalData } from './actions/rentals';
 // import { getRentalData } from './actions/rentals';
 
 const App = () => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   // const {  bounds, setRentals } = useContext(DataContext)
-  // const rentDetails = useSelector((state) => state.rentals.rentalDetails)
+  const rentDetails = useSelector((state) => state.rentals.getAllRentals)
+  console.log('here is all your rentals',rentDetails)
 
   // useEffect(() => {
   //   dispatch(getRentalData(bounds?.sw, bounds?.ne))
   // },[bounds])
+
+  useEffect(() => {
+    dispatch(getRentalData())
+  },[])
   
   // useEffect(() => {
   //   setRentals(rentDetails)

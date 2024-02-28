@@ -199,6 +199,12 @@ export default function NavBar() {
         </ListItem>
       )}
       <Divider />
+        <ListItem disablePadding>
+          <ListItemButton component={Link} to="/">
+            <p style={{fontWeight:'bold'}}>Main Page</p>
+          </ListItemButton>
+        </ListItem>
+      <Divider />
       <div style={{ fontWeight: "bold", margin: "10px" }}>Categories</div>
       <List>
         <ListItem disablePadding>
@@ -217,8 +223,8 @@ export default function NavBar() {
           </ListItemButton>
         </ListItem>
         <Divider />
-        <ListItem disablePadding>
-          <ListItemButton>
+        <ListItem disablePadding >
+          <ListItemButton components={Link} to={"/contact_us"}>
             <Typography
               style={{
                 fontWeight: "700",
@@ -226,9 +232,7 @@ export default function NavBar() {
                 color: "black",
                 fontFamily:'Georgia'
               }}
-              variant="h6"
-              component={Link}
-              to={"/contact_us"}
+              variant="h6"              
             >
               Contact Us
             </Typography>
@@ -288,8 +292,8 @@ export default function NavBar() {
     const userData = { _id: sub, name, imageUrl: picture, email };
     try {
       dispatch({ type: "AUTH", payload: userData });
-      window.location.reload()
       Navigate("/");
+      window.location.reload()
       console.log(userData);
     } catch (error) {
       console.log(error);

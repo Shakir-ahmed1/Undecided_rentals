@@ -28,14 +28,16 @@ export const updateUser = (userId, updatedUser) =>
   API.put(`/api/users/${userId}/profiles`, updatedUser);
 export const getProfile = (userId) => 
   API.get(`/api/users/${userId}/profiles`);
-// export const getRentalDetails = () => {
-//   try {
-//     const response = API.get('/api/houses')
-//     return response
-//   } catch (error) {
-//     console.log(error)
-//   }
-// }
+
+export const getRentalDetails = () => {
+  try {
+    const response = API.get('/api/houses')
+    return response
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export const postRentalDetails = (rentalData) => {
   try {
     const response = API.post('/api/houses', rentalData);

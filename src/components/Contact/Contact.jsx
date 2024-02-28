@@ -18,7 +18,6 @@ const Contact = () => {
             display: "flex",
             justifyContent: "center",
             gap: "60px",
-            width:'700px'
           }}
         >
           <div
@@ -34,19 +33,26 @@ const Contact = () => {
               type="submit"
               color="primary"
               style={{
-                borderRadius:'15px',
-                height:'50px',
-                textTransform:'none',
-                fontSize:'17px',
-                fontFamily:'Georgia',
-                fontWeight:'bold'
+                borderRadius: "15px",
+                height: "50px",
+                textTransform: "none",
+                fontSize: "17px",
+                fontFamily: "Georgia",
+                fontWeight: "bold",
               }}
             >
               Send Message
             </Button>
           </div>
-          <div>
+          <div style={{width:'200px'}}>
             <h2>Get in Touch</h2>
+            <p>
+              At RentEase, we're dedicated to helping
+              you find the perfect home for your needs. Whether you're looking
+              for a cozy apartment in the heart of the city or a spacious family
+              house in the suburbs, we have a wide range of rental properties to
+              suit every lifestyle and budget.
+            </p>
           </div>
         </Paper>
         ={" "}

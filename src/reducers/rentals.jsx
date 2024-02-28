@@ -2,13 +2,14 @@ import { GETRENTAL, POSTRENTAL, ERROR, RENTALOCATION, AMENITY, GETALLAMENETIES, 
 
 const initialState = {
     rentalDetails : { amenities: [] },
+    getAllRentals: {},
     error: null
 }
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case GETRENTAL:
-      return { ...state, rentalDetails: action?.payload, error:null };
+      return { ...state, getAllRentals: action?.payload, error:null };
     case POSTRENTAL:
       return { ...state, rentalDetails: action?.payload, error:null };
     case RENTALOCATION:

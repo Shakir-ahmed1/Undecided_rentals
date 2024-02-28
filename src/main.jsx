@@ -9,6 +9,7 @@ import { DataProvider } from "./context/DataContext.jsx";
 import { getAllAmenities } from "./actions/rentals.jsx";
 
 store.dispatch(getAllAmenities())
+// store.dispatch(getRentalData)
 ReactDOM.createRoot(document.getElementById("RentEase")).render(
   <React.Fragment>
     <Router>

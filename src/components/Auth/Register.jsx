@@ -70,8 +70,8 @@ const Register = () => {
     const userData = { id: sub, name, imageUrl: picture, email };
     try {
       dispatch({ type: "AUTH", payload: userData });
-      window.location.reload()
       navigate("/");
+      window.location.reload()
       console.log(userData);
     } catch (error) {
       console.log(error);
