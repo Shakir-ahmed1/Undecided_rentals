@@ -3,6 +3,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const swaggerUi = require('swagger-ui-express');
 const cookieParser = require('cookie-parser');
+const path = require('path');
 const { connectDb } = require('./api/config/database');
 const openapiSpecification = require('./swagger/swaggerConfig');
 const userRoutes = require('./api/routes/User');
@@ -20,11 +21,14 @@ app.use([express.json(), express.urlencoded({ extended: true })]);
 app.use(cookieParser());
 app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(openapiSpecification));
 app.use(cors({ origin: 'http://localhost:3000' }));
-
 // routes
 app.use('/api/users', [userRoutes, userProfileRoutes]);
 app.use('/api/', [locationRoutes, amenityRoutes, houseRoutes, searchRoutes, postHousePhotos, reviewRoutes]);
 // app.use(erroHandler);
+app.get('/api/static/uploads/:imageName', (req, res) => {
+  const imageName = req.params.imageName;
+  return res.sendFile(path.join(__dirname,`../uploads/${imageName}`));
+});
 
 connectDb().then(app.listen(process.env.PORT, () => {
   // eslint-disable-next-line no-console
