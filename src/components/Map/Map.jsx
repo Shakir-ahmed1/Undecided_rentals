@@ -128,11 +128,12 @@ const Map = () => {
                   {rentals?.map((rental, i) => (
                   <div
                     key={i}
-                    lat={Number(rental?.latitude)}
-                    lng={Number(rental?.longitude)}
+                    lat={Number(rental?.location?.latitude)}
+                    lng={Number(rental?.location?.longitude)}
                     >
                       {!isDesktop ? (
-                        <LocationOnIcon color="primary"/> 
+                        <LocationOnIcon color="primary" lat={Number(rental?.location?.latitude)}
+                        lng={Number(rental?.location?.longitude)}/> 
                         ): (
                         // <Paper elevation={3} style={{width:'50px'}}>
                         //   <Typography variant="subtitle2" gutterBottom>
@@ -140,7 +141,9 @@ const Map = () => {
                         //   </Typography>
                         //   <img src={rental.photo ? rental.photo.images.large.url : "https://media.istockphoto.com/id/149060607/photo/for-rent-sign-in-front-of-new-house.jpg?s=612x612&w=0&k=20&c=By627yICPZugFR1j2_a_7MCEn1f5ltYlivg6Tv50JaQ="} alt={rental.name} />
                         // </Paper>
-                        <LocationOnIcon color="primary"/> 
+                        <LocationOnIcon color="primary"
+                        lat={Number(rental?.location?.latitude)}
+                    lng={Number(rental?.location?.longitude)}/> 
                       )
                       }
                       

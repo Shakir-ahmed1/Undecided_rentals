@@ -69,6 +69,7 @@ const Location = ({setOpenLocation}) => {
           }
           fullWidth
           name="country"
+          required
           variant="outlined"
           style={{
             margin: "10px 0 10px 0",
@@ -77,6 +78,7 @@ const Location = ({setOpenLocation}) => {
         <TextField
           value={locationData.city}
           label={"City"}
+          required
           onChange={(e) =>
             setLocationData({ ...locationData, city: e.target.value })
           }

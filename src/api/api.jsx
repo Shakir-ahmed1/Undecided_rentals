@@ -90,6 +90,15 @@ export const uploadPostPhoto = (image) => {
     console.log(error)
   }
 }
+
+export const getAllImages = () => {
+  try {
+    const response = API.get('/api/house/photos')
+    return response
+  } catch (error) {
+    console.error(error)
+  }
+}
 // export const getRentalDetails = async (sw, ne) => {
 //     try {
 //       const {data : { data }} = await axios.get(url_place, {

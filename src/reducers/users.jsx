@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 const initialState = {
   authData : null,
   error: null,
+  userProfileData:{}
 }
 
 export default (state = initialState, action) => {
@@ -27,9 +28,9 @@ export default (state = initialState, action) => {
         case UPDATEUSER:
           return state
         case ERROR:
-          return {  authData: null, error: action?.payload };
+          return {   error: action?.payload };
         case GETPROFILE:
-          return {...state, authData:{...state.authData, ...action.payload}, error:null}
+          return {...state, userProfileData:action.payload}
         default:
           return state;
   }

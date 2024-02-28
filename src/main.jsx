@@ -6,9 +6,10 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./app/store.jsx";
 import { DataProvider } from "./context/DataContext.jsx";
-import { getAllAmenities } from "./actions/rentals.jsx";
+import { getAllAmenities, getAllImages } from "./actions/rentals.jsx";
 
 store.dispatch(getAllAmenities())
+store.dispatch(getAllImages())
 // store.dispatch(getRentalData)
 ReactDOM.createRoot(document.getElementById("RentEase")).render(
   <React.Fragment>

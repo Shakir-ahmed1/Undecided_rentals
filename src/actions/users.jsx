@@ -41,7 +41,7 @@ export const updatedUser = (userId, updatedUser, navigate) => async (dispatch) =
 export const getUserProfile = (userId) => async (dispatch) => {
     try {
         const response = await api.getProfile(userId);
-        console.log('here is the user profile', response.data)
+        // console.log('here is the user profile', response.data)
         dispatch({type: GETPROFILE, payload:response.data})
     } catch (error) {
         console.log(error)

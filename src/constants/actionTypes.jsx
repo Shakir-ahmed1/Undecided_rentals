@@ -12,3 +12,4 @@ export const AMENITY = 'AMENITY';
 export const GETALLAMENETIES = 'GETALLAMENETIES';
 export const DELETEAMENITY = 'DELETEAMENITY';
 export const UPLOADPHOTO = 'UPLOADPHOTO';
+export const GETIMAGES = 'GETIMAGES';

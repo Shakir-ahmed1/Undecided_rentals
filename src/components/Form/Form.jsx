@@ -1,9 +1,8 @@
-import FileBase from "react-file-base64";
 import CloseIcon from "@mui/icons-material/Close";
 import { Button, Typography, TextField, Dialog, Paper } from "@mui/material";
 import Alert from "@mui/material/Alert";
 import { useDispatch, useSelector } from "react-redux";
-import { postRentalDetails, deleteAmenityById, uploadPostPhoto } from "../../actions/rentals";
+import { postRentalDetails, deleteAmenityById, getRentalData } from "../../actions/rentals";
 import { useEffect, useState } from "react";
 import Location from "../Location/Location";
 import Amenity from "../Amenity/Amenity";
@@ -15,6 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import ListItemText from '@mui/material/ListItemText';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import Image from "../Image/Image";
 
 const ITEM_HEIGHT = 40;
 const ITEM_PADDING_TOP = 5;
@@ -35,9 +35,9 @@ const Form = () => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [openLocation, setOpenLocation] = useState(false);
+  const [openImage, setOpenImage] = useState(false);
   const [openAmenity, setOpenAmenity] = useState(false);
   const [amenityName, setAmenityName] = useState([]);
-  const [success, setSuccess] = useState(false)
   const location_id = useSelector((state) => state.rentals?.rentalDetails || '')
   const amenities = useSelector((state) => state.rentals?.rentalDetails?.amenities)
   const selectedAmenityIds = amenityName?.map((name) => {
@@ -48,7 +48,6 @@ const Form = () => {
   // console.log(location_id,'here is youe rentalDetails reducer')
   const err = useSelector((state) => state.rentals?.error);
   // console.log(err)
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -93,38 +92,21 @@ const Form = () => {
     });
   };
 
-  const handleFileUpload = (files) => {
-    // Extract base64 data from each file object and append to housePhotos array
-    const newPhotos = files.base64;
-    dispatch(uploadPostPhoto(newPhotos))
-    setRentalData({ ...rentalData, housePhotos: [...rentalData.housePhotos, ...newPhotos] });
-  };
 
   console.log('here is your rentals', rentalData)
 
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(postRentalDetails(rentalData));
-    if (!err) {
-      setSuccess(true)
-    } else {
-      setSuccess(false)
-    }
+    dispatch(getRentalData())
   };
 
-  useEffect(() => {
-    if(err) {
-      handleClickOpen()
-    } else {
-      handleClose()
-    }
-  },[err])
 
   const canSave = rentalData.name && rentalData.numberOfRooms && rentalData.maxGuest && rentalData.pricePerNight && rentalData.location && rentalData.amenities
   
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
-      <Button color="primary" variant="contained" onClick={handleClickOpen}>
+      <Button color="primary" variant="contained" onClick={handleClickOpen} style={{marginBottom:'20px'}}>
         Rent Your House
       </Button>
       <Dialog open={open} onClose={handleClose}>
@@ -156,11 +138,6 @@ const Form = () => {
                   err?.errors?.name ||
                   "Something went wrong"}
               </Alert>)}
-            {success && (
-              <Alert severity="success">
-                  The House Rented Successfully
-              </Alert>
-            )}
             <TextField
               name="name"
               variant="outlined"
@@ -312,22 +289,13 @@ const Form = () => {
                 justifyContent: "space-between",
               }}
             >
-              <span>
-                <p
-                  style={{
-                    position: "relative",
-                    bottom: "10px",
-                    fontWeight: "bold",
-                  }}
-                >
-                  House Photos:
-                </p>
-              </span>
-              <FileBase
-                type="file"
-                multiple={false}
-                onDone={handleFileUpload}
-              />
+            <TextField
+              variant="outlined"
+              label="Insert Image"
+              onClick={() => setOpenImage(true)}
+              value={rentalData?.housePhotos || ''}
+              fullWidth
+            />
             </div>
             <Button
               variant="contained"
@@ -368,6 +336,15 @@ const Form = () => {
           }}
         >
           <Amenity setOpenAmenity={setOpenAmenity} />
+        </Paper>
+      </Dialog>
+      <Dialog open={openImage} onClose={() => setOpenImage(false)}>
+        <Paper
+          style={{
+            padding: "10px",
+          }}
+        >
+          <Image setOpenImage={setOpenImage} />
         </Paper>
       </Dialog>
     </div>

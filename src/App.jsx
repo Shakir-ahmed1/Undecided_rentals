@@ -10,29 +10,32 @@ import Footer from './components/Footer/Footer';
 import Message from './components/Message/Message';
 import './components/Map/Map.css'
 import Contact from './components/Contact/Contact';
-// import DataContext from './context/DataContext';
+import DataContext from './context/DataContext';
 import {  useSelector, useDispatch } from 'react-redux'
 import { useEffect, useContext } from 'react';
 import { getRentalData } from './actions/rentals';
-// import { getRentalData } from './actions/rentals';
+import { getUserProfile } from './actions/users';
 
 const App = () => {
   const dispatch = useDispatch();
-  // const {  bounds, setRentals } = useContext(DataContext)
+  const {  setRentals, setLoading } = useContext(DataContext)
   const rentDetails = useSelector((state) => state.rentals.getAllRentals)
-  console.log('here is all your rentals',rentDetails)
+  console.log('here is the rentals', rentDetails)
 
   // useEffect(() => {
   //   dispatch(getRentalData(bounds?.sw, bounds?.ne))
   // },[bounds])
 
   useEffect(() => {
+    setLoading(true)
     dispatch(getRentalData())
+    setLoading(false)
   },[])
   
-  // useEffect(() => {
-  //   setRentals(rentDetails)
-  // }, [rentDetails])
+  useEffect(() => {
+    setRentals(rentDetails)
+  }, [rentDetails])
+
 
   return (
     <>

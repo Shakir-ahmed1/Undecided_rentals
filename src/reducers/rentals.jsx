@@ -1,15 +1,16 @@
-import { GETRENTAL, POSTRENTAL, ERROR, RENTALOCATION, AMENITY, GETALLAMENETIES, DELETEAMENITY, UPLOADPHOTO } from "../constants/actionTypes";
+import { GETRENTAL, POSTRENTAL, ERROR, RENTALOCATION, AMENITY, GETALLAMENETIES, DELETEAMENITY, UPLOADPHOTO, GETIMAGES } from "../constants/actionTypes";
 
 const initialState = {
     rentalDetails : { amenities: [] },
-    getAllRentals: {},
+    getAllRentals: [],
+    getImages: [],
     error: null
 }
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case GETRENTAL:
-      return { ...state, getAllRentals: action?.payload, error:null };
+      return { ...state, getAllRentals: action?.payload };
     case POSTRENTAL:
       return { ...state, rentalDetails: action?.payload, error:null };
     case RENTALOCATION:
@@ -48,6 +49,11 @@ export default (state = initialState, action) => {
           ...state.rentalDetails,
           housePhotos: action.payload
       }
+    }
+    case GETIMAGES:
+      return {
+        ...state,
+        getImages: [action.payload]
     }
     case ERROR:
       return { rentalDetails: {...state.rentalDetails}, error: action?.payload };

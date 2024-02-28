@@ -6,7 +6,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useEffect, useState, useContext } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updatedUser, getUserProfile } from "../../actions/users";
 import DataContext from "../../context/DataContext";
 
@@ -15,49 +15,43 @@ const UserProfile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userId } = useParams() || {userId: user?.user?._id};
+  const userProfileData = useSelector((state) => state?.users?.userProfileData)
   
   useEffect(() => {
-    dispatch(getUserProfile(userId))
-  },[userId])
+    setTimeout(() => {
+      dispatch(getUserProfile(userId))
+    }, 10000)
+    console.log('here is the userProfile Data', userProfileData)
+  },[userProfileData])
   const [firstName, setFirstName] = useState(
-    user.user?.firstName
-      ? user.user?.firstName
-      : user?.firstName
-      ? user?.firstName
+    userProfileData?.firstName
+      ? userProfileData?.firstName
       : null
   );
   const [lastName, setLastName] = useState(
-    user.user?.lastName
-      ? user.user?.lastName
-      : user?.lastName
-      ? user?.lastName
+    userProfileData?.lastName
+      ? userProfileData?.lastName
       : null
   );
   const [phoneNumber, setPhoneNumber] = useState(
-    user.user?.phoneNumber
-      ? user.user?.phoneNumber
-      : user?.phoneNumber
-      ? user?.phoneNumber
+    userProfileData?.phoneNumber
+      ? userProfileData?.phoneNumber
       : null
   );
   const [bio, setBio] = useState(
-    user.user?.bio ? user.user?.bio : user?.bio ? user?.bio : null
+    userProfileData?.profile?.bio ? userProfileData?.profile?.bio : null
   );
   const [country, setCountry] = useState(
-    user.user?.country
-      ? user.user?.country
-      : user?.country
-      ? user?.country
+    userProfileData?.profile?.country
+      ? userProfileData?.profile?.country
       : null
   );
   const [state, setState] = useState(
-    user.user?.state ? user.user?.state : user?.state ? user?.state : null
+    userProfileData?.profile?.state ? userProfileData?.profile?.state : null
   );
   const [houseAddress, setHouseAddress] = useState(
-    user.user?.houseAddress
-      ? user.user?.houseAddress
-      : user?.houseAddress
-      ? user?.houseAddress
+    userProfileData?.profile?.houseAddress
+      ? userProfileData?.profile?.houseAddress
       : null
   );
   const handleSubmit = (e) => {

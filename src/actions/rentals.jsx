@@ -1,5 +1,5 @@
 import * as api from '../api/api';
-import { ERROR, GETRENTAL, POSTRENTAL, RENTALOCATION, AMENITY, GETALLAMENETIES,DELETEAMENITY,UPLOADPHOTO } from '../constants/actionTypes'
+import { ERROR, GETRENTAL, POSTRENTAL, RENTALOCATION, AMENITY, GETALLAMENETIES,DELETEAMENITY,UPLOADPHOTO,GETIMAGES  } from '../constants/actionTypes'
 
 export const getRentalData = () => async (dispatch) => {
     try {
@@ -8,7 +8,7 @@ export const getRentalData = () => async (dispatch) => {
         dispatch({ type: GETRENTAL, payload: response.data })
     } catch (error) {
         console.log(error)
-        dispatch({ type: ERROR, payload: error.response.data})
+        dispatch({ type: ERROR, payload: error?.response?.data})
     }
 }
 
@@ -52,7 +52,7 @@ export const getAllAmenities = () => async (dispatch) => {
     dispatch({type: GETALLAMENETIES, payload:response.data})
    } catch (error) {
     console.log(error)
-    dispatch({ type: ERROR, payload: error.response.data})
+    dispatch({ type: ERROR, payload: error?.response?.data})
    }
 }
 
@@ -70,8 +70,19 @@ export const deleteAmenityById = (AmenityId) => async (dispatch) => {
 export const uploadPostPhoto = (image) => async (dispatch) => {
     try {
         const response = await api.uploadPostPhoto(image)
-        console.log('here is the response of uploadinga photo', response)
-        dispatch({type:UPLOADPHOTO, payload:response})
+        console.log('here is the response of uploadinga photo', response.data)
+        dispatch({type:UPLOADPHOTO, payload:response.data})
+    } catch (error) {
+        console.log(error)
+        dispatch({ type: ERROR, payload: error?.response?.data})
+    }
+}
+
+export const getAllImages = (image) => async (dispatch) => {
+    try {
+        const response = await api.getAllImages(image)
+        console.log('here is all images', response.data)
+        dispatch({type:GETIMAGES, payload:response.data})
     } catch (error) {
         console.log(error)
         dispatch({ type: ERROR, payload: error?.response?.data})

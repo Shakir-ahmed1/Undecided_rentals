@@ -14,14 +14,14 @@ export const DataProvider = ({ children }) => {
   const [coordinates, setCoordinates] = useState({lat: 0, lng: 0})
   const [bounds, setBounds] = useState({})
   const [rentals, setRentals] = useState([])
+  const [loading, setLoading] = useState(true)
  
-
-
   return (
     <DataContext.Provider value={{ 
       user, setUser, coordinates, 
     setCoordinates, bounds, setBounds,
-    rentals, setRentals, errMsg, setErrMsg}}>
+    rentals, setRentals, errMsg, setErrMsg,
+    loading, setLoading}}>
       {children}
     </DataContext.Provider>
   );
