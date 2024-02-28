@@ -112,8 +112,8 @@ const houseSchema = new mongoose.Schema({
   },
   isPublic: {
     type: Boolean,
-    default: true
-  }
+    default: true,
+  },
 });
 
 const locationModel = mongoose.model('Location', locationSchema);

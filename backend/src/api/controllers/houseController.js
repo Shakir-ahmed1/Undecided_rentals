@@ -84,19 +84,18 @@ async function allHouses(req, res) {
   try {
     const houses = await houseModel.find().populate([{
       path: 'amenities',
-      select: '-_id -__v', 
+      select: '-_id -__v',
     }, {
       path: 'housePhotos',
-      select: '-_id -__v', 
+      select: '-_id -__v',
     }, {
       path: 'user',
       select: 'firstName lastName email profile',
-      populate: {path: 'profile', select : 'profileImage -_id'}
-    }
-  ]);
+      populate: { path: 'profile', select: 'profileImage -_id' },
+    },
+    ]);
     res.json(houses);
   } catch (e) {
-    console.log(e);
     res.status(500).json({ error: 'Internal server error' });
   }
 }
@@ -106,16 +105,16 @@ async function getHouse(req, res) {
     const { houseId } = req.params;
     const house = await houseModel.findOne({ _id: houseId }).populate([{
       path: 'amenities',
-      select: '-_id -__v', 
+      select: '-_id -__v',
     }, {
       path: 'housePhotos',
-      select: '-_id -__v', 
+      select: '-_id -__v',
     }, {
       path: 'user',
       select: 'firstName lastName email profile',
-      populate: {path: 'profile', select : 'profileImage -_id'}
-    }
-  ]);
+      populate: { path: 'profile', select: 'profileImage -_id' },
+    },
+    ]);
 
     if (!house) {
       res.status(404).json({ error: 'House could not be found' });
@@ -136,17 +135,17 @@ async function myHouses(req, res) {
     const { user } = req;
     if (req.authenticated) {
       const houses = await houseModel.find({ user }).populate([{
-      path: 'amenities',
-      select: '-_id -__v', 
-    }, {
-      path: 'housePhotos',
-      select: '-_id -__v', 
-    }, {
-      path: 'user',
-      select: 'firstName lastName email profile',
-      populate: {path: 'profile', select : 'profileImage -_id'}
-    }
-  ]);;
+        path: 'amenities',
+        select: '-_id -__v',
+      }, {
+        path: 'housePhotos',
+        select: '-_id -__v',
+      }, {
+        path: 'user',
+        select: 'firstName lastName email profile',
+        populate: { path: 'profile', select: 'profileImage -_id' },
+      },
+      ]);
       res.json(houses);
     } else {
       res.status(401).json({ error: 'Unauthorized. please logIn to continue' });
@@ -163,16 +162,16 @@ async function userHouses(req, res) {
     if (theUser) {
       const houses = await houseModel.find({ user: userId }).populate([{
         path: 'amenities',
-        select: '-_id -__v', 
+        select: '-_id -__v',
       }, {
         path: 'housePhotos',
-        select: '-_id -__v', 
+        select: '-_id -__v',
       }, {
         path: 'user',
         select: 'firstName lastName email profile',
-        populate: {path: 'profile', select : 'profileImage -_id'}
-      }
-    ]);
+        populate: { path: 'profile', select: 'profileImage -_id' },
+      },
+      ]);
       res.json(houses);
     } else {
       res.status(404).json({ error: 'Page Not Found' });
@@ -240,53 +239,80 @@ async function putHouse(req, res) {
   }
 }
 
-
-
 async function requestRentHouse(req, res) {
   const { houseId } = req.params;
-  try {  
+  try {
     const theHouse = await houseModel.findOne({ _id: houseId });
-    const theRenter = await User.findOne({ _id: req.user });
-  if (theHouse) {
-    if (theHouse.requestedBy.includes(req.user)) {
-      return res.status(400).json({error: 'Bad request, you have already requested for rent'});
+    if (theHouse) {
+      if (theHouse.requestedBy.includes(req.user)) {
+        return res.status(400).json({ error: 'Bad request, you have already requested for rent' });
+      }
+      if (theHouse.reservedBy === req.user) {
+        return res.status(400).json({ error: 'Bad request, you have already rented the house' });
+      }
+      if (theHouse.user.toString() === req.user) {
+        return res.status(400).json({ error: 'Bad request, you can not rent your own house' });
+      }
+      theHouse.requestedBy.push(req.user);
+      await theHouse.save();
+      return res.json({ success: 'You have requested rent successfully' });
     }
-    if (theHouse.reservedBy === req.user) {
-      return res.status(400).json({error: 'Bad request, you have already rented the house'});
-    }
-    theHouse.requestedBy.push(req.user);
-    const house = await theHouse.save();
-    return res.json({success : 'You have requested rent successfully'});
-   } else {
-    res.status(404).json({ error: 'Page Not found, house does not exist' });
-  } } catch (e) {
-    console.log(e);
-    res.status(500).json({ error: 'Internal server error' });
+    return res.status(404).json({ error: 'Page Not found, house does not exist' });
+  } catch (e) {
+    return res.status(500).json({ error: 'Internal server error' });
   }
 }
 
 async function acceptRentHouse(req, res) {
   const { houseId, userId } = req.params;
-    try { 
-      const theHouse = await houseModel.findOne({ _id: houseId });
-      if (theHouse) {
-        const theUser = await User.findOne({_id : userId});
-        if (theUser) {
-          theHouse.reservedBy = theUser;
-          theHouse.requestedBy = [];
-          const house = await theHouse.save();    
-          return res.json({success : 'You have rented your house successfully'});
-        } else {
-          return res.status(404).json({ error: 'Page not found, user does not exist'})
-        }
-      } else {
-        return res.status(404).json({ error: 'Page not found, house does not exist'})
+  try {
+    const theHouse = await houseModel.findOne({ _id: houseId, user: req.user });
+    if (theHouse) {
+      const theUser = await User.findOne({ _id: userId });
+      if (theUser && theHouse.requestedBy.includes(userId)) {
+        theHouse.reservedBy = theUser;
+        theHouse.requestedBy = [];
+        await theHouse.save();
+        return res.json({ success: 'You have rented your house successfully' });
       }
-     } catch (e) {
-        return res.status(500).json({ error: 'Internal server error' });
-     }
-
+      return res.status(404).json({ error: 'Page not found, user does not exist or did not ask for rent' });
+    }
+    return res.status(404).json({ error: 'Page not found, house does not exist' });
+  } catch (e) {
+    return res.status(500).json({ error: 'Internal server error' });
+  }
 }
+
+async function unRent(req, res) {
+  const { houseId } = req.params;
+  try {
+    const theHouse = await houseModel.findOne({ _id: houseId });
+    if (theHouse) {
+      if (theHouse.user.toString() === req.user) {
+        if (theHouse.reservedBy === null) {
+          return res.status(400).json({ error: 'Bad request, this house is already free for rent' });
+        }
+        theHouse.reservedBy = null;
+        await theHouse.save();
+        return res.json({ success: 'The house is now open for rent' });
+      }
+      return res.status(403).json({ error: 'Forbiden, you do not own this house' });
+    }
+    return res.status(404).json({ error: 'Page not found, the house could not be found' });
+  } catch (e) {
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
 module.exports = {
-  postHouse, allHouses, getHouse, myHouses, deleteHouse, putHouse, userHouses, requestRentHouse, acceptRentHouse
+  postHouse,
+  allHouses,
+  getHouse,
+  myHouses,
+  deleteHouse,
+  putHouse,
+  userHouses,
+  requestRentHouse,
+  acceptRentHouse,
+  unRent,
 };

@@ -26,8 +26,8 @@ app.use('/api/users', [userRoutes, userProfileRoutes]);
 app.use('/api/', [locationRoutes, amenityRoutes, houseRoutes, searchRoutes, postHousePhotos, reviewRoutes]);
 // app.use(erroHandler);
 app.get('/api/static/uploads/:imageName', (req, res) => {
-  const imageName = req.params.imageName;
-  return res.sendFile(path.join(__dirname,`../uploads/${imageName}`));
+  const { imageName } = req.params;
+  return res.sendFile(path.join(__dirname, `../uploads/${imageName}`));
 });
 
 connectDb().then(app.listen(process.env.PORT, () => {

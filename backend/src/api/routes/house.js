@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const {
-  postHouse, allHouses, getHouse, myHouses, deleteHouse, putHouse, userHouses, requestRentHouse, acceptRentHouse 
+  postHouse, allHouses, getHouse, myHouses,
+  deleteHouse, putHouse, userHouses, requestRentHouse, acceptRentHouse, unRent,
 } = require('../controllers/houseController');
 const { requireAuth } = require('../middelware/jwt');
 
@@ -371,7 +372,32 @@ routes.get('/houses/rent/request/:houseId', requireAuth, requestRentHouse);
  *       500:
  *         description: Internal server error.
  */
-routes.get('/houses/rent/accept/:houseId/:userId', acceptRentHouse);
+routes.get('/houses/rent/accept/:houseId/:userId', requireAuth, acceptRentHouse);
 
-
+/**
+ * @openapi
+ * /api/houses/rent/free/{houseId}:
+ *   get:
+ *     tags:
+ *       - Rent
+ *     summary: make a house available for rent
+ *     description: makes the house specified in the Id open for rent
+ *     parameters:
+ *     - in: path
+ *       name: houseId
+ *       required: true
+ *       description: The house ID.
+ *     responses:
+ *       200:
+ *         description: success, The house is now open for ren
+ *       400:
+ *         description: Bad request, this house is already free for rent
+ *       403:
+ *         description: Forbiden, you do not own this house
+ *       404:
+ *         description: page Not found.
+ *       500:
+ *         description: Internal server error.
+ */
+routes.get('/houses/rent/free/:houseId', requireAuth, unRent);
 module.exports = routes;
