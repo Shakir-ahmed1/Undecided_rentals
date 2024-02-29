@@ -84,7 +84,7 @@ async function allHouses(req, res) {
   try {
     const houses = await houseModel.find().populate([{
       path: 'amenities',
-      select: '-_id -__v',
+      select: '-__v',
     }, {
       path: 'housePhotos',
       select: '-_id -__v',
