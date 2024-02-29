@@ -18,7 +18,7 @@ import { useContext } from "react";
 import DataContext from "../../context/DataContext";
 
 const RentEase = ({ rental }) => {
-  const {loading} = useContext(DataContext)
+  const {loading, user} = useContext(DataContext)
   return (
     <>
       {!loading ? (
@@ -44,6 +44,7 @@ const RentEase = ({ rental }) => {
           >
             {rental?.user?.firstName + " " + rental?.user?.lastName}
           </Typography>
+          {(user?.user?._id === rental?.user?._id) &&
           <MoreVertIcon
             style={{
               position: "absolute",
@@ -54,6 +55,7 @@ const RentEase = ({ rental }) => {
             }}
             fontSize="large"
           />
+          }
           <CardContent>
             <Typography gutterBottom variant="h6">
               {rental?.name}
@@ -110,13 +112,16 @@ const RentEase = ({ rental }) => {
                 cursor: "pointer",
               }}
             />
-            <Button
-              variant="contained"
-              color="error"
-              style={{ position: "relative", right: "10px", bottom: "10px" }}
-            >
-              Delete
-            </Button>
+            {(user?.user?._id === rental?.user?._id) &&
+              <Button
+                variant="contained"
+                color="error"
+                style={{ position: "relative", right: "10px", bottom: "10px" }}
+              >
+                Delete
+              </Button>
+            }
+            
           </Box>
         </Card>
       ) : (
