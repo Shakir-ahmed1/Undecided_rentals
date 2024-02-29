@@ -13,10 +13,20 @@ const connectDb = async () => {
     console.log(`db connection failure: ${error}`);
   }
 };
-
+function RandomElement(myArray) {
+  const randomIndex = Math.floor(Math.random() * myArray.length);
+  return myArray[randomIndex];
+}
+let num = 0;
+let lon = 0.012, lat = 0.03;
 async function main() {
+  const number = num;
+  // const lon = 0.002;
+  // const lat = 0.003;
+  const dummyHouses = ['Whispering Pines', 'Moonlit Haven', 'Serenity Villa', 'Enchanted Cottage', 'Harmony House', 'Mossy Hollow', 'Stardust Manor', 'Willowbrook Retreat', 'Elysian Fields', 'Tranquil Terrace', 'Mystic Meadows', 'Sunflower Sanctuary', 'Lakeside Lodge', 'Rosewood Residence', 'Azure Abode', 'Fireside Chalet', 'Golden Gateways', 'Dreamcatcher Den', 'Crimson Crest', 'Amber Arbor', 'The Ville', 'Mountain View', 'Emerald Castle', 'Sea Breeze', 'The Palace', 'The Cottage', 'Sunshine Manor', 'Dreamscape', 'Moonshadow Manor', 'Harborview Hideaway', 'Cedarwood Cottage', 'Starlight Sanctuary', 'Meadowlark Meadows', 'Ocean’s Edge', 'Maplewood Manor', 'Sunset Serenade', 'Whimsical Woods', 'Lavender Lane', 'Riverstone Retreat', 'Willow Whisper', 'Golden Gate Cottage', 'Pinecone Palace', 'Azure Alcove', 'Dreamcatcher Dwelling', 'Honeysuckle Haven', 'Firefly Farmhouse', 'Mountain Mist', 'Rose Petal Residence', 'Sapphire Springs', 'Cherry Blossom Chalet', 'Wildflower Way', 'Moonrise Manor', 'Starry Skies', 'Rustic Ridge', 'Secret Garden', 'Amethyst Abode', 'Tranquil Timber', 'Enchanted Echoes'];
+  const dummyNames = ['Heaven', 'Bautista', 'Emilee', 'Lindsey', 'Kinsley', 'Reynolds', 'Alonso', 'Kim', 'Brooklyn', 'Franco', 'Brycen', 'Gibson', 'Allie', 'Wagner', 'Zaniyah', 'Good', 'Natalia', 'Graves', 'Deborah', 'Lang', 'Mark', 'Walter', 'April', 'Juarez', 'Sonja', 'Hood', 'Barbara', 'Bradly', 'Ashli', 'Belinda', 'Jakob', 'Marcella', 'Deshaun', 'Tahj', 'Daren', 'Karlie', 'Ricardo', 'Nyla', 'Elsa', 'Eric', 'Kalista', 'Leandra', 'Esteban', 'Joan', 'Camryn', 'Destinee', 'Miguelangel', 'Lauryn', 'Lucas', 'Shanice', 'Jessica', 'Randolph', 'Mina', 'Harold', 'Layne', 'Liam', 'Foster', 'Sophia', 'Patel', 'Noah', 'Hayes', 'Olivia', 'Nguyen', 'Ethan', 'Wallace', 'Ava', 'Carter', 'William', 'Lee', 'Isabella', 'Rivera', 'James', 'Mitchell', 'Emma', 'Turner', 'Benjamin', 'Price', 'Mia', 'Simmons', 'Alexander', 'Cooper', 'Charlotte', 'Reed', 'Michael', 'Ross', 'Amelia', 'Morgan', 'Daniel', 'Butler', 'Harper', 'Coleman', 'Matthew', 'Gray', 'Evelyn', 'Foster', 'Joseph', 'Wright', 'Abigail', 'Peterson', 'David', 'Hughes', 'Emily', 'Brooks', 'Henry', 'Bennett', 'Sofia', 'Diaz', 'Jackson', 'Ward', 'Scarlett', 'Foster', 'Sebastian', 'Hayes', 'Lily', 'Adams'];
+  if (num === 0) {
 
-  if (process.argv[2] === "delete") {
     await User.deleteMany({});
     await Profile.deleteMany({});
     await amenityModel.deleteMany({});
@@ -25,7 +35,7 @@ async function main() {
     await Review.deleteMany({});
     await locationModel.deleteMany({});
   }
- 
+
 
   const profile1 = await Profile.create({
     "bio": "This is my bio. i am profile1 for user 1",
@@ -72,54 +82,54 @@ async function main() {
 
 
   const user1 = await User.create({
-    "firstName": "aaaa",
-    "lastName": "bbbb",
-    "email": "ab@email1.com",
+    "firstName": RandomElement(dummyNames),
+    "lastName": RandomElement(dummyNames),
+    "email": `ab@email${number}1.com`,
     "phoneNumber": "1234567890",
     "password": "test1234",
     "profile": profile1
   });
   const user2 = await User.create({
-    "firstName": "cccc",
-    "lastName": "dddd",
-    "email": "ab@email2.com",
+    "firstName": RandomElement(dummyNames),
+    "lastName": RandomElement(dummyNames),
+    "email": `ab@email${number}2.com`,
     "phoneNumber": "1234567890",
     "password": "test1234",
     "profile": profile2
   });
   const user3 = await User.create({
-    "firstName": "eeee",
-    "lastName": "ffff",
-    "email": "ab@email3.com",
+    "firstName": RandomElement(dummyNames),
+    "lastName": RandomElement(dummyNames),
+    "email": `ab@email${number}3.com`,
     "phoneNumber": "1234567890",
     "password": "test1234",
     "profile": profile3
   });
   const user4 = await User.create({
-    "firstName": "gggg",
-    "lastName": "hhhh",
-    "email": "ab@email4.com",
+    "firstName": RandomElement(dummyNames),
+    "lastName": RandomElement(dummyNames),
+    "email": `ab@email${number}4.com`,
     "phoneNumber": "1234567890",
     "password": "test1234",
     "profile": profile4
   });
   const user5 = await User.create({
-    "firstName": "iiii",
-    "lastName": "jjjj",
-    "email": "ab@email5.com",
+    "firstName": RandomElement(dummyNames),
+    "lastName": RandomElement(dummyNames),
+    "email": `ab@email${number}5.com`,
     "phoneNumber": "1234567890",
     "password": "test1234",
     "profile": profile5
   });
   const user6 = await User.create({
-    "firstName": "kkkk",
-    "lastName": "llll",
-    "email": "ab@email6.com",
+    "firstName": RandomElement(dummyNames),
+    "lastName": RandomElement(dummyNames),
+    "email": `ab@email${number}6.com`,
     "phoneNumber": "1234567890",
     "password": "test1234",
     "profile": profile6
   });
-  const user_coordinates = { "latitude": 9.005401, "longitude": 38.763611 };
+  const user_coordinates = { "latitude": lat + 9.005401, "longitude": lon + 38.763611 };
   // 9.005401, 38.763611 // 0m
   // 9.004901, 38.763397 // 60m
   // 9.006131, 38.764229 // 105m
@@ -131,152 +141,102 @@ async function main() {
   // 9.009397, 38.774236 // 1248m
   // 9.006252, 38.750483 // 1444m
   // 9.017672, 38.772688 // 1689m
-
-  const amenity1 = await amenityModel.create({ "name": "Wi-Fi" })
-  const amenity2 = await amenityModel.create({ "name": "Water tanker" })
-  const amenity3 = await amenityModel.create({ "name": "Ventlator" })
-  const amenity4 = await amenityModel.create({ "name": "House heator" })
-  const amenity5 = await amenityModel.create({ "name": "Wired cellphone" })
-  const amenity6 = await amenityModel.create({ "name": "Steam bath" })
+  let amenity1, amenity2, amenity3, amenity4, amenity5, amenity6;
+  if (num === 0) {
+    amenity1 = await amenityModel.create({ "name": "Wi-Fi" })
+    amenity2 = await amenityModel.create({ "name": "Water tanker" })
+    amenity3 = await amenityModel.create({ "name": "Ventlator" })
+    amenity4 = await amenityModel.create({ "name": "House heator" })
+    amenity5 = await amenityModel.create({ "name": "Wired cellphone" })
+    amenity6 = await amenityModel.create({ "name": "Steam bath" })
+  } else {
+    const allAmenities = await amenityModel.find();
+    amenity1 = allAmenities[0];
+    amenity2 = allAmenities[1];
+    amenity3 = allAmenities[2];
+    amenity4 = allAmenities[3];
+    amenity5 = allAmenities[4];
+    amenity6 = allAmenities[5];
+  }
 
   const location1 = await locationModel.create({
     "country": "Ethiopia", "city": "Addis Abeba",
-    "latitude": 9.004901, "longitude": 38.763397
+    "latitude": lat + 9.004901, "longitude": lon + 38.763397
   });
   const location2 = await locationModel.create({
     "country": "Ethiopia", "city": "Addis Abeba",
-    "latitude": 9.017672, "longitude": 38.772688
+    "latitude": lat + 9.017672, "longitude": lon + 38.772688
   });
   const location3 = await locationModel.create({
     "country": "Ethiopia", "city": "Addis Abeba",
-    "latitude": 9.009397, "longitude": 38.774236
+    "latitude": lat + 9.009397, "longitude": lon + 38.774236
   })
   const location4 = await locationModel.create({
     "country": "Ethiopia", "city": "Addis Abeba",
-    "latitude": 9.008912, "longitude": 38.761920
+    "latitude": lat + 9.008912, "longitude": lon + 38.761920
   })
   const location5 = await locationModel.create({
     "country": "Ethiopia", "city": "Addis Abeba",
-    "latitude": 9.006131, "longitude": 38.764229
+    "latitude": lat + 9.006131, "longitude": lon + 38.764229
   })
   const location6 = await locationModel.create({
     "country": "Ethiopia", "city": "Addis Abeba",
-    "latitude": 9.009661, "longitude": 38.760110
+    "latitude": lat + 9.009661, "longitude": lon + 38.760110
   })
   const location7 = await locationModel.create({
     "country": "Ethiopia", "city": "Addis Abeba",
-    "latitude": 9.005362, "longitude": 38.758299
+    "latitude": lat + 9.005362, "longitude": lon + 38.758299
   })
   const location8 = await locationModel.create({
     "country": "Ethiopia", "city": "Addis Abeba",
-    "latitude": 9.002153, "longitude": 38.764813
+    "latitude": lat + 9.002153, "longitude": lon + 38.764813
   })
   const location9 = await locationModel.create({
     "country": "Ethiopia", "city": "Addis Abeba",
-    "latitude": 9.006252, "longitude": 38.750483
+    "latitude": lat + 9.006252, "longitude": lon + 38.750483
   })
   const location10 = await locationModel.create({
     "country": "Ethiopia", "city": "Addis Abeba",
-    "latitude": 9.007665, "longitude": 38.764056
+    "latitude": lat + 9.007665, "longitude": lon + 38.764056
   })
 
 
-// house Photos
-const hp1 = await housePhotoModel.create({
-  fileName: 'uploads/1.jpg'
-});
-const hp2 = await housePhotoModel.create({
-  fileName: 'uploads/2.jpg'
-});
-const hp3 = await housePhotoModel.create({
-  fileName: 'uploads/3.jpg'
-});
-const hp4 = await housePhotoModel.create({
-  fileName: 'uploads/4.jpg'
-});
-const hp5 = await housePhotoModel.create({
-  fileName: 'uploads/5.jpg'
-});
-const hp6 = await housePhotoModel.create({
-  fileName: 'uploads/6.jpg'
-});
-const hp7 = await housePhotoModel.create({
-  fileName: 'uploads/7.jpg'
-});
-const hp8 = await housePhotoModel.create({
-  fileName: 'uploads/8.jpg'
-});
-const hp9 = await housePhotoModel.create({
-  fileName: 'uploads/9.jpg'
-});
-const hp10 = await housePhotoModel.create({
-  fileName: 'uploads/10.jpg'
-});
-const hp11 = await housePhotoModel.create({
-  fileName: 'uploads/11.jpg'
-});
-const hp12 = await housePhotoModel.create({
-  fileName: 'uploads/12.jpg'
-});
-const hp13 = await housePhotoModel.create({
-  fileName: 'uploads/13.jpg'
-});
-const hp14 = await housePhotoModel.create({
-  fileName: 'uploads/14.jpg'
-});
-const hp15 = await housePhotoModel.create({
-  fileName: 'uploads/15.jpg'
-});
-const hp16 = await housePhotoModel.create({
-  fileName: 'uploads/16.jpg'
-});
-const hp17 = await housePhotoModel.create({
-  fileName: 'uploads/17.jpg'
-});
-const hp18 = await housePhotoModel.create({
-  fileName: 'uploads/18.jpg'
-});
-const hp19 = await housePhotoModel.create({
-  fileName: 'uploads/19.jpg'
-});
-const hp20 = await housePhotoModel.create({
-  fileName: 'uploads/20.jpg'
-});
-const hp21 = await housePhotoModel.create({
-  fileName: 'uploads/21.jpg'
-});
-const hp22 = await housePhotoModel.create({
-  fileName: 'uploads/22.jpg'
-});
-const hp23 = await housePhotoModel.create({
-  fileName: 'uploads/23.jpg'
-});
-const hp24 = await housePhotoModel.create({
-  fileName: 'uploads/24.jpg'
-});
-const hp25 = await housePhotoModel.create({
-  fileName: 'uploads/25.jpg'
-});
-const hp26 = await housePhotoModel.create({
-  fileName: 'uploads/26.jpg'
-});
-const hp27 = await housePhotoModel.create({
-  fileName: 'uploads/27.jpg'
-});
-const hp28 = await housePhotoModel.create({
-  fileName: 'uploads/28.jpg'
-});
-const hp29 = await housePhotoModel.create({
-  fileName: 'uploads/29.jpg'
-});
-const hp30 = await housePhotoModel.create({
-  fileName: 'uploads/30.jpg'
-});
+  // house Photos
+  const hp1 = await housePhotoModel.create({
+    fileName: `uploads/${num}1.jpg`
+  });
+  const hp2 = await housePhotoModel.create({
+    fileName: `uploads/${num}2.jpg`
+  });
+  const hp3 = await housePhotoModel.create({
+    fileName: `uploads/${num}3.jpg`
+  });
+  const hp4 = await housePhotoModel.create({
+    fileName: `uploads/${num}4.jpg`
+  });
+  const hp5 = await housePhotoModel.create({
+    fileName: `uploads/${num}5.jpg`
+  });
+  const hp6 = await housePhotoModel.create({
+    fileName: `uploads/${num}6.jpg`
+  });
+  const hp7 = await housePhotoModel.create({
+    fileName: `uploads/${num}7.jpg`
+  });
+  const hp8 = await housePhotoModel.create({
+    fileName: `uploads/${num}8.jpg`
+  });
+  const hp9 = await housePhotoModel.create({
+    fileName: `uploads/${num}9.jpg`
+  });
+  const hp10 = await housePhotoModel.create({
+    fileName: `uploads/${num}0.jpg`
+  });
 
   // owners of the houses - 1,2,2,2,5,2,3,2,3,5
   const house1 = await houseModel.create({
     "user": user1,
-    "name": "House1",
+    "name": RandomElement(dummyHouses),
     "description": "This is Just a description for House1",
     "numberOfRooms": 2,
     "maxGuest": 3,
@@ -289,7 +249,7 @@ const hp30 = await housePhotoModel.create({
 
   const house2 = await houseModel.create({
     "user": user2,
-    "name": "House2",
+    "name": RandomElement(dummyHouses),
     "description": "This is Just a description for House2",
     "numberOfRooms": 3,
     "maxGuest": 4,
@@ -303,9 +263,9 @@ const hp30 = await housePhotoModel.create({
 
   const house3 = await houseModel.create({
     "user": user2,
-    "name": "House3",
+    "name": RandomElement(dummyHouses),
     "description": "This is Just a description for House3. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    "numberOfRooms": 1,
+    "numberOfRooms": 2,
     "maxGuest": 5,
     "pricePerNight": 60,
     "location": location3,
@@ -317,7 +277,7 @@ const hp30 = await housePhotoModel.create({
 
   const house4 = await houseModel.create({
     "user": user2,
-    "name": "House4",
+    "name": RandomElement(dummyHouses),
     "description": "This is Just a description for House4",
     "numberOfRooms": 7,
     "maxGuest": 8,
@@ -330,7 +290,7 @@ const hp30 = await housePhotoModel.create({
 
   const house5 = await houseModel.create({
     "user": user5,
-    "name": "House5",
+    "name": RandomElement(dummyHouses),
     "description": "This is Just a description for House5",
     "numberOfRooms": 2,
     "maxGuest": 1,
@@ -343,7 +303,7 @@ const hp30 = await housePhotoModel.create({
 
   const house6 = await houseModel.create({
     "user": user2,
-    "name": "House6",
+    "name": RandomElement(dummyHouses),
     "description": "This is Just a description for House6.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
     "numberOfRooms": 4,
     "maxGuest": 4,
@@ -356,7 +316,7 @@ const hp30 = await housePhotoModel.create({
 
   const house7 = await houseModel.create({
     "user": user3,
-    "name": "House7",
+    "name": RandomElement(dummyHouses),
     "description": "This is Just a description for House7",
     "numberOfRooms": 1,
     "maxGuest": 2,
@@ -370,7 +330,7 @@ const hp30 = await housePhotoModel.create({
 
   const house8 = await houseModel.create({
     "user": user2,
-    "name": "House8",
+    "name": RandomElement(dummyHouses),
     "description": "This is Just a description for House8",
     "numberOfRooms": 4,
     "maxGuest": 6,
@@ -383,7 +343,7 @@ const hp30 = await housePhotoModel.create({
 
   const house9 = await houseModel.create({
     "user": user3,
-    "name": "House9",
+    "name": RandomElement(dummyHouses),
     "description": "This is Just a description for House9",
     "numberOfRooms": 6,
     "maxGuest": 11,
@@ -396,7 +356,7 @@ const hp30 = await housePhotoModel.create({
 
   const house10 = await houseModel.create({
     "user": user5,
-    "name": "House10",
+    "name": RandomElement(dummyHouses),
     "description": "This is Just a description for House10Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
     "numberOfRooms": 10,
     "maxGuest": 12,
@@ -535,13 +495,24 @@ const hp30 = await housePhotoModel.create({
   });
 
 
-  // eslint-disable-next-line no-console
-  console.log("done");
-  process.exit();
 }
 
 connectDb().then(
-  // eslint-disable-next-line no-console
-  console.log("connected"),
-  main()
+  async () => {
+    // eslint-disable-next-line no-console
+    console.log("connected");
+    let a = 0;
+    while (a < Number(process.argv[2])) {
+      await main();
+
+      lat += lat;
+      lon += lon;
+      num += 1;
+      a += 1;
+    }
+    // eslint-disable-next-line no-console
+    console.log("done", `total ${10 * Number(process.argv[2])} houses`);
+    process.exit();
+  }
+
 );
