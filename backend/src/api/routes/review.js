@@ -37,8 +37,6 @@ const routes = Router();
  * @openapi
  * /api/reviews/{houseId}:
  *   post:
- *     tags:
- *       - Review
  *     summary: Create a Review
  *     description: Create a new review for a house (log in required).
  *     requestBody:
@@ -71,8 +69,6 @@ routes.post('/reviews/:houseId', requireAuth, postReview);
  * @openapi
  * /api/reviews:
  *   get:
- *     tags:
- *       - Review
  *     summary: Get all reviews.
  *     description: Retrieve a every review in the database.
  *     responses:
@@ -87,8 +83,6 @@ routes.get('/reviews', allReview);
  * @openapi
  * /api/reviews/houses/{houseId}:
  *   get:
- *     tags:
- *       - Review
  *     summary: Get reviews for a house.
  *     description: Retrieve all reviews for the  house.
  *     parameters:
@@ -112,8 +106,6 @@ routes.get('/reviews/houses/:houseId', requireAuth, houseReview);
  * @openapi
  * /api/reviews/{reviewId}:
  *   get:
- *     tags:
- *       - Review
  *     summary: Get a review by ID.
  *     description: Retrieve a review by the review ID.
  *     parameters:
@@ -141,8 +133,6 @@ routes.get('/reviews/:reviewId', getReview);
  * @openapi
  * /api/reviews/{reviewId}:
  *   delete:
- *     tags:
- *       - Review
  *     summary: Delete a review by ID
  *     description: Delete a review by the review ID.
  *     parameters:

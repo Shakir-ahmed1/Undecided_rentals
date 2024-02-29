@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { register, login, allUsers } = require('../controllers/userController');
+const { register, login, logout, allUsers } = require('../controllers/userController');
 
 const router = Router();
 
@@ -7,8 +7,6 @@ const router = Router();
  * @openapi
  * /api/users/register:
  *   post:
- *     tags:
- *       - User
  *     summary: Register a new user
  *     description: Register a new user with the provided information.
  *     requestBody:
@@ -42,8 +40,6 @@ router.post('/register', register);
  * @openapi
  * /api/users/login:
  *   post:
- *     tags:
- *       - User
  *     summary: Login with user credentials
  *     description: Authenticate and log in a user using email and password.
  *     requestBody:
@@ -57,12 +53,10 @@ router.post('/register', register);
  *                 type: string
  *                 format: email
  *                 description: The email address of the user.
- *                 default: ab@email1.com
  *               password:
  *                 type: string
  *                 format: password
  *                 description: The password for the user account.
- *                 default: test1234
  *     responses:
  *       '200':
  *         description: User logged in successfully
@@ -73,10 +67,60 @@ router.post('/login', login);
 
 /**
  * @openapi
+ * /api/users/logout:
+ *   post:
+ *     summary: Logout the user
+ *     description: Log out the currently authenticated user.
+ *     responses:
+ *       '200':
+ *         description: Logout successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 logout:
+ *                   type: object
+ *                   properties:
+ *                     message:
+ *                       type: string
+ *                       description: Message indicating successful logout.
+ *                       example: Logout successful
+ *       '400':
+ *         description: Bad request or error occurred during logout
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: object
+ *                   properties:
+ *                     message:
+ *                       type: string
+ *                       description: Error message indicating the reason for failure.
+ *       '401':
+ *         description: Unauthorized, user not logged in
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Error message indicating the user needs to log in first.
+ *                   example: Unauthorized
+ *                 message:
+ *                   type: string
+ *                   description: Message indicating that the user needs to log in first.
+ *                   example: You are not logged in
+ */
+router.post('/logout', logout);
+
+/**
+ * @openapi
  * /api/users:
  *   get:
- *     tags:
- *       - User
  *     summary: Get all users
  *     description: Retrieve a list of all users.
  *     responses:

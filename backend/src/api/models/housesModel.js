@@ -106,14 +106,6 @@ const houseSchema = new mongoose.Schema({
     ref: 'User',
     default: null,
   },
-  requestedBy: {
-    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-    default: [],
-  },
-  isPublic: {
-    type: Boolean,
-    default: true,
-  },
 });
 
 const locationModel = mongoose.model('Location', locationSchema);

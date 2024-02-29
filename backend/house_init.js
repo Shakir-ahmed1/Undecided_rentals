@@ -5,6 +5,7 @@ const Review = require('./src/api/models/reviewModel');
 
 const { connect } = require('mongoose');
 require('dotenv').config();
+
 const connectDb = async () => {
   try {
     await connect(process.env.MONGODB_URI);
@@ -15,52 +16,40 @@ const connectDb = async () => {
 };
 
 async function main() {
-
-  if (process.argv[2] === "delete") {
-    await User.deleteMany({});
-    await Profile.deleteMany({});
-    await amenityModel.deleteMany({});
-    await houseModel.deleteMany({});
-    await housePhotoModel.deleteMany({});
-    await Review.deleteMany({});
-    await locationModel.deleteMany({});
-  }
- 
-
   const profile1 = await Profile.create({
     "bio": "This is my bio. i am profile1 for user 1",
     "country": "Ethiopia",
     "state": "Addis Abeba",
     "houseAddress": "house-address-1",
-    "profileImage": "uploads/p1.jpg"
+    "profileImage": ""
   });
   const profile2 = await Profile.create({
     "bio": "This is my bio. i am profile2 for user 2",
     "country": "Ethiopia",
     "state": "Addis Abeba",
     "houseAddress": "house-address-2",
-    "profileImage": "uploads/p2.jpg"
+    "profileImage": ""
   });
   const profile3 = await Profile.create({
     "bio": "This is my bio. i am profile3 for user 3",
     "country": "Ethiopia",
     "state": "Addis Abeba",
     "houseAddress": "house-address-3",
-    "profileImage": "uploads/p3.jpg"
+    "profileImage": ""
   });
   const profile4 = await Profile.create({
     "bio": "This is my bio. i am profile4 for user 4",
     "country": "Ethiopia",
     "state": "Addis Abeba",
     "houseAddress": "house-address-4",
-    "profileImage": "uploads/p4.jpg"
+    "profileImage": ""
   });
   const profile5 = await Profile.create({
     "bio": "This is my bio. i am profile5 for user 5",
     "country": "Ethiopia",
     "state": "Addis Abeba",
     "houseAddress": "house-address-5",
-    "profileImage": "uploads/p5.jpg"
+    "profileImage": ""
   });
   const profile6 = await Profile.create({
     "bio": "This is my bio. i am profile6 for user 6",
@@ -180,99 +169,6 @@ async function main() {
     "latitude": 9.007665, "longitude": 38.764056
   })
 
-
-// house Photos
-const hp1 = await housePhotoModel.create({
-  fileName: 'uploads/1.jpg'
-});
-const hp2 = await housePhotoModel.create({
-  fileName: 'uploads/2.jpg'
-});
-const hp3 = await housePhotoModel.create({
-  fileName: 'uploads/3.jpg'
-});
-const hp4 = await housePhotoModel.create({
-  fileName: 'uploads/4.jpg'
-});
-const hp5 = await housePhotoModel.create({
-  fileName: 'uploads/5.jpg'
-});
-const hp6 = await housePhotoModel.create({
-  fileName: 'uploads/6.jpg'
-});
-const hp7 = await housePhotoModel.create({
-  fileName: 'uploads/7.jpg'
-});
-const hp8 = await housePhotoModel.create({
-  fileName: 'uploads/8.jpg'
-});
-const hp9 = await housePhotoModel.create({
-  fileName: 'uploads/9.jpg'
-});
-const hp10 = await housePhotoModel.create({
-  fileName: 'uploads/10.jpg'
-});
-const hp11 = await housePhotoModel.create({
-  fileName: 'uploads/11.jpg'
-});
-const hp12 = await housePhotoModel.create({
-  fileName: 'uploads/12.jpg'
-});
-const hp13 = await housePhotoModel.create({
-  fileName: 'uploads/13.jpg'
-});
-const hp14 = await housePhotoModel.create({
-  fileName: 'uploads/14.jpg'
-});
-const hp15 = await housePhotoModel.create({
-  fileName: 'uploads/15.jpg'
-});
-const hp16 = await housePhotoModel.create({
-  fileName: 'uploads/16.jpg'
-});
-const hp17 = await housePhotoModel.create({
-  fileName: 'uploads/17.jpg'
-});
-const hp18 = await housePhotoModel.create({
-  fileName: 'uploads/18.jpg'
-});
-const hp19 = await housePhotoModel.create({
-  fileName: 'uploads/19.jpg'
-});
-const hp20 = await housePhotoModel.create({
-  fileName: 'uploads/20.jpg'
-});
-const hp21 = await housePhotoModel.create({
-  fileName: 'uploads/21.jpg'
-});
-const hp22 = await housePhotoModel.create({
-  fileName: 'uploads/22.jpg'
-});
-const hp23 = await housePhotoModel.create({
-  fileName: 'uploads/23.jpg'
-});
-const hp24 = await housePhotoModel.create({
-  fileName: 'uploads/24.jpg'
-});
-const hp25 = await housePhotoModel.create({
-  fileName: 'uploads/25.jpg'
-});
-const hp26 = await housePhotoModel.create({
-  fileName: 'uploads/26.jpg'
-});
-const hp27 = await housePhotoModel.create({
-  fileName: 'uploads/27.jpg'
-});
-const hp28 = await housePhotoModel.create({
-  fileName: 'uploads/28.jpg'
-});
-const hp29 = await housePhotoModel.create({
-  fileName: 'uploads/29.jpg'
-});
-const hp30 = await housePhotoModel.create({
-  fileName: 'uploads/30.jpg'
-});
-
   // owners of the houses - 1,2,2,2,5,2,3,2,3,5
   const house1 = await houseModel.create({
     "user": user1,
@@ -284,7 +180,7 @@ const hp30 = await housePhotoModel.create({
     "location": location1,
     "amenities": [amenity3, amenity4, amenity5],
     "sharedBetween": 1,
-    "housePhotos": hp1
+    "housePhotoModels": await housePhotoModel.create({ filename: ["random"] })
   });
 
   const house2 = await houseModel.create({
@@ -297,7 +193,7 @@ const hp30 = await housePhotoModel.create({
     "location": location2,
     "amenities": [amenity1, amenity4, amenity5],
     "sharedBetween": 1,
-    "housePhotos": hp2,
+    "housePhotoModels": await housePhotoModel.create({ filename: ["random"] }),
     "reservedBy": user4
   });
 
@@ -311,7 +207,7 @@ const hp30 = await housePhotoModel.create({
     "location": location3,
     "amenities": [amenity5],
     "sharedBetween": 1,
-    // "housePhotos": hp3,
+    "housePhotoModels": await housePhotoModel.create({ filename: ["random"] }),
     "reservedBy": user6
   });
 
@@ -325,7 +221,7 @@ const hp30 = await housePhotoModel.create({
     "location": location4,
     "amenities": [amenity1, amenity2, amenity3],
     "sharedBetween": 1,
-    "housePhotos": hp4
+    "housePhotoModels": await housePhotoModel.create({ filename: ["random"] })
   });
 
   const house5 = await houseModel.create({
@@ -338,7 +234,7 @@ const hp30 = await housePhotoModel.create({
     "location": location5,
     "amenities": [],
     "sharedBetween": 1,
-    // "housePhotos": hp5
+    "housePhotoModels": await housePhotoModel.create({ filename: ["random"] })
   });
 
   const house6 = await houseModel.create({
@@ -351,7 +247,7 @@ const hp30 = await housePhotoModel.create({
     "location": location6,
     "amenities": [amenity1, amenity2, amenity4, amenity5],
     "sharedBetween": 1,
-    "housePhotos": hp6
+    "housePhotoModels": await housePhotoModel.create({ filename: ["random"] })
   });
 
   const house7 = await houseModel.create({
@@ -364,7 +260,7 @@ const hp30 = await housePhotoModel.create({
     "location": location7,
     "amenities": [amenity3],
     "sharedBetween": 1,
-    "housePhotos": hp7,
+    "housePhotoModels": await housePhotoModel.create({ filename: ["random"] }),
     "reservedBy": user6
   });
 
@@ -378,7 +274,7 @@ const hp30 = await housePhotoModel.create({
     "location": location8,
     "amenities": [],
     "sharedBetween": 1,
-    // "housePhotos": hp8
+    "housePhotoModels": await housePhotoModel.create({ filename: ["random"] })
   });
 
   const house9 = await houseModel.create({
@@ -391,7 +287,7 @@ const hp30 = await housePhotoModel.create({
     "location": location9,
     "amenities": [amenity1, amenity2, amenity5],
     "sharedBetween": 1,
-    "housePhotos": hp9
+    "housePhotoModels": await housePhotoModel.create({ filename: ["random"] })
   });
 
   const house10 = await houseModel.create({
@@ -404,7 +300,7 @@ const hp30 = await housePhotoModel.create({
     "location": location10,
     "amenities": [amenity1, amenity2, amenity3, amenity4, amenity5, amenity6],
     "sharedBetween": 1,
-    "housePhotos": hp10
+    "housePhotoModels": await housePhotoModel.create({ filename: ["random"] })
   });
 
   // review-type, house-number, (number-of-reviews), reviewers (1(6),3(3),4(4),5(7),6(1))

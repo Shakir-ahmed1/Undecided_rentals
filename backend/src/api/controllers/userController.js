@@ -62,13 +62,29 @@ const login = async (req, res) => {
   }
 };
 
+const logout = async (req, res) => {
+  try {
+    if (!req.cookies.accessToken) {
+      return res.status(401).json({ error: { unauthorized: 'You are not logged in' } });
+    }
+
+    res.clearCookie('accessToken');
+
+    return res.status(200).json({ logout: { message: 'Logout successful' } });
+  } catch (error) {
+    return res.status(400).json({ error });
+  }
+};
+
 const allUsers = async (req, res) => {
   try {
-    const users = await User.find().select('-password').populate('profile');
+    const users = await User.find().select('-password').populate('profiles');
     res.json(users);
   } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
 
-module.exports = { register, login, allUsers };
+module.exports = {
+  register, login, logout, allUsers,
+};

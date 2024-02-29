@@ -8,8 +8,6 @@ const router = Router();
  * @openapi
  * /api/house/photos:
  *   get:
- *     tags:
- *       - House Photo
  *     summary: Retrieve all house photos
  *     description: Get details of all house photos stored in the database
  *     responses:
@@ -41,8 +39,6 @@ router.get('/house/photos', getAllHousePhotos);
  * @openapi
  * /api/house/photos/{photoId}:
  *   get:
- *     tags:
- *       - House Photo
  *     summary: Retrieve a specific house photo by ID
  *     description: Get details of a house photo by providing its ID
  *     parameters:
@@ -105,8 +101,6 @@ router.get('/house/photos/:photoId', getHousePhotos);
  * @openapi
  * /api/house/photos:
  *   post:
- *     tags:
- *       - House Photo
  *     summary: Upload house photos
  *     description: Upload multiple house photos
  *     requestBody:

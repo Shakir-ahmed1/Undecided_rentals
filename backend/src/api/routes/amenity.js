@@ -28,8 +28,6 @@ const routes = Router();
  * @openapi
  * /api/amenities:
  *   post:
- *     tags:
- *       - Amenity
  *     summary: Create an amenity
  *     description: Create a new amenity.
  *     requestBody:
@@ -53,8 +51,6 @@ routes.post('/amenities', postAmenity);
  * @openapi
  * /api/amenities/{amenityId}:
  *   get:
- *     tags:
- *       - Amenity
  *     summary: Get amenity by ID.
  *     description: Retrieve an amenity by the amenity ID.
  *     parameters:
@@ -80,8 +76,6 @@ routes.get('/amenities/:amenityId', getAmenity);
  * @openapi
  * /api/amenities:
  *   get:
- *     tags:
- *       - Amenity
  *     summary: Get all amenities
  *     description: Retrieve a list of all amenities in the database.
  *     responses:
@@ -102,8 +96,6 @@ routes.get('/amenities', allAmenities);
  * @openapi
  * /api/amenities/{amenityId}:
  *   delete:
- *     tags:
- *       - Amenity
  *     summary: Delete an amenity by ID
  *     description: Delete an amenity by the amenity ID.
  *     parameters:

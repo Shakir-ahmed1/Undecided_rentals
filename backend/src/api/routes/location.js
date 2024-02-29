@@ -40,8 +40,6 @@ const router = Router();
  * @openapi
  * /api/location:
  *   post:
- *     tags:
- *       - Location
  *     summary: Create a Location
  *     description: Create a new location.
  *     requestBody:
@@ -71,8 +69,6 @@ router.post('/location', postLocation);
  * @openapi
  * /api/location/{locationId}:
  *   get:
- *     tags:
- *       - Location
  *     summary: Get a location by ID.
  *     description: Retrieve a location by the location ID.
  *     parameters:
@@ -98,8 +94,6 @@ router.get('/location/:locationId', getLocation);
  * @openapi
  * /api/location:
  *   get:
- *     tags:
- *       - Location
  *     summary: Get all locations
  *     description: Retrieve a list of all locations in the database.
  *     responses:
@@ -120,8 +114,6 @@ router.get('/location', allLocations);
  * @openapi
  * /api/location/{locationId}:
  *   delete:
- *     tags:
- *       - Location
  *     summary: Delete a location by ID
  *     description: Delete a location by the location ID.
  *     parameters:
