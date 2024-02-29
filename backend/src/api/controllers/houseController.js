@@ -105,7 +105,7 @@ async function getHouse(req, res) {
     const { houseId } = req.params;
     const house = await houseModel.findOne({ _id: houseId }).populate([{
       path: 'amenities',
-      select: '-_id -__v',
+      select: '-__v',
     }, {
       path: 'housePhotos',
       select: '-_id -__v',
