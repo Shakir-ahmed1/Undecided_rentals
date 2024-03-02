@@ -64,7 +64,7 @@ const login = async (req, res) => {
 
 const allUsers = async (req, res) => {
   try {
-    const users = await User.find().select('-password').populate('profiles');
+    const users = await User.find().select('-password').populate('profile');
     res.json(users);
   } catch (error) {
     res.status(500).json({ error: 'Internal server error' });

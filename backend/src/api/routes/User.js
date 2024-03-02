@@ -7,6 +7,8 @@ const router = Router();
  * @openapi
  * /api/users/register:
  *   post:
+ *     tags:
+ *       - User
  *     summary: Register a new user
  *     description: Register a new user with the provided information.
  *     requestBody:
@@ -40,6 +42,8 @@ router.post('/register', register);
  * @openapi
  * /api/users/login:
  *   post:
+ *     tags:
+ *       - User
  *     summary: Login with user credentials
  *     description: Authenticate and log in a user using email and password.
  *     requestBody:
@@ -53,10 +57,12 @@ router.post('/register', register);
  *                 type: string
  *                 format: email
  *                 description: The email address of the user.
+ *                 default: ab@email1.com
  *               password:
  *                 type: string
  *                 format: password
  *                 description: The password for the user account.
+ *                 default: test1234
  *     responses:
  *       '200':
  *         description: User logged in successfully
@@ -69,6 +75,8 @@ router.post('/login', login);
  * @openapi
  * /api/users:
  *   get:
+ *     tags:
+ *       - User
  *     summary: Get all users
  *     description: Retrieve a list of all users.
  *     responses:

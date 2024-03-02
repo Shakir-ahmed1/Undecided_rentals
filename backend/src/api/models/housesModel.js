@@ -28,7 +28,7 @@ const locationSchema = new mongoose.Schema({
 
 const housePhotoSchema = new mongoose.Schema({
   fileName: {
-    type: [String], // array of string
+    type: String,
     required: [true, 'please enter at least one image'],
   },
 });
@@ -80,7 +80,10 @@ const houseSchema = new mongoose.Schema({
     min: mongoose.Types.Decimal128.fromString('0.00'),
   },
 
-  location: locationSchema,
+  location: {
+    type: locationSchema,
+    required: [true, 'a house needs location'],
+  },
 
   amenities: {
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Amenity' }],
@@ -102,6 +105,14 @@ const houseSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     default: null,
+  },
+  requestedBy: {
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    default: [],
+  },
+  isPublic: {
+    type: Boolean,
+    default: true,
   },
 });
 

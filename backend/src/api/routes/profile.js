@@ -40,6 +40,8 @@ const router = Router();
  * @openapi
  * /api/users/profiles:
  *   get:
+ *     tags:
+ *       - Profiles
  *     summary: Get all user profiles
  *     description: Retrieve a list of all user profiles.
  *     responses:
@@ -60,6 +62,8 @@ router.get('/profiles', getAllProfile);
  * @openapi
  * /api/users/{userId}/profiles:
  *   get:
+ *     tags:
+ *       - Profiles
  *     summary: Get a user profile by ID
  *     description: Retrieve a user profile by the user's ID.
  *     parameters:
@@ -87,6 +91,8 @@ router.get('/:userId/profiles', getProfile);
  * @openapi
  * /api/users/{userId}/profiles:
  *   put:
+ *     tags:
+ *       - Profiles
  *     summary: Update user profile
  *     description: Updates the profile information for a specific user.
  *     parameters:
