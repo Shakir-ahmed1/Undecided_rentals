@@ -106,7 +106,7 @@ routes.get('/reviews', allReview);
  *       500:
  *         description: Something went wrong.
  */
-routes.get('/reviews/houses/:houseId', requireAuth, houseReview);
+routes.get('/reviews/houses/:houseId', houseReview);
 
 /**
  * @openapi

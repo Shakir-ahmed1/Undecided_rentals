@@ -34,7 +34,12 @@ async function getReview(req, res) {
   const { reviewId } = req.params;
 
   try {
-    const review = await Review.findOne({ _id: reviewId });
+    const review = await Review.findOne({ _id: reviewId }).populate([ {
+      path: 'user',
+      select: 'firstName lastName profile',
+      populate: { path: 'profile', select: 'profileImage -_id' },
+    },
+    ]).select('-__v');;
     if (review) {
       return res.json(review);
     }
@@ -45,7 +50,12 @@ async function getReview(req, res) {
 }
 async function allReview(req, res) {
   try {
-    const reviews = await Review.find();
+    const reviews = await Review.find().populate([ {
+      path: 'user',
+      select: 'firstName lastName profile',
+      populate: { path: 'profile', select: 'profileImage -_id' },
+    },
+    ]).select('-__v');
 
     return res.json(reviews);
   } catch (e) {
@@ -73,7 +83,12 @@ async function houseReview(req, res) {
   try {
     const house = await houseModel.findOne({ _id: houseId });
     if (house) {
-      const reviews = await Review.find({ house });
+      const reviews = await Review.find({ house }).populate([ {
+        path: 'user',
+        select: 'firstName lastName profile',
+        populate: { path: 'profile', select: 'profileImage -_id' },
+      },
+      ]).select('-__v');
       return res.json(reviews);
     }
     return res.status(404).json({ error: "Page not found, house doesn't exist" });
