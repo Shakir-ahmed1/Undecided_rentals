@@ -1,4 +1,4 @@
-# My branch ( rentals)
+RentEase
 
 ## Technologies Used
 
@@ -7,6 +7,7 @@
 - MongoDB - database
 - ESLint - type checking
 - Morgan --- logging system
+- React
 
 
 ## ESLint
