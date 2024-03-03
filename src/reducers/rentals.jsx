@@ -14,7 +14,9 @@ import {
   DELETEHOUSE,
   UPDATEHOUSE,
   GETMYHOUSES,
-  GETREVIEW
+  GETREVIEW,
+  REQUESTRENT,
+  CLEARSTATUS
 } from "../constants/actionTypes";
 
 const initialState = {
@@ -23,6 +25,7 @@ const initialState = {
   getMyRentals:[],
   getImages: [],
   getReview:[],
+  requestStatus:'',
   loading: true,
   error: null,
 };
@@ -121,6 +124,16 @@ export default (state = initialState, action) => {
       return {
         ...state,
         getReview:action?.payload
+      }
+    case REQUESTRENT:
+      return {
+        ...state,
+        requestStatus:action?.payload
+      }
+    case CLEARSTATUS:
+      return {
+        ...state,
+        requestStatus:null
       }
     case ERROR:
       return {

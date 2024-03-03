@@ -33,17 +33,15 @@ const Form = () => {
   const navigate = useNavigate()
   const { houseId } = useParams()
   // console.log('here is the useParams hook', houseId)
-  const [rentalData, setRentalData] = useState({
-    name: '', description: '', numberOfRooms: null, maxGuest: null, pricePerNight: null, location:"", amenities:[''],
-    sharedBetween:'',housePhotos:[''], reservedBy:null
-  });
+  
   const dispatch = useDispatch();
-  const {open, setOpen} = useContext(DataContext)
+  const {open, setOpen, rentalValue, setRentalValue, rentals,rentalData, setRentalData} = useContext(DataContext)
   const [openLocation, setOpenLocation] = useState(false);
   const [openImage, setOpenImage] = useState(false);
   const [openAmenity, setOpenAmenity] = useState(false);
   const [amenityName, setAmenityName] = useState([]);
-  const location_id = useSelector((state) => state.rentals?.rentalDetails || '')
+  // console.log('here is all rsentals', rentals)
+  // console.log('here is your rental Data state', rentalData)
   const amenities = useSelector((state) => state.rentals?.rentalDetails?.amenities)
   const selectedAmenityIds = amenityName?.map((name) => {
     const selectedAmenity = amenities?.find((amenity) => amenity?.name === name);
@@ -88,11 +86,8 @@ const Form = () => {
           ...EditRentalData,
           location: EditRentalData?.location?._id
         })
-      } else {
-        setRentalData({ ...rentalData, location: location_id?.location?._id });
       }
-      // console.log('here is your rental Data state', rentalData)
-  }, [location_id]);
+  }, [rentals]);
 
   useEffect(() => {     
     setRentalData({
@@ -133,11 +128,10 @@ const Form = () => {
       setTimeout(() => {
 
         window.location.reload()
-      },2000)
+      },500)
   };
 
-
-  const canSave = rentalData.name && rentalData.numberOfRooms && rentalData.maxGuest && rentalData.pricePerNight && rentalData.location && rentalData.amenities
+  const canSave = rentalData?.name && rentalData?.numberOfRooms && rentalData?.maxGuest && rentalData?.pricePerNight && rentalData?.location && rentalData?.amenities
   
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
@@ -178,7 +172,7 @@ const Form = () => {
               variant="outlined"
               label="Name"
               fullWidth
-              value={rentalData.name}
+              value={rentalData?.name}
               required={true}
               onChange={(e) =>
                 setRentalData({ ...rentalData, name: e.target.value })
@@ -192,7 +186,7 @@ const Form = () => {
               variant="outlined"
               label="Description"
               fullWidth
-              value={rentalData.description}
+              value={rentalData?.description}
               onChange={(e) =>
                 setRentalData({ ...rentalData, description: e.target.value })
               }
@@ -207,7 +201,7 @@ const Form = () => {
               type="number"
               required
               fullWidth
-              value={rentalData.numberOfRooms}
+              value={rentalData?.numberOfRooms}
               onChange={(e) =>
                 setRentalData({
                   ...rentalData,
@@ -224,7 +218,7 @@ const Form = () => {
               label="Max Guest Number"
               required
               fullWidth
-              value={rentalData.maxGuest}
+              value={rentalData?.maxGuest}
               onChange={(e) =>
                 setRentalData({
                   ...rentalData,
@@ -242,7 +236,7 @@ const Form = () => {
               label="Price per Night"
               required
               fullWidth
-              value={rentalData.pricePerNight}
+              value={rentalData?.pricePerNight}
               onChange={(e) =>
                 setRentalData({
                   ...rentalData,
@@ -258,10 +252,11 @@ const Form = () => {
               name="location"
               variant="outlined"
               required
+              focused
               label="Specify your location"
               fullWidth
               onClick={() => setOpenLocation(true)}
-              value={rentalData.location || ''}
+              value={rentalValue?.location?.country && rentalValue?.location?.city ? rentalValue?.location?.country + ', ' + rentalValue?.location?.city : null}
               style={{
                 margin: "10px 0 10px 0",
               }}
@@ -295,7 +290,7 @@ const Form = () => {
               variant="outlined"
               label="Shared Between"
               fullWidth
-              value={rentalData.sharedBetween}
+              value={rentalData?.sharedBetween}
               onChange={(e) =>
                 setRentalData({ ...rentalData, sharedBetween: parseFloat(e.target.value) })
               }
@@ -309,7 +304,7 @@ const Form = () => {
               variant="outlined"
               label="Reserved By"
               fullWidth
-              value={rentalData.reservedBy}
+              value={rentalData?.reservedBy}
               onChange={(e) =>
                 setRentalData({ ...rentalData, reservedBy: e.target.value })
               }

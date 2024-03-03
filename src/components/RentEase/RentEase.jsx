@@ -42,7 +42,7 @@ const RentEase = ({ rental }) => {
   }
   return (
     <>
-        <Card elevation={6} style={{ position: "relative" }}>
+        <Card elevation={6} style={{ position: "relative", borderRadius:'15px' }}>
         <CardMedia
           component={Link}
           to={`/houseDisplay/${rental?._id}`}

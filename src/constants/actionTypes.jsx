@@ -19,3 +19,5 @@ export const DELETEHOUSE = 'DELETEHOUSE';
 export const UPDATEHOUSE = 'UPDATEHOUSE';
 export const GETMYHOUSES = 'GETMYHOUSES';
 export const GETREVIEW = 'GETREVIEW';
+export const REQUESTRENT = 'REQUESTRENT';
+export const CLEARSTATUS = 'CLEARSTATUS';

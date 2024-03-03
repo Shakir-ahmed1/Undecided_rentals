@@ -92,7 +92,7 @@ export default function NavBar() {
   
 
   useEffect(() => {
-    const filtered = rentals.filter((rental) => {
+    const filtered = rentals?.filter((rental) => {
       const { location, name } = rental;
       return (
         searchTerm === "" ||

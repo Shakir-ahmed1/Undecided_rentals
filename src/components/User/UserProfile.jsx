@@ -22,7 +22,7 @@ const UserProfile = () => {
     setTimeout(() => {
       dispatch(getUserProfile(userId))
     }, 10000)
-    console.log('here is the userProfile Data', userProfileData)
+    // console.log('here is the userProfile Data', userProfileData)
   },[userProfileData])
   const [firstName, setFirstName] = useState(
     userProfileData?.firstName

@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { TextField, Grid, Button, Dialog, Box } from "@mui/material"
 import CloseIcon from '@mui/icons-material/Close';
 import { postRentalLocation } from "../../actions/rentals";
@@ -7,16 +7,26 @@ import GoogleMapReact from "google-map-react";
 import RoomIcon from '@mui/icons-material/Room';
 import { countries } from "./countries";
 import Autocomplete from '@mui/material/Autocomplete';
+import DataContext from "../../context/DataContext";
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux'
 
 const Location = ({setOpenLocation}) => {
+    const {
+      locationData,
+      setLocationData,
+      rentalValue,
+      setRentalValue,
+      rentals,
+    } = useContext(DataContext);
+    const {houseId} = useParams()
     const [openLat, setOpenLat] = useState(false)
     const [coordinates, setCoordinates] = useState({lat: 0, lng: 0})
     const [bounds, setBounds] = useState({})
     const [rentalCoordinates, setRentalCoordinates] = useState({lat: 0, lng: 0})
-    const initialState = { country: "", city: "", latitude: "", longitude: "" };
-    const [locationData, setLocationData] = useState(initialState);
-    console.log('here is the location data', locationData)
-    console.log('here is the rental location data', rentalCoordinates)
+    // console.log('here is the location data', locationData)
+    // console.log('here is the rental location data', rentalCoordinates)
+    // console.log('here is the location _id', location_id)
     
     const dispatch = useDispatch();
     useEffect(() => {
@@ -48,11 +58,23 @@ const Location = ({setOpenLocation}) => {
         longitude: e.lng
       }));
     }
+    const rental = rentals?.find((rentalId) => rentalId?._id === houseId) || null;
 
     const handleLocationSubmit = (e) => {
         e.preventDefault()
-        dispatch(postRentalLocation(locationData))
-        setOpenLocation(false)
+        dispatch(postRentalLocation(locationData)).then(() => {
+          setOpenLocation(false)
+          setRentalValue(() => {
+            return {
+              ...rental,
+              location: {
+                ...rental?.location,
+                country:locationData.country,
+                city:locationData.city
+              }
+            }
+          })
+        })
     }
 
   return (

@@ -12,7 +12,8 @@ import {
   DELETEHOUSE,
   UPDATEHOUSE,
   GETMYHOUSES,
-  GETREVIEW
+  GETREVIEW,
+  REQUESTRENT
 } from "../constants/actionTypes";
 
 export const getRentalData = () => async (dispatch) => {
@@ -144,5 +145,16 @@ export const getReviewByHouseId = (houseId) => async(dispatch) => {
     } catch (error) {
         console.log(error)
         dispatch({ type: ERROR, payload: error?.response?.data})
+    }
+}
+
+export const requestRent = (houseId) => async (dispatch) => {
+    try {
+        const response = await api.requestRent(houseId)
+        console.log('here is the response from the request', response)
+        dispatch({type:REQUESTRENT, payload:response.data})
+    } catch (error) {
+        console.log(error)
+        dispatch({ type: REQUESTRENT, payload: error?.response?.data})
     }
 }

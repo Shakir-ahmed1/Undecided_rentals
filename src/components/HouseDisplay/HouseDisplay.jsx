@@ -14,7 +14,8 @@ import {
   Select,
   InputLabel,
   Alert,
-  Chip
+  Chip,
+  Snackbar
 } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import MenuItem from '@mui/material/MenuItem';
@@ -36,7 +37,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useContext, useState } from "react";
-import { getReviewByHouseId } from "../../actions/rentals";
+import { getReviewByHouseId,requestRent } from "../../actions/rentals";
 import GoogleMapReact from "google-map-react";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -49,6 +50,8 @@ import { deleteHouseById } from "../../actions/rentals";
 import { updateHouseById } from "../../actions/rentals";
 import OutlinedInput from '@mui/material/OutlinedInput';
 import AddIcon from '@mui/icons-material/Add';
+import HomeIcon from '@mui/icons-material/Home';
+import { CLEARSTATUS } from "../../constants/actionTypes";
 
 const HouseDisplay = ({ rentals }) => {
   const ITEM_HEIGHT = 40;
@@ -61,16 +64,25 @@ const HouseDisplay = ({ rentals }) => {
       },
     },
   };
+  const {rentalValue, setRentalValue} = useContext(DataContext)
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { houseId } = useParams();
   const [openDelete, setOpenDelete] = useState(false);
   const { user } = useContext(DataContext);
   const rental = rentals?.find((rentalId) => rentalId?._id === houseId);
-  console.log("here is the rental", rental);
+  // console.log("here is the rental", rental);
   const [rentalData, setRentalData] = useState({
-    name: '', description: '', numberOfRooms: null, maxGuest: null, pricePerNight: null, location:"", amenities:[''],
-    sharedBetween:'',housePhotos:[''], reservedBy:null
+    name: rental?.name || '', 
+    description: rental?.description || '', 
+    numberOfRooms: rental?.numberOfRooms || null, 
+    maxGuest: rental?.maxGuest || null, 
+    pricePerNight: rental?.pricePerNight?.$numberDecimal || null, 
+    location: rental?.location?._id || "", 
+    amenities: rental?.amenities?.map(amenity => amenity._id) || [], 
+    sharedBetween: rental?.sharedBetween || '', 
+    housePhotos: rental?.housePhotos || [''], 
+    reservedBy: rental?.reservedBy || null
   });
 
   useEffect(() => {
@@ -101,26 +113,33 @@ const HouseDisplay = ({ rentals }) => {
   const [openImage, setOpenImage] = useState(false);
   const [openAmenity, setOpenAmenity] = useState(false);
   const [amenityName, setAmenityName] = useState([]);
-  const location_id = useSelector((state) => state.rentals?.rentalDetails || '')
   const amenities = useSelector((state) => state.rentals?.rentalDetails?.amenities)
   const selectedAmenityIds = amenityName?.map((name) => {
     const selectedAmenity = amenities?.find((amenity) => amenity?.name === name);
     return selectedAmenity?._id;
   });
 
-  const EditRentalData = useSelector((state) => (houseId ? state?.rentals?.getAllRentals?.find((rental) => rental?._id === houseId) : null));
-  // console.log('here is the data of the edited rental',EditRentalData)
-
+  // console.log('here is the rental value', rentalValue)
   useEffect(() => {
-    if (EditRentalData) {
-      setRentalData({
-        ...EditRentalData,
-        location: EditRentalData?.location?._id,
-        amenities: EditRentalData?.amenities?.map((amenity) => amenity._id),
-        pricePerNight:EditRentalData?.pricePerNight?.$numberDecimal
+    if (rental) {
+      setRentalData(() => {
+        return {
+          ...rental,
+          location: rental?.location?._id,
+          amenities: rental?.amenities?.map((amenity) => amenity._id),
+          pricePerNight: rental?.pricePerNight?.$numberDecimal
+        };
       });
+      setRentalValue(() => {
+        return {
+          ...rental
+        }
+      })
     }
-  },[EditRentalData])
+  }, [rental]);
+  
+  // console.log('here is your rental Data state', rentalData)
+
   // console.log('here is your amenitis', amenities)
   // console.log(location_id,'here is youe rentalDetails reducer')
   const err = useSelector((state) => state?.rentals?.error);
@@ -141,17 +160,8 @@ const HouseDisplay = ({ rentals }) => {
       setOpen(false);
     };
     
-    useEffect(() => {
-      if (houseId) {
-        setRentalData({
-          ...EditRentalData,
-          location: EditRentalData?.location?._id
-        })
-      } else {
-        setRentalData({ ...rentalData, location: location_id?.location?._id });
-      }
-      // console.log('here is your rental Data state', rentalData)
-  }, [location_id]);
+
+
 
   useEffect(() => {     
     setRentalData({
@@ -183,14 +193,44 @@ const HouseDisplay = ({ rentals }) => {
       setTimeout(() => {
 
         window.location.reload()
-      },2000)
+      },500)
   };
+  
+  const handleRequestRent = () => {
+    dispatch(requestRent(houseId))
+  }
+
+  const error = useSelector((state) => state?.rentals?.requestStatus?.error)
+  const requestStatus = useSelector((state) => state?.rentals?.requestStatus?.success)
+  console.log(requestStatus)
 
   const canSave = rentalData.name && rentalData.numberOfRooms && rentalData.maxGuest && rentalData.pricePerNight && rentalData.location && rentalData.amenities
-
+  const [errorAlertOpen, setErrorAlertOpen] = useState(false);
+  const [successAlertOpen, setSuccessAlertOpen] = useState(false);
+  useEffect(() => {
+    if (error) {
+      setErrorAlertOpen(true);
+      setTimeout(() => {
+        setErrorAlertOpen(false);
+        dispatch({type:CLEARSTATUS})
+      }, 3000); // Adjust the duration as needed (3000 milliseconds = 3 seconds)
+    }
+  }, [error]);
+  
+  useEffect(() => {
+    if (requestStatus) {
+      setSuccessAlertOpen(true);
+      setTimeout(() => {
+        setSuccessAlertOpen(false);
+        dispatch({type:CLEARSTATUS})
+      }, 3000); // Adjust the duration as needed (3000 milliseconds = 3 seconds)
+    }
+  }, [requestStatus]);
   return (
-    <div style={{ minHeight: "90vh", marginTop: "60px" }}>
+    <div style={{ minHeight: "90vh", marginTop: "30px" }}>
       <Container maxWidth="lg">
+      {errorAlertOpen  && <Alert severity="error" style={{marginBottom:'20px'}}>{error}</Alert>}
+      {successAlertOpen  && <Alert severity="success" style={{marginBottom:'20px'}}>{requestStatus}</Alert>}
         <Grid container display={"flex"} spacing={4}>
           <Grid item xs={12} md={7}>
             <CardMedia
@@ -203,7 +243,7 @@ const HouseDisplay = ({ rentals }) => {
               title={rental?.name}
             />
           </Grid>
-          <Grid item xs={7} md={5}>
+          <Grid item xs={12} sm={7} md={5}>
             <Card style={{ borderRadius: "10px", padding: "10px" }}>
               <Box
                 display={"flex"}
@@ -217,9 +257,21 @@ const HouseDisplay = ({ rentals }) => {
                     Save
                   </span>
                 </div>
+                {rental?.user?._id !== user?.user?._id &&
+                <div>
+                  <HomeIcon color="primary" style={{ cursor: "pointer", position:'relative', left:'25px' }} onClick={handleRequestRent}/>
+                  <br />
+                  <span style={{ position: "relative", right: "3px" }}>
+                    Request Rent
+                  </span>
+                </div>}
                 {rental?.user?._id === user?.user?._id && (
                   <div>
-                    <EditIcon color="primary" style={{ cursor: "pointer" }} onClick={() => setOpen(true)}/>
+                    <EditIcon
+                      color="primary"
+                      style={{ cursor: "pointer" }}
+                      onClick={() => setOpen(true)}
+                    />
                     <br />
                     <span style={{ position: "relative", right: "3px" }}>
                       Edit
@@ -256,7 +308,13 @@ const HouseDisplay = ({ rentals }) => {
                 style={{ padding: "10px" }}
               >
                 <Grid item xs={2} md={4}>
-                  <Avatar />
+                  <Avatar
+                    src={
+                      rental?.user?.profile?.profileImage
+                        ? `http://localhost:5000/api/static/${rental?.user?.profile?.profileImage}`
+                        : null
+                    }
+                  />
                 </Grid>
                 <Grid
                   item
@@ -267,45 +325,46 @@ const HouseDisplay = ({ rentals }) => {
                   {rental?.user?.firstName + " " + rental?.user?.lastName}
                 </Grid>
               </Grid>
-              {(rental?.user?._id !== user?.user?._id) && 
-              <>
-              <Divider />
-              <div
-                style={{
-                  padding: "20px 40px",
-                }}
-              >
-                <Button
-                  fullWidth
-                  color="primary"
-                  variant="contained"
-                  style={{
-                    fontWeight: "bold",
-                    textTransform: "none",
-                    marginTop: "5px",
-                    borderRadius: "20px",
-                  }}
-                >
-                  <LocalPhoneIcon />
-                  &nbsp;&nbsp;Call
-                </Button>
-                <Button
-                  fullWidth
-                  variant="outlined"
-                  style={{
-                    fontWeight: "bold",
-                    textTransform: "none",
-                    marginTop: "10px",
-                    borderRadius: "20px",
-                    backgroundColor: "gray",
-                    color: "white",
-                  }}
-                >
-                  <EmailIcon style={{ color: "white" }} />
-                  &nbsp;&nbsp;Send Email
-                </Button>
-              </div>
-              </>}
+              {rental?.user?._id !== user?.user?._id && (
+                <>
+                  <Divider />
+                  <div
+                    style={{
+                      padding: "20px 40px",
+                    }}
+                  >
+                    <Button
+                      fullWidth
+                      color="primary"
+                      variant="contained"
+                      style={{
+                        fontWeight: "bold",
+                        textTransform: "none",
+                        marginTop: "5px",
+                        borderRadius: "20px",
+                      }}
+                    >
+                      <LocalPhoneIcon />
+                      &nbsp;&nbsp;Call
+                    </Button>
+                    <Button
+                      fullWidth
+                      variant="outlined"
+                      style={{
+                        fontWeight: "bold",
+                        textTransform: "none",
+                        marginTop: "10px",
+                        borderRadius: "20px",
+                        backgroundColor: "gray",
+                        color: "white",
+                      }}
+                    >
+                      <EmailIcon style={{ color: "white" }} />
+                      &nbsp;&nbsp;Send Email
+                    </Button>
+                  </div>
+                </>
+              )}
             </Card>
           </Grid>
         </Grid>
@@ -378,7 +437,8 @@ const HouseDisplay = ({ rentals }) => {
                   key={i}
                   style={{ margin: "10px 0 10px 10px", fontWeight: "bold" }}
                 />
-              ))}</span>
+              ))}
+            </span>
           </div>
           <div style={{ marginTop: "50px" }}>
             <h2 style={{ marginBottom: "30px" }}>
@@ -386,19 +446,19 @@ const HouseDisplay = ({ rentals }) => {
               <span style={{ fontWeight: "bold" }}>reviews</span>
             </h2>
             <Grid container spacing={3}>
-              {review?.map((rev) => (
-                <Grid item xs={12} md={6} style={{ padding: "20px" }}>
+              {review?.map((rev, i) => (
+                <Grid key={i} item xs={12} md={6} style={{ padding: "20px" }}>
                   <Box
                     display={"flex"}
                     justifyContent={"flexStart"}
                     gap={"20px"}
                   >
-                    <Avatar 
-                      src={rev?.user?.profile?.profileImage ? (
-                        `http://localhost:5000/api/static/${rev?.user?.profile?.profileImage}`
-                      ) : (
-                        null
-                      )}
+                    <Avatar
+                      src={
+                        rev?.user?.profile?.profileImage
+                          ? `http://localhost:5000/api/static/${rev?.user?.profile?.profileImage}`
+                          : null
+                      }
                     />
                     <span
                       style={{
@@ -587,7 +647,7 @@ const HouseDisplay = ({ rentals }) => {
               label="Specify your location"
               fullWidth
               onClick={() => setOpenLocation(true)}
-              value={rentalData.location || ""}
+              value={(rentalValue?.location?.country + ', ' +rentalValue?.location?.city) || ""}
               style={{
                 margin: "10px 0 10px 0",
               }}
