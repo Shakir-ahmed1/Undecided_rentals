@@ -145,6 +145,15 @@ export const requestRent = (houseId) => {
     console.log(error)
   }
 }
+
+export const acceptRent = (houseId, userId) => {
+  try {
+    const response = API.get(`/api/houses/rent/accept/${houseId}/${userId}`)
+    return response
+  } catch (error) {
+    console.log(error)
+  }
+}
 // export const getRentalDetails = async (sw, ne) => {
 //     try {
 //       const {data : { data }} = await axios.get(url_place, {

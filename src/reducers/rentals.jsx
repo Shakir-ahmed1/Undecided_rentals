@@ -1,3 +1,4 @@
+import { acceptRent } from "../actions/rentals";
 import { getMyHouses } from "../api/api";
 import {
   GETRENTAL,
@@ -16,7 +17,8 @@ import {
   GETMYHOUSES,
   GETREVIEW,
   REQUESTRENT,
-  CLEARSTATUS
+  CLEARSTATUS,
+  ACCEPTRENT
 } from "../constants/actionTypes";
 
 const initialState = {
@@ -26,6 +28,7 @@ const initialState = {
   getImages: [],
   getReview:[],
   requestStatus:'',
+  acceptStatus:'',
   loading: true,
   error: null,
 };
@@ -134,6 +137,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         requestStatus:null
+      }
+    case ACCEPTRENT :
+      return {
+        ...state,
+          acceptStatus:action?.payload
       }
     case ERROR:
       return {

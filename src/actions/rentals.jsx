@@ -13,7 +13,8 @@ import {
   UPDATEHOUSE,
   GETMYHOUSES,
   GETREVIEW,
-  REQUESTRENT
+  REQUESTRENT,
+  ACCEPTRENT
 } from "../constants/actionTypes";
 
 export const getRentalData = () => async (dispatch) => {
@@ -156,5 +157,15 @@ export const requestRent = (houseId) => async (dispatch) => {
     } catch (error) {
         console.log(error)
         dispatch({ type: REQUESTRENT, payload: error?.response?.data})
+    }
+}
+
+export const acceptRent = (houseId, userId) => async (dispatch) => {
+    try {
+        const response = await api.acceptRent(houseId, userId)
+        console.log('here is the response of accepting', response)
+        dispatch({type:ACCEPTRENT, payload:response.data})
+    } catch (error) {
+        console.log(error)
     }
 }

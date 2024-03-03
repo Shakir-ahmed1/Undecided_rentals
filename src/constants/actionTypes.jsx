@@ -21,3 +21,4 @@ export const GETMYHOUSES = 'GETMYHOUSES';
 export const GETREVIEW = 'GETREVIEW';
 export const REQUESTRENT = 'REQUESTRENT';
 export const CLEARSTATUS = 'CLEARSTATUS';
+export const ACCEPTRENT = 'ACCEPTRENT';

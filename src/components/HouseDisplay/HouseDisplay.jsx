@@ -37,7 +37,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useContext, useState } from "react";
-import { getReviewByHouseId,requestRent } from "../../actions/rentals";
+import { getRentalData, getReviewByHouseId,requestRent, acceptRent } from "../../actions/rentals";
 import GoogleMapReact from "google-map-react";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -64,14 +64,17 @@ const HouseDisplay = ({ rentals }) => {
       },
     },
   };
+
   const {rentalValue, setRentalValue} = useContext(DataContext)
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { houseId } = useParams();
   const [openDelete, setOpenDelete] = useState(false);
   const { user } = useContext(DataContext);
+  console.log('here is the user', user)
   const rental = rentals?.find((rentalId) => rentalId?._id === houseId);
   // console.log("here is the rental", rental);
+  console.log("here is the rentals", rentals);
   const [rentalData, setRentalData] = useState({
     name: rental?.name || '', 
     description: rental?.description || '', 
@@ -107,7 +110,31 @@ const HouseDisplay = ({ rentals }) => {
     createData("Number of rooms", rental?.numberOfRooms),
     createData("Max guest", rental?.maxGuest),
     createData("shared between", rental?.sharedBetween),
+    createData(
+      "Rented By",
+      rental?.reservedBy
+        ? rental?.reservedBy?.firstName && rental?.reservedBy?.lastName
+          ? rental?.reservedBy?.firstName + " " + rental?.reservedBy?.lastName
+          : null
+        : "None"
+    ),
   ];
+
+  const handleAccept = () => {
+    dispatch(acceptRent(houseId, user?.user?._id))
+  }
+
+  const userRows = (rentals || []).map((rental) => {
+    if (rental?.requestedBy?.firstName && rental?.requestedBy?.lastName) {
+      return createData(
+        rental?.requestedBy?.firstName + " " + rental?.requestedBy?.lastName,
+        <Button variant="contained" color="primary" onClick={handleAccept}>Accept</Button>
+      );
+    } else {
+      return null;
+    }
+  }).filter(row => row !== null);
+
   const {open, setOpen} = useContext(DataContext)
   const [openLocation, setOpenLocation] = useState(false);
   const [openImage, setOpenImage] = useState(false);
@@ -416,6 +443,40 @@ const HouseDisplay = ({ rentals }) => {
                             {row.property}
                           </TableCell>
                           <TableCell align="right">{row.value}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Grid>
+            </Grid>
+          </div>
+          <div style={{ marginTop: "50px" }}>
+            <h2>Rent requests</h2>
+            <Grid container spacing={3}>
+              <Grid item xs={12} md={6}>
+                <TableContainer component={Paper}>
+                  <Table aria-label="simple table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell style={{ fontWeight: "bold" }}>
+                          User Name
+                        </TableCell>
+                        <TableCell align="right"></TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {userRows.map((row) => (
+                        <TableRow
+                          key={row?.property}
+                          sx={{
+                            "&:last-child td, &:last-child th": { border: 0 },
+                          }}
+                        >
+                          <TableCell component="th" scope="row">
+                            {row?.property}
+                          </TableCell>
+                          <TableCell align="right">{row?.value}</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
