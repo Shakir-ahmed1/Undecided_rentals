@@ -4,12 +4,22 @@ import Map from "../Map/Map";
 import { useContext } from "react";
 import DataContext from "../../context/DataContext";
 import Form from "../Form/Form";
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { getUserProfile } from "../../actions/users";
+import { getRentalData } from "../../actions/rentals";
 
 const Home = () => {
   const dispatch = useDispatch()
-  const { user, rentals} = useContext(DataContext);
+  const { user, filteredRentals} = useContext(DataContext);
+  
+  // useEffect(() => {
+  //   getRentalData()
+  // },[])
+  
+  // const rentDetails = useSelector((state) => state.rentals.getAllRentals)
+  // useEffect(() => {
+  //   setRentals(rentDetails)
+  // }, [rentDetails])
   // console.log(user)
   useEffect(() => {
     // Scroll to the top when the component mounts
@@ -26,8 +36,8 @@ const Home = () => {
         <Form />
       )}
       <div style={{ minHeight: "100vh" }}>
-        <List rentals={rentals}/>
-        <Map rentals={rentals}/>
+        <List rentals={filteredRentals}/>
+        <Map rentals={filteredRentals}/>
       </div>
     </>
   );

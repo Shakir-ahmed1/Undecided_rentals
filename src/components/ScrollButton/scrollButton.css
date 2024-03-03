@@ -1,0 +1,43 @@
+.scroll-button {
+    position: fixed;
+    bottom: -40px; /* Start below the viewport */
+    right: 30px; /* Adjust as needed */
+    z-index: 1;
+    cursor: pointer;
+    color: rgb(134, 134, 198);
+    background-color: white;
+    border: 1px solid rgb(134, 134, 198);
+    border-radius: 5px;
+    height: 40px;
+    width: 40px;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 0;
+    opacity: 0;
+    transition: 1s ease, bottom 0.3s ease;
+}
+
+.scroll-button.visible {
+    bottom: 30px; /* Position above the bottom */
+    opacity: 1;
+}
+
+.scroll-button:hover {
+    color: white;
+}
+
+.scroll-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgb(134, 134, 198);
+    width: 0%;
+    height: 100%;
+    z-index: -1;
+    transition: 0.5s;
+}
+
+.scroll-button:hover::before {
+    width: 100%;
+}

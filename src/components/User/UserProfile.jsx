@@ -15,6 +15,7 @@ const UserProfile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userId } = useParams() || {userId: user?.user?._id};
+  console.log('here is the userId',userId)
   const userProfileData = useSelector((state) => state?.users?.userProfileData)
   
   useEffect(() => {

@@ -12,8 +12,10 @@ export const DataProvider = ({ children }) => {
   const [errMsg, setErrMsg] = useState('');
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
   const [coordinates, setCoordinates] = useState({lat: 0, lng: 0})
+  const [open, setOpen] = useState(false);
   const [bounds, setBounds] = useState({})
   const [rentals, setRentals] = useState([])
+  const [filteredRentals, setFilteredRentals] = useState([])
   const [loading, setLoading] = useState(true)
  
   return (
@@ -21,7 +23,8 @@ export const DataProvider = ({ children }) => {
       user, setUser, coordinates, 
     setCoordinates, bounds, setBounds,
     rentals, setRentals, errMsg, setErrMsg,
-    loading, setLoading}}>
+    loading, setLoading, open, setOpen,
+    filteredRentals, setFilteredRentals}}>
       {children}
     </DataContext.Provider>
   );

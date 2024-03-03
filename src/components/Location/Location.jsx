@@ -1,10 +1,12 @@
 import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
-import { TextField, Grid, Button, Dialog } from "@mui/material"
+import { TextField, Grid, Button, Dialog, Box } from "@mui/material"
 import CloseIcon from '@mui/icons-material/Close';
 import { postRentalLocation } from "../../actions/rentals";
 import GoogleMapReact from "google-map-react";
 import RoomIcon from '@mui/icons-material/Room';
+import { countries } from "./countries";
+import Autocomplete from '@mui/material/Autocomplete';
 
 const Location = ({setOpenLocation}) => {
     const [openLat, setOpenLat] = useState(false)
@@ -42,8 +44,8 @@ const Location = ({setOpenLocation}) => {
       setRentalCoordinates({lat:e.lat, lng:e.lng})
       setLocationData(prevState => ({
         ...prevState,
-        latitude: rentalCoordinates.lat,
-        longitude: rentalCoordinates.lng
+        latitude: e.lat,
+        longitude: e.lng
       }));
     }
 
@@ -61,19 +63,41 @@ const Location = ({setOpenLocation}) => {
           style={{ cursor: "pointer" }}
         />
         <h1>Specify your location</h1>
-        <TextField
-          value={locationData.country}
-          label={"Country"}
-          onChange={(e) =>
-            setLocationData({ ...locationData, country: e.target.value })
+        <Autocomplete
+          onChange={(event, newValue) =>
+            setLocationData({ ...locationData, country: newValue.label })
           }
+          id="country-select-demo"
           fullWidth
-          name="country"
-          required
-          variant="outlined"
-          style={{
-            margin: "10px 0 10px 0",
-          }}
+          options={countries}
+          autoHighlight
+          getOptionLabel={(option) => option.label}
+          renderOption={(props, option) => (
+            <Box
+              component="li"
+              sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+              {...props}
+            >
+              <img
+                loading="lazy"
+                width="20"
+                srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
+                src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
+                alt=""
+              />
+              {option.label} ({option.code}) +{option.phone}
+            </Box>
+          )}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Choose a country"
+              inputProps={{
+                ...params.inputProps,
+                autoComplete: "new-password", // disable autocomplete and autofill
+              }}
+            />
+          )}
         />
         <TextField
           value={locationData.city}
@@ -92,7 +116,7 @@ const Location = ({setOpenLocation}) => {
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
             <TextField
-              value={rentalCoordinates.lat}
+              value={rentalCoordinates ? rentalCoordinates.lat : ""}
               label={"Latitude"}
               fullWidth
               name="latitude"
@@ -110,7 +134,7 @@ const Location = ({setOpenLocation}) => {
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField
-              value={rentalCoordinates.lng}
+              value={rentalCoordinates ? rentalCoordinates.lng : ""}
               label={"Longitude"}
               onClick={() => setOpenLat(true)}
               fullWidth
@@ -150,9 +174,11 @@ const Location = ({setOpenLocation}) => {
       </form>
       <Dialog open={openLat} onClose={handleClose}>
         <div style={{ width: "600px", height: "400px" }}>
-          <div style={{display:'flex', justifyContent:'space-around'}}>
+          <div style={{ display: "flex", justifyContent: "space-around" }}>
             <CloseIcon onClick={handleClose} style={{ cursor: "pointer" }} />
-            <Button color="primary" variant="contained" onClick={save}>Save</Button>
+            <Button color="primary" variant="contained" onClick={save}>
+              Save
+            </Button>
           </div>
           <GoogleMapReact
             bootstrapURLKeys={{ key: import.meta.env.VITE_GOOGLE_MAP_API }}

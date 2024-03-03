@@ -14,22 +14,23 @@ import DataContext from './context/DataContext';
 import {  useSelector, useDispatch } from 'react-redux'
 import { useEffect, useContext } from 'react';
 import { getRentalData } from './actions/rentals';
-import { getUserProfile } from './actions/users';
+import MyRentals from "./components/MyRentals/MyRentals"
+import ScrollButton from '../src/components/ScrollButton/ScrollButton'
+import HouseDisplay from './components/HouseDisplay/HouseDisplay';
 
 const App = () => {
   const dispatch = useDispatch();
-  const {  setRentals, setLoading } = useContext(DataContext)
+  const {  rentals, setRentals } = useContext(DataContext)
   const rentDetails = useSelector((state) => state.rentals.getAllRentals)
-  console.log('here is the rentals', rentDetails)
+  // console.log('here is the rentals', rentDetails)
 
   // useEffect(() => {
   //   dispatch(getRentalData(bounds?.sw, bounds?.ne))
   // },[bounds])
 
   useEffect(() => {
-    setLoading(true)
+    // dispatch({ type: LOADING });
     dispatch(getRentalData())
-    setLoading(false)
   },[])
   
   useEffect(() => {
@@ -46,10 +47,15 @@ const App = () => {
               <Route path='/' exact element={<Home />}/>
               <Route path='profile/:userId' element={<UserProfile />} />
               <Route path='/register' exact element={<Register />}/>
+              <Route path='/house/:houseId' exact element={<Home/>} />
+              <Route path='/my_rentals' exact element={<MyRentals/>} />
+              <Route path='/my_rentals/:houseId' exact element={<MyRentals/>} />
+              <Route path='/houseDisplay/:houseId' exact element={<HouseDisplay rentals={rentals}/>} />
               <Route path='/login' exact element={<Login />}/>
               <Route path='/messages/:userId' element={<Message />} />
               <Route path='contact_us' element={<Contact />} />
             </Routes>
+            <ScrollButton />
             <Footer />
           </GoogleOAuthProvider>
       </main>

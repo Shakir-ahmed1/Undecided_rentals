@@ -29,7 +29,7 @@ const MenuProps = {
   },
 };
 
-const Form = () => {
+const MyRentalForm = () => {
   const navigate = useNavigate()
   const { houseId } = useParams()
   // console.log('here is the useParams hook', houseId)
@@ -62,12 +62,13 @@ const Form = () => {
       });
     }
   },[EditRentalData])
+  // console.log('here is your rentals Data', rentalData)
   // console.log('here is your amenitis', amenities)
   // console.log(location_id,'here is youe rentalDetails reducer')
   const err = useSelector((state) => state.rentals?.error);
   // console.log(err)
-  
-  
+ 
+
   const handleChange = (event) => {
     const {
       target: { value },
@@ -75,24 +76,24 @@ const Form = () => {
     setAmenityName(
       // On autofill we get a stringified value.
       typeof value === 'string' ? value.split(',') : value,
-      );
-    };
-    
-    const handleClose = () => {
-      setOpen(false);
-    };
-    
-    useEffect(() => {
-      if (houseId) {
-        setRentalData({
-          ...EditRentalData,
-          location: EditRentalData?.location?._id
-        })
-      } else {
-        setRentalData({ ...rentalData, location: location_id?.location?._id });
-      }
-      // console.log('here is your rental Data state', rentalData)
-  }, [location_id]);
+    );
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  useEffect(() => {
+    if (houseId) {
+      setRentalData({
+        ...EditRentalData,
+        location: EditRentalData?.location?._id
+      })
+    } else {
+      setRentalData({ ...rentalData, location: location_id?.location?._id });
+    }
+    console.log('here is your rental Data state', rentalData)
+}, [location_id]);
 
   useEffect(() => {     
     setRentalData({
@@ -118,7 +119,7 @@ const Form = () => {
 
   const handleClickOpen = () => {
     setOpen(true);
-    navigate('/');
+    navigate('/my_rentals');
     clear()
   };
 
@@ -386,4 +387,4 @@ const Form = () => {
   );
 };
 
-export default Form;
+export default MyRentalForm;

@@ -1,5 +1,19 @@
 import * as api from '../api/api';
-import { ERROR, GETRENTAL, POSTRENTAL, RENTALOCATION, AMENITY, GETALLAMENETIES,DELETEAMENITY,UPLOADPHOTO,GETIMAGES  } from '../constants/actionTypes'
+import {
+  ERROR,
+  GETRENTAL,
+  POSTRENTAL,
+  RENTALOCATION,
+  AMENITY,
+  GETALLAMENETIES,
+  DELETEAMENITY,
+  UPLOADPHOTO,
+  GETIMAGES,
+  DELETEHOUSE,
+  UPDATEHOUSE,
+  GETMYHOUSES,
+  GETREVIEW
+} from "../constants/actionTypes";
 
 export const getRentalData = () => async (dispatch) => {
     try {
@@ -15,11 +29,11 @@ export const getRentalData = () => async (dispatch) => {
 export const postRentalDetails = (rentalData) => async (dispatch) => {
     try {
         const response = await api.postRentalDetails(rentalData);
-        console.log('here is the data in the dispatched action',response.data.house)
+        // console.log('here is the data in the dispatched action',response.data.house)
         dispatch({ type: POSTRENTAL, payload: response?.data?.house })  
     } catch (error) {
         console.error(error)
-        dispatch({ type: ERROR, payload: error.response.data})
+        dispatch({ type: ERROR, payload: error?.response?.data})
     }
 }
 
@@ -59,7 +73,7 @@ export const getAllAmenities = () => async (dispatch) => {
 export const deleteAmenityById = (AmenityId) => async (dispatch) => {
    try {
     const response = await api.deleteAmenityById(AmenityId)
-    console.log('here is the amenity that is deleted', response)
+    // console.log('here is the amenity that is deleted', response)
     dispatch({type: DELETEAMENITY, payload:response.data})
    } catch (error) {
     console.log(error)
@@ -70,7 +84,7 @@ export const deleteAmenityById = (AmenityId) => async (dispatch) => {
 export const uploadPostPhoto = (image) => async (dispatch) => {
     try {
         const response = await api.uploadPostPhoto(image)
-        console.log('here is the response of uploadinga photo', response.data)
+        // console.log('here is the response of uploadinga photo', response.data)
         dispatch({type:UPLOADPHOTO, payload:response.data})
     } catch (error) {
         console.log(error)
@@ -81,8 +95,52 @@ export const uploadPostPhoto = (image) => async (dispatch) => {
 export const getAllImages = (image) => async (dispatch) => {
     try {
         const response = await api.getAllImages(image)
-        console.log('here is all images', response.data)
+        // console.log('here is all images', response.data)
         dispatch({type:GETIMAGES, payload:response.data})
+    } catch (error) {
+        console.log(error)
+        dispatch({ type: ERROR, payload: error?.response?.data})
+    }
+}
+
+export const updateHouseById = (houseId, updatedData) => async(dispatch) => {
+    try {
+        const response = await api.updateHouseById(houseId, updatedData)
+        // console.log('here is the response of the updated house', response)
+        dispatch({type:UPDATEHOUSE, payload:response.data})
+    } catch (error) {
+        console.log(error)
+        dispatch({ type: ERROR, payload: error?.response?.data})
+    }
+}
+
+export const deleteHouseById = (houseId) => async (dispatch) => {
+    try {
+        await api.deleteHouseById(houseId)
+        // console.log('here is the response of deleting house', response)
+        dispatch({type:DELETEHOUSE, payload: houseId})
+    } catch (error) {
+        console.log(error)
+        dispatch({ type: ERROR, payload: error?.response?.data})
+    }
+}
+
+export const getMyHouses = () => async (dispatch) => {
+    try {
+        const response = await api.getMyHouses()
+        // console.log('here is my houses', response.data)
+        dispatch({type:GETMYHOUSES, payload: response.data})
+    } catch (error) {
+        console.log(error)
+        dispatch({ type: ERROR, payload: error?.response?.data})
+    }
+}
+
+export const getReviewByHouseId = (houseId) => async(dispatch) => {
+    try {
+        const response = await api.getReviewByHouseId(houseId)
+        // console.log('here is the response of getting house by id', response)
+        dispatch({type:GETREVIEW, payload: response?.data})
     } catch (error) {
         console.log(error)
         dispatch({ type: ERROR, payload: error?.response?.data})

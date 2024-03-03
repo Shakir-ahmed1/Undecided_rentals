@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import GoogleMapReact from "google-map-react";
-import { Paper, Typography, useMediaQuery, Box } from "@mui/material";
+import { Paper, Typography, useMediaQuery } from "@mui/material";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -19,19 +19,18 @@ import MapIcon from "@mui/icons-material/Map";
 import ListIcon from "@mui/icons-material/List";
 import DataContext from "../../context/DataContext";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import { Marker } from "@googlemap-react/core";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const Map = ({rentals}) => {
-  const { coordinates, setCoordinates, setBounds } = useContext(DataContext);
+const MyRentMap = ({myRent}) => {
+  const { coordinates, setCoordinates, setBounds, rentals } = useContext(DataContext);
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
   const [open, setOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const isDesktop = useMediaQuery("(min-width:600px)");
-  console.log("here is the rental from the map pagem", rentals)
+  // console.log("here is the rental from the map pagem", rentals)
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -125,14 +124,15 @@ const Map = ({rentals}) => {
                 }}
               >
                 <>
-                  {rentals?.map((rental, i) => (
-                  <Box
+                  {myRent?.map((rental, i) => (
+                  <div
                     key={i}
-                    lat={Number(rental?.location?.latitude)}
-                    lng={Number(rental?.location?.longitude)}
+                    lat={Number(myRent?.location?.latitude)}
+                    lng={Number(myRent?.location?.longitude)}
                     >
                       {!isDesktop ? (
-                        <LocationOnIcon color="primary" style={{position:'relative'}}/> 
+                        <LocationOnIcon color="primary" lat={Number(myRent?.location?.latitude)}
+                        lng={Number(myRent?.location?.longitude)}/> 
                         ): (
                         // <Paper elevation={3} style={{width:'50px'}}>
                         //   <Typography variant="subtitle2" gutterBottom>
@@ -140,11 +140,13 @@ const Map = ({rentals}) => {
                         //   </Typography>
                         //   <img src={rental.photo ? rental.photo.images.large.url : "https://media.istockphoto.com/id/149060607/photo/for-rent-sign-in-front-of-new-house.jpg?s=612x612&w=0&k=20&c=By627yICPZugFR1j2_a_7MCEn1f5ltYlivg6Tv50JaQ="} alt={rental.name} />
                         // </Paper>
-                        <LocationOnIcon color="primary" style={{position:'relative'}}/> 
+                        <LocationOnIcon color="primary"
+                        lat={Number(myRent?.location?.latitude)}
+                    lng={Number(myRent?.location?.longitude)}/> 
                       )
                       }
                       
-                  </Box>
+                  </div>
                   ))}
                   <Button
                     id="bottom-button"
@@ -172,4 +174,4 @@ const Map = ({rentals}) => {
   );
 };
 
-export default Map;
+export default MyRentMap;

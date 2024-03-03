@@ -99,6 +99,43 @@ export const getAllImages = () => {
     console.error(error)
   }
 }
+
+export const updateHouseById = (houseId, updatedData) => {
+  try {
+    const response = API.put(`/api/houses/${houseId}`, updatedData)
+    return response;
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
+export const deleteHouseById = (houseId) => {
+  try {
+    const response = API.delete(`/api/houses/${houseId}`)
+    return response
+  } catch (error) {
+    console.log(error)  
+  }
+}
+
+export const getMyHouses = () => {
+  try {
+    const response = API.get('/api/my_houses')
+    return response
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const getReviewByHouseId = (houseId) => {
+  try {
+    const response = API.get(`/api/reviews/houses/${houseId}`)
+    return response
+  } catch (error) {
+    console.log(error)
+  }
+}
 // export const getRentalDetails = async (sw, ne) => {
 //     try {
 //       const {data : { data }} = await axios.get(url_place, {

@@ -1,27 +1,29 @@
-import RentEase from "../RentEase/RentEase"
-import {Grid, Skeleton} from "@mui/material"
-import { useContext, useState } from "react"
+import {Grid, Skeleton, Typography} from "@mui/material"
+import { useEffect, useContext } from "react"
+import { useSelector, useDispatch } from 'react-redux'
+import { getMyHouses } from "../../actions/rentals"
+import RentMy from './RentMy'
 import DataContext from "../../context/DataContext"
-import PaginationNum from "../paginationNum/PaginationNum"
+import MyRentalForm from "./MyRentsForm"
+import MyRentMap from "./MyRentMap"
 
-const List = ({rentals}) => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [postPerPage, setPostPerPage] = useState(12);
-  const lastPostIndex = currentPage * postPerPage;
-  const firstPostIndex = lastPostIndex - postPerPage;
-  // console.log('rentals in list', rentals)
-  
+const MyRentals = () => {
+  const { user} = useContext(DataContext)
+
+  const dispatch = useDispatch()  
+  useEffect(() => {
+    dispatch(getMyHouses())
+  },[])
+  const myRent = useSelector((state) => state?.rentals?.getMyRentals)
+  console.log('here is my rental in the component', myRent)
   return (
     <>
-      {!rentals?.length ? (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            flexWrap: "wrap",
-            gap: "30px",
-          }}
-        >
+    {user && <MyRentalForm />}
+      <Typography variant="h5" style={{fontWeight:'bold', textAlign:'center', fontFamily:'fantasy', letterSpacing:'2px', fontSize:'26px'}}>
+        My Rentals
+      </Typography>
+      {!myRent?.length ? (
+        <div style={{ display: "flex", justifyContent: "center", flexWrap:'wrap',gap:'30px' }}>
           <div>
             <Skeleton
               variant="rectangular"
@@ -29,12 +31,7 @@ const List = ({rentals}) => {
               height={100}
               style={{ marginBottom: "10px" }}
             />
-            <Skeleton
-              variant="rectangular"
-              width={300}
-              height={300}
-              style={{ marginBottom: "50px" }}
-            />
+            <Skeleton variant="rectangular" width={300} height={300} style={{marginBottom:'50px'}}/>
           </div>
           <div>
             <Skeleton
@@ -101,24 +98,17 @@ const List = ({rentals}) => {
           </div>
         </div>
       ) : (
-        <Grid container spacing={3} padding={"10px"}>
-          {rentals?.slice(firstPostIndex, lastPostIndex).map((rental, i) => (
+        <Grid container spacing={3} padding={"10px"} style={{marginTop:'10px'}}>
+          {myRent?.map((rental, i) => (
             <Grid item key={i} xs={12} sm={6} md={4} lg={3}>
-              <RentEase rental={rental} />
+              <RentMy rental={rental} />
             </Grid>
           ))}
         </Grid>
       )}
-      <div style={{display:'flex', justifyContent:'center', margin:'20px 0'}}>
-        <PaginationNum
-          totalPost={rentals?.length}
-          postPerPage={postPerPage}
-          setCurrentPage={setCurrentPage}
-          currentPage={currentPage}
-        />
-      </div>
+      <MyRentMap myRent={myRent}/>
     </>
-  );
+  )
 }
 
-export default List
+export default MyRentals

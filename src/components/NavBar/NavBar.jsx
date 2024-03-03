@@ -22,7 +22,6 @@ import { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
-import { useDispatch } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import LogoutIcon from "@mui/icons-material/Logout";
 import RentEase from "../../assets/rent.png";
@@ -36,6 +35,8 @@ import React from "react";
 import LoginIcon from "@mui/icons-material/Login";
 import DataContext from "../../context/DataContext";
 import './NavBar.css'
+import { useSelector, useDispatch } from 'react-redux';
+import { getRentalData } from "../../actions/rentals";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -78,14 +79,42 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function NavBar() {
+  const dispatch = useDispatch()
   const [placeholder, setPlaceholder] = useState('Search…');
-  const { user, setUser} = useContext(DataContext);
+  const { user, setUser,rentals, setFilteredRentals,filteredRentals} = useContext(DataContext);
+  const [searchTerm, setSearchTerm] = useState('')
+  // console.log('here is the search term', searchTerm)
   const location = useLocation();
   const Navigate = useNavigate();
-  const dispatch = useDispatch();
+  const userProfile = useSelector((state) => state?.users?.userProfileData);
+  console.log('here is the userProfile', userProfile)
+  // console.log('here is your rentals from navbar', rentals)
+  
+
+  useEffect(() => {
+    const filtered = rentals.filter((rental) => {
+      const { location, name } = rental;
+      return (
+        searchTerm === "" ||
+        (location?.country.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          location?.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          name?.toLowerCase().includes(searchTerm.toLowerCase()))
+      );
+    });
+    setFilteredRentals(filtered);
+  }, [searchTerm, rentals, setFilteredRentals]);
+
+
+  // const handleKeyPress = (e) => {
+  //   if (e.key === "Enter") {
+  //     handleSubmit(e)
+  //   }
+  // }
+
   const [state, setState] = useState({
     left: false,
   });
+
   const logout = () => {
     dispatch({ type: "LOGOUT" });
     Navigate("/");
@@ -299,6 +328,7 @@ export default function NavBar() {
       console.log(error);
     }
   };
+
   const menuId = "primary-search-account-menu";
 
   const renderMenu = user ? (
@@ -330,7 +360,7 @@ export default function NavBar() {
             ? user?.user?.firstName + " " + user?.user?.lastName
             : "Unknown")}{" "}
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMenuClose} component={Link} to="/my_rentals">My Rentals</MenuItem>
       <Button
         onClick={logout}
         style={{ textTransform: "none", color: "black" }}
@@ -394,7 +424,11 @@ export default function NavBar() {
     >
       <MenuItem onClick={handleProfileMenuOpen}>
         <Avatar
-          src={user?.imageUrl}
+          src={
+            user?.imageUrl || userProfile?.profile?.profileImage
+              ? `http://localhost:5000/api/static/${userProfile?.profile?.profileImage}`
+              : null
+          }
           alt={
             user?.name?.charAt(0) ||
             user?.user?.firstName?.charAt(0) ||
@@ -410,7 +444,13 @@ export default function NavBar() {
               : "Unknown")}
         </p>
       </MenuItem>
-      <MenuItem component={user ? Link : null} to={`messages/${JSON.parse(localStorage.getItem('profile'))?.user?._id || JSON.parse(localStorage.getItem('profile'))?._id}`}>
+      <MenuItem
+        component={user ? Link : null}
+        to={`messages/${
+          JSON.parse(localStorage.getItem("profile"))?.user?._id ||
+          JSON.parse(localStorage.getItem("profile"))?._id
+        }`}
+      >
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
           <MailIcon />
         </IconButton>
@@ -519,12 +559,14 @@ export default function NavBar() {
               Explore New Places
             </Typography>
             <Search>
-              <SearchIconWrapper>
-                <SearchIcon />
+              <SearchIconWrapper style={{cursor:'pointer'}}>
+                <SearchIcon/>
               </SearchIconWrapper>
               <StyledInputBase
                 className="searchPlaceHolder"
                 placeholder={placeholder}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
                 inputProps={{ "aria-label": "search" }}
               />
             </Search>
