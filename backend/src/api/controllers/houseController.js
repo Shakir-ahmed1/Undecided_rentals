@@ -92,6 +92,14 @@ async function allHouses(req, res) {
       path: 'user',
       select: 'firstName lastName email profile',
       populate: { path: 'profile', select: 'profileImage -_id' },
+    }, {
+      path: 'reservedBy',
+      select: 'firstName lastName email profile',
+      populate: { path: 'profile', select: 'profileImage -_id' },
+    }, {
+      path: 'requestedBy',
+      select: 'firstName lastName email profile',
+      populate: { path: 'profile', select: 'profileImage -_id' },
     },
     ]);
     res.json(houses);
@@ -111,6 +119,14 @@ async function getHouse(req, res) {
       select: '-_id -__v',
     }, {
       path: 'user',
+      select: 'firstName lastName email profile',
+      populate: { path: 'profile', select: 'profileImage -_id' },
+    }, {
+      path: 'reservedBy',
+      select: 'firstName lastName email profile',
+      populate: { path: 'profile', select: 'profileImage -_id' },
+    }, {
+      path: 'requestedBy',
       select: 'firstName lastName email profile',
       populate: { path: 'profile', select: 'profileImage -_id' },
     },
