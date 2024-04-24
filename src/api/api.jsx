@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// const url = "https://localhost:5000";
-const url = "https://rentease.onrender.com";
+const url = "http://localhost:5000";
+// const url = "https://rentease.onrender.com";
 // const url_place = 'https://travel-advisor.p.rapidapi.com/restaurants/list-in-boundary';
 
 const API = axios.create({ baseURL: url ,

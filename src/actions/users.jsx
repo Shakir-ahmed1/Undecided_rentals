@@ -9,7 +9,7 @@ export const signIn = (formData, navigate) => async (dispatch) => {
         dispatch({type: LOGIN, payload:response.data})
         navigate('/')
     } catch (error) {
-        dispatch({type:ERROR, payload:error.response.data?.error})
+        dispatch({type:ERROR, payload:error.response?.data?.error})
         console.log(error)
 }
 }

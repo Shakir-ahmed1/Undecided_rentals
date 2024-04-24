@@ -28,9 +28,9 @@ export default (state = initialState, action) => {
         case UPDATEUSER:
           return state
         case ERROR:
-          return {   error: action?.payload };
+          return { error: action?.payload };
         case GETPROFILE:
-          return {...state, userProfileData:action?.payload}
+          return { ...state, userProfileData: action?.payload };
         default:
           return state;
   }
